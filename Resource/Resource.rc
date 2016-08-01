@@ -1,0 +1,6 @@
+MAINICON ICON "Main.ico"
+ABOUT BITMAP "About.bmp"
+
+#ifdef __GNUC__
+	1 24 "wx/msw/wx.manifest"
+#endif

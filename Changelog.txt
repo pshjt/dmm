@@ -1,0 +1,32 @@
+#Version 1.15#
+~ Improved compatiblity on OSX and Linux systems using Wine
+
+
+#Version 1.14#
++ Added archive extraction feature: Mods can now be automatically installed by either 1) clicking the "Extract mod archives..." button and choosing the mod archives to install or 2) copying mod archives to the DMM folder. In the latter case, the archives will be moved to the new "DMMArchives" folder in the main Shock2 folder. They can be deleted if the user does not need them anymore.
+Currently supported archive types: 7z, rar, zip, ss2mod (repackaged 7z, rar or zip file).
++ Added delete button: Delete a mod folder from your hard disk.
++ Added lookup (WWW) button: Open mod thread on Systemshock.org.
++ Added ReadMe button: Open mod readme file. Only files having "read" in their name are considered.
+~ Fixed crash when clicking on "Open mods folder" without having a mod selected (thanks to ColonelSFF)
+
+Internal:
++ Archive extraction is handled by 7zip-cpp released unter the MIT license: https://github.com/getnamo/7zip-cpp. Build scripts are available in the "Script" folder.
+The 7zip-cpp wrapper relies on and is built from the following projects:
+	SevenZip++ by Chadwick McNab (placed in public domain)
+	LZMA SDK (placed in public domain)
+	7-zip (LGPL license + unrar restriction version 2.1)
+~ Upgraded to wxFormBuilder 3.5.1-rc1.
+
+
+#Version 1.13a#
++ Added "ss2.exe" as valid executable file in case Shock2.exe cannot be used due to OS security settings.
+
+
+#Version 1.13#
++ Added new mod type: Subtitles.
+- Removed dependency on enhanced instructions set (SSE, AVX) to improve compatibility on legacy systems.
+
+
+#Version 1.12#
+Last official version developed by bluemess.
