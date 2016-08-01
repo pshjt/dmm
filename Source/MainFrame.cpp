@@ -872,11 +872,21 @@ bool MainFrame::fileSystemWatcherProcessEvent(wxFileSystemWatcherEvent& event)
 				{
 					messageDialogOpen_ = true;
 
-					wxString messageString = "All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted.";
-					wxRichMessageDialog messageDialogCheck_(this, messageString, wxEmptyString, wxOK); 
-					messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
-					messageDialogCheck_.ShowModal();
-					config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
+					if (fswHasSubpaths_)
+					{
+						wxMessageDialog messageDialogCheckWine(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted. \n\nShow this message again?"), wxEmptyString, wxYES_NO);
+
+						if (messageDialogCheckWine.ShowModal() == wxID_NO)
+							config_.application.showExtractTip = false;
+
+					}
+					else
+					{
+						wxRichMessageDialog messageDialogCheck_(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted."), wxEmptyString, wxOK);
+						messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
+						messageDialogCheck_.ShowModal();
+						config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
+					}
 					
 					messageDialogOpen_ = false;
 				}
@@ -1436,15 +1446,21 @@ void MainFrame::loadInitialModArchives()
 
 	if (config_.application.showExtractTip && !messageDialogOpen_ && extractionTookPlace)
 	{
-		messageDialogOpen_ = true;
+		if (fswHasSubpaths_)
+		{
+			wxMessageDialog messageDialogCheckWine(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted. \n\nShow this message again?"), wxEmptyString, wxYES_NO);
 
-		wxString messageString = "All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted.";
-		wxRichMessageDialog messageDialogCheck_(this, messageString, wxEmptyString, wxOK);
-		messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
-		messageDialogCheck_.ShowModal();
-		config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
+			if (messageDialogCheckWine.ShowModal() == wxID_NO)
+				config_.application.showExtractTip = false;
 
-		messageDialogOpen_ = false;
+		}
+		else
+		{
+			wxRichMessageDialog messageDialogCheck_(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted."), wxEmptyString, wxOK);
+			messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
+			messageDialogCheck_.ShowModal();
+			config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
+		}
 	}
 
 }
@@ -1473,7 +1489,7 @@ void MainFrame::extractModArchives(const wxArrayString &modArchives, bool showPr
 		}
 	}
 
-	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, this, wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_APP_MODAL | wxPD_REMAINING_TIME);
+	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, this, wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_REMAINING_TIME);
 	if (!showProgress)
 	{
 		progressBar_.Update(1000, wxEmptyString, NULL);

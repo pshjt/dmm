@@ -55,12 +55,12 @@ MessageAnswer showMessage(MessageType messageType, const std::string& message,
 		dialog.SetExtendedMessage(wxString(extendedMessage));
 
 	if (messageType == MessageType::QUESTION_YES_CANCEL)
-		dialog.SetOKLabel(wxMessageDialog::ButtonLabel("Yes"));
+		dialog.SetOKLabel(wxMessageDialog::ButtonLabel(wxString("Yes")));
 	else
-		dialog.SetOKLabel(wxMessageDialog::ButtonLabel("OK"));
+		dialog.SetOKLabel(wxMessageDialog::ButtonLabel(wxString("OK")));
 
-	dialog.SetYesNoCancelLabels(wxMessageDialog::ButtonLabel("Yes"), wxMessageDialog::ButtonLabel("No"),
-		wxMessageDialog::ButtonLabel("Cancel"));
+	dialog.SetYesNoCancelLabels(wxMessageDialog::ButtonLabel(wxString("Yes")), wxMessageDialog::ButtonLabel(wxString("No")),
+		wxMessageDialog::ButtonLabel(wxString("Cancel")));
 
 	int answer = dialog.ShowModal();
 	MessageAnswer messageAnswer;
