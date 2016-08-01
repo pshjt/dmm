@@ -64,6 +64,7 @@ MainFrame::MainFrame(wxWindow* parent)
 	modManager_.initialize();
 	loadInitialModArchives();
 	scheduleInterfaceUpdate();
+	
 }
 
 void MainFrame::onClose(wxCloseEvent& event)
@@ -1446,6 +1447,7 @@ void MainFrame::loadInitialModArchives()
 
 	if (config_.application.showExtractTip && !messageDialogOpen_ && extractionTookPlace)
 	{
+		messageDialogOpen_ = true;
 		if (fswHasSubpaths_)
 		{
 			wxMessageDialog messageDialogCheckWine(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted. \n\nShow this message again?"), wxEmptyString, wxYES_NO);
@@ -1461,6 +1463,7 @@ void MainFrame::loadInitialModArchives()
 			messageDialogCheck_.ShowModal();
 			config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
 		}
+		messageDialogOpen_ = false;
 	}
 
 }
