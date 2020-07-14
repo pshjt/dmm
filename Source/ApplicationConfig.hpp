@@ -27,6 +27,7 @@ class ApplicationConfig : public Config
 		struct
 		{
 			int maxFolderLength;
+			int maxFullPathLength;
 			int maxPathCount;
 			int maxActive;
 			std::string executableFile;
@@ -71,6 +72,7 @@ class ApplicationConfig : public Config
 			application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod" });
 
 			game.maxFolderLength = 30;
+			game.maxFullPathLength = 80;
 			game.maxPathCount = 63;
 			game.maxActive = 0; // Computed while loading mods setup.
 			game.executableFile = "Shock2.exe";

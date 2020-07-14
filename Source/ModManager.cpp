@@ -92,6 +92,14 @@ void ModManager::initialize()
 		}
 	}
 
+	if (Utils::getPathLength(modsFolderPath_) > config_.game.maxFullPathLength)
+	{
+		std::string extendedErrorMessage = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY, modsFolderPath_);
+		Message::showMessage(Message::MessageType::ERROR_OK, "Mod folder path must not exceed " + std::to_string(config_.game.maxFullPathLength) + " characters.", extendedErrorMessage);
+
+		return;
+	}
+
 	archivesFolderPath_ = gameFolderPath + '\\' + config_.game.archivesFolder;
 	Utils::normalizePath(archivesFolderPath_);
 
@@ -753,8 +761,8 @@ void ModManager::scheduleSetModTypeAll()
 void ModManager::setModName(Mod& mod, const std::string& name) const
 {
 	mod.setName(name);
-
-	if (static_cast<int>(name.length()) > config_.game.maxFolderLength)
+	std::string modPath(getModsFolderPath() + "\\" + name);
+	if (static_cast<int>(name.length()) > config_.game.maxFolderLength || Utils::getPathLength(modPath) > config_.game.maxFullPathLength)
 		mod.setIsNameTooLong(true);
 	else
 		mod.setIsNameTooLong(false);

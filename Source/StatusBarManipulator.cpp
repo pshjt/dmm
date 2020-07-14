@@ -90,7 +90,9 @@ void StatusBarManipulator::setStatus(StatusBarStatus status)
 		case StatusBarStatus::FOLDER_NAME_TOO_LONG :
 			statusText = "Mod's folder name is too long, rename to shorter. Maximum length is ";
 			statusText += Utils::toString(config_.game.maxFolderLength);
-			statusText += " characters.";
+			statusText += " characters for mod folder and ";
+			statusText += Utils::toString(config_.game.maxFullPathLength);
+			statusText += " for full path length including mod folder.";
 			isWarning = true;
 			break;
 

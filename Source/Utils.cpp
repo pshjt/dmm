@@ -165,6 +165,20 @@ void normalizePath(std::string& path)
 	stringTrim(path, '\\');
 }
 
+int getPathLength(const std::string& path)
+{
+	std::string result(path);
+
+	stringTrim(result);
+	std::replace(result.begin(), result.end(), '\\', '/');
+
+	if (result[0] == '.' && result[1] == '/')
+		result.erase(0, 1);
+
+	stringTrim(result, '/');
+	return  result.length();
+}
+
 void listDirectoryContent(std::string& directoryContent, const std::string& path, int maxDepth, int indent /*= 0*/)
 {
 	struct CmpNoCase

@@ -31,6 +31,7 @@ bool tokenize(std::string& token, std::string& remainder, const std::string& seq
 void trimTrailingNewLines(std::vector<std::string>& lines);
 
 void normalizePath(std::string& path);
+int getPathLength(const std::string& path);
 void listDirectoryContent(std::string& directoryContent, const std::string& path, int maxDepth, int indent = 0);
 
 void adjustSizeUp(wxWindow* window, int minWidth = -1, int minHeight = -1);
