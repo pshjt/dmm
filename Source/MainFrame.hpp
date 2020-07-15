@@ -40,7 +40,7 @@ class MainFrame : public WxfbMainFrame
 		virtual void openReadmeButtonOnButtonClick(wxCommandEvent& event);
 		virtual void selectModArchivesButtonOnButtonClick(wxCommandEvent& event);
 		virtual void aboutButtonOnButtonClick(wxCommandEvent& event);
-		virtual void exitAndStartGameButtonOnButtonClick(wxCommandEvent& event);
+		virtual void applyAndStartGameButtonOnButtonClick(wxCommandEvent& event);
 		virtual void buttonOnEnterWindow(wxMouseEvent& event);
 
 		void onListRefresh(wxCommandEvent& event);

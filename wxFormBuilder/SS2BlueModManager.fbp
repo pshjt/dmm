@@ -1431,8 +1431,8 @@
                                                             <property name="font"></property>
                                                             <property name="gripper">0</property>
                                                             <property name="hidden">0</property>
-                                                            <property name="id">ID_EXIT_AND_START_GAME_BUTTON</property>
-                                                            <property name="label">Exit and start game</property>
+                                                            <property name="id">ID_APPLY_AND_START_GAME_BUTTON</property>
+                                                            <property name="label">Apply and start game</property>
                                                             <property name="max_size"></property>
                                                             <property name="maximize_button">0</property>
                                                             <property name="maximum_size"></property>
@@ -1440,7 +1440,7 @@
                                                             <property name="minimize_button">0</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="moveable">1</property>
-                                                            <property name="name">exitAndStartGameButton_</property>
+                                                            <property name="name">applyAndStartGameButton_</property>
                                                             <property name="pane_border">1</property>
                                                             <property name="pane_position"></property>
                                                             <property name="pane_size"></property>
@@ -1461,7 +1461,7 @@
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
                                                             <property name="window_style"></property>
-                                                            <event name="OnButtonClick">exitAndStartGameButtonOnButtonClick</event>
+                                                            <event name="OnButtonClick">applyAndStartGameButtonOnButtonClick</event>
                                                             <event name="OnChar"></event>
                                                             <event name="OnEnterWindow">buttonOnEnterWindow</event>
                                                             <event name="OnEraseBackground"></event>

@@ -414,7 +414,7 @@ void MainFrame::aboutButtonOnButtonClick(wxCommandEvent& event)
 	buttonClickFinish(event);
 }
 
-void MainFrame::exitAndStartGameButtonOnButtonClick(wxCommandEvent& event)
+void MainFrame::applyAndStartGameButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
@@ -665,14 +665,14 @@ void MainFrame::interfaceUpdate()
 		if (modManager_.getIsInitialized())
 		{
 			openModsFolderButton_->Enable();
-			exitAndStartGameButton_->Enable();
+			applyAndStartGameButton_->Enable();
 			if (modManager_.getCanExtractArchives())
 				selectModArchivesButton_->Enable();
 		}
 		else
 		{
 			openModsFolderButton_->Disable();
-			exitAndStartGameButton_->Disable();
+			applyAndStartGameButton_->Disable();
 			selectModArchivesButton_->Disable();
 		}
 	}
@@ -990,9 +990,9 @@ void MainFrame::setTooltip(int windowId)
 			window = aboutButton_;
 			break;
 
-		case ID_EXIT_AND_START_GAME_BUTTON :
-			tip = "Exit and start game with current setup";
-			window = exitAndStartGameButton_;
+		case ID_APPLY_AND_START_GAME_BUTTON :
+			tip = "Apply and start game with current setup";
+			window = applyAndStartGameButton_;
 			break;
 	}
 

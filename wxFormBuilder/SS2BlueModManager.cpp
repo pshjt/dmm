@@ -105,8 +105,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	aboutButton_ = new wxButton( scrolledWindow_, ID_ABOUT_BUTTON, wxT("About..."), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer02->Add( aboutButton_, 0, wxALL|wxEXPAND, 1 );
 	
-	exitAndStartGameButton_ = new wxButton( scrolledWindow_, ID_EXIT_AND_START_GAME_BUTTON, wxT("Exit and start game"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer02->Add( exitAndStartGameButton_, 0, wxALL|wxEXPAND, 1 );
+	applyAndStartGameButton_ = new wxButton( scrolledWindow_, ID_APPLY_AND_START_GAME_BUTTON, wxT("Apply and start game"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer02->Add( applyAndStartGameButton_, 0, wxALL|wxEXPAND, 1 );
 	
 	
 	boxSizer11115->Add( bSizer02, 1, wxALIGN_BOTTOM|wxALL, 1 );
@@ -162,8 +162,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	selectModArchivesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	aboutButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::aboutButtonOnButtonClick ), NULL, this );
 	aboutButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
-	exitAndStartGameButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::exitAndStartGameButtonOnButtonClick ), NULL, this );
-	exitAndStartGameButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
+	applyAndStartGameButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyAndStartGameButtonOnButtonClick ), NULL, this );
+	applyAndStartGameButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 }
 
 WxfbMainFrame::~WxfbMainFrame()
