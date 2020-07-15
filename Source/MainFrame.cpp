@@ -369,7 +369,7 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 
 	while (!selectionFinished)
 	{
-		wxFileDialog genericFileDialog_(this, wxString("Choose mod archive(s) to install."), wxEmptyString, wxEmptyString, wdCardArchives + " files|" + wdCards, wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE);
+		wxFileDialog genericFileDialog_(this, wxString("Choose mod archive(s) to install."), wxEmptyString, wxEmptyString, wdCardArchives + " files|" + wdCards + "|All files (*.*)|*.*", wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE);
 		modalVal = genericFileDialog_.ShowModal();
 
 		if (modalVal == wxID_CANCEL)

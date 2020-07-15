@@ -69,10 +69,10 @@ class ApplicationConfig : public Config
 			application.configFile = "ss2bmm.cfg";
 			application.logFile = "ss2bmm.log";
 			application.lookupURL = "https://www.google.com/search?q=site:systemshock.org+";
-			application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod" });
+			application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod", "cfg" });
 
 			game.maxFolderLength = 30;
-			game.maxFullPathLength = 80;
+			game.maxFullPathLength = 255;
 			game.maxPathCount = 63;
 			game.maxActive = 0; // Computed while loading mods setup.
 			game.executableFile = "Shock2.exe";
