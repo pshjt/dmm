@@ -1,7 +1,7 @@
 @echo off
 
-set vcPath=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\
-set vcVersion=12.0
+set vcPath=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\
+set vcVersion=16.0
 
 set startDir=%cd%
 
@@ -24,6 +24,14 @@ if not %errorlevel%==0 goto error
 copy "Config\setup.h" "..\..\External\wxWidgets\include\wx\msw\setup.h" /y
 if not %errorlevel%==0 goto error
 
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h.tmp" /y
+copy "Config\tif_config.h" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h" /y
+if not %errorlevel%==0 goto error
+
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h.tmp" /y
+copy "Config\tif_config.vc.h" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h" /y
+if not %errorlevel%==0 goto error
+
 cd "..\..\External\wxWidgets\build\msw"
 if not %errorlevel%==0 goto error
 
@@ -44,6 +52,8 @@ goto cleanup
 
 :error
 set saveErrorLevel=%errorlevel%
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h.tmp" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h" /y
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h.tmp" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h" /y
 @echo:
 @echo %build% build error. Process terminated.
 @echo:
@@ -52,5 +62,9 @@ set saveErrorLevel=%errorlevel%
 cd %startDir%
 del "..\..\External\wxWidgets\build\msw\config.vc" /f
 del "..\..\External\wxWidgets\include\wx\msw\setup.h" /f
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h.tmp" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h" /y
+copy "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h.tmp" "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h" /y
+del "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.h.tmp"
+del "..\..\External\wxWidgets\src\tiff\libtiff\tif_config.vc.h.tmp"
 
 exit /b %saveErrorLevel%

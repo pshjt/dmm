@@ -17,10 +17,13 @@ class ApplicationConfig : public Config
 			std::string logFile;
 			std::string lookupURL;
 			std::vector<std::string> modArchiveExtensions;
+			#pragma warning( push )
+			#pragma warning( disable : 26495 )
 			bool checkGameVersion;
 			bool createLogFile;
 			bool showTooltips;
 			bool showExtractTip;
+			#pragma warning( pop )
 			std::string version;
 		} application;
 

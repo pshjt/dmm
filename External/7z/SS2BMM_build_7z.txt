@@ -1,2 +1,0 @@
-1) Download the 7-zip source code: http://7-zip.org/download.html
-2) Extract the contents of the folder here.

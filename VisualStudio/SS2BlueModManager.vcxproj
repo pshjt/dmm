@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -66,8 +66,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\External\7zip-cpp\7zpp\Lib\Win32;..\External\wxWidgets\lib\vc_lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>version.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\7zip-cpp\build\Debug;..\External\wxWidgets\lib\vc_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>version.lib;7zpp.lib</AdditionalDependencies>
       <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
     </Link>
   </ItemDefinitionGroup>
@@ -105,8 +105,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>version.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\7zip-cpp\7zpp\Lib\Win32;..\External\wxWidgets\lib\vc_lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>version.lib;7zpp.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\7zip-cpp\build\Release;..\External\wxWidgets\lib\vc_lib</AdditionalLibraryDirectories>
       <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
       <AdditionalOptions>/FILEALIGN:512 /PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>

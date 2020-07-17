@@ -47,11 +47,11 @@ bool Config::load()
 	while (std::getline(file, line))
 		fileLines.push_back(line);
 
-	for (const auto& line : fileLines)
+	for (const auto& currentLine : fileLines)
 	{
 		std::string name, value;
 
-		bool isKey = tokenize(name, value, line);
+		bool isKey = tokenize(name, value, currentLine);
 
 		if (isKey)
 		{
