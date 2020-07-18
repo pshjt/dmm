@@ -1,10 +1,6 @@
-External/7z/*
-!External/7z/SS2BMM_build_7z.txt
-External/7zip-cpp/*
-!External/7zip-cpp/SS2BMM_build_7zip-cpp.txt
+External/7zip-cpp/
 External/wxWidgets/*
 !External/wxWidgets/SS2BMM_build_wxWidgets.txt
-_UploadCode
 VisualStudio/*
 !VisualStudio/SS2BlueModManager.sln
 !VisualStudio/SS2BlueModManager.vcxproj
