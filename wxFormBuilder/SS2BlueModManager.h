@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __SS2BLUEMODMANAGER_H__
-#define __SS2BLUEMODMANAGER_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -18,6 +17,9 @@
 #include <wx/string.h>
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
 #include <wx/button.h>
 #include <wx/statbox.h>
 #include <wx/scrolwin.h>
@@ -46,10 +48,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Class WxfbMainFrame
 ///////////////////////////////////////////////////////////////////////////////
-class WxfbMainFrame : public wxFrame 
+class WxfbMainFrame : public wxFrame
 {
 	private:
-	
+
 	protected:
 		wxStatusBar* statusBar_;
 		wxListCtrl* listCtrl_;
@@ -66,7 +68,7 @@ class WxfbMainFrame : public wxFrame
 		wxButton* selectModArchivesButton_;
 		wxButton* aboutButton_;
 		wxButton* applyAndStartGameButton_;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void onClose( wxCloseEvent& event ) = 0;
 		virtual void onSize( wxSizeEvent& event ) = 0;
@@ -91,23 +93,23 @@ class WxfbMainFrame : public wxFrame
 		virtual void selectModArchivesButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void aboutButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyAndStartGameButtonOnButtonClick( wxCommandEvent& event ) = 0;
-		
-	
+
+
 	public:
-		
+
 		WxfbMainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 493,574 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-		
+
 		~WxfbMainFrame();
-	
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class WxfbSelectGameFolderDialog
 ///////////////////////////////////////////////////////////////////////////////
-class WxfbSelectGameFolderDialog : public wxDialog 
+class WxfbSelectGameFolderDialog : public wxDialog
 {
 	private:
-	
+
 	protected:
 		wxPanel* panel_;
 		wxTextCtrl* pathTextCtrl_;
@@ -116,18 +118,17 @@ class WxfbSelectGameFolderDialog : public wxDialog
 		wxStaticText* infoStaticText_;
 		wxButton* okButton_;
 		wxButton* cancelButton_;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void onSize( wxSizeEvent& event ) = 0;
 		virtual void pathTextCtrlOnText( wxCommandEvent& event ) = 0;
 		virtual void genericDirCtrlOnTreeSelChanged( wxTreeEvent& event ) = 0;
-		
-	
+
+
 	public:
-		
-		WxfbSelectGameFolderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select game folder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER ); 
+
+		WxfbSelectGameFolderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select game folder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
 		~WxfbSelectGameFolderDialog();
-	
+
 };
 
-#endif //__SS2BLUEMODMANAGER_H__

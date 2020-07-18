@@ -10,12 +10,12 @@ namespace Utils {
 
 void stringToLowerCase(std::string& str)
 {
-	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+	std::transform(str.begin(), str.end(), str.begin(), [](int c) -> char { return static_cast<char>(::tolower(c)); });
 }
 
 void stringToUpperCase(std::string& str)
 {
-	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+	std::transform(str.begin(), str.end(), str.begin(), [](int c) -> char { return static_cast<char>(::toupper(c)); });
 }
 
 bool stringIsEqualNoCase(const std::string& str1, const std::string& str2)
