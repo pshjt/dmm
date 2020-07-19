@@ -22,14 +22,14 @@ const int MainFrame::ID_TYPE_ = 4;
 const int MainFrame::ID_DUMMY_1_ = 5;
 
 const std::vector<int> MainFrame::DEFAULT_ORDER_ =
-{{
+{ {
 	ID_INDEX_,
 	ID_NAME_,
 	ID_STATUS_,
 	ID_TYPE_,
 	ID_DUMMY_1_,
 	ID_DUMMY_0_
-}};
+} };
 
 MainFrame::MainFrame(wxWindow* parent)
 	: WxfbMainFrame(parent)
@@ -64,7 +64,6 @@ MainFrame::MainFrame(wxWindow* parent)
 	modManager_.initialize();
 	loadInitialModArchives();
 	scheduleInterfaceUpdate();
-	
 }
 
 void MainFrame::onClose(wxCloseEvent& event)
@@ -246,8 +245,7 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 			bool isSuccess = path.Rmdir(wxPATH_RMDIR_RECURSIVE);
 			if (!isSuccess)
 				Message::showMessage(Message::MessageType::ERROR_OK, "Could not delete protected folder.");
-
-		}			
+		}
 	}
 
 	buttonClickFinish(event);
@@ -270,7 +268,6 @@ void MainFrame::openModsFolderButtonOnButtonClick(wxCommandEvent& event)
 	}
 	else
 		isSuccess = false;
-
 
 	if (!isSuccess)
 	{
@@ -306,12 +303,12 @@ void MainFrame::openModURLButtonOnButtonClick(wxCommandEvent& event)
 	wxString lookupURL = config_.application.lookupURL;
 	ShellRun shellRun;
 
-    for (auto it = config_.application.modArchiveExtensions.begin(); it < config_.application.modArchiveExtensions.end(); ++it)
-    {
-        lookupURL = lookupURL + "%22" + modName + "." + *it + "%22+OR+";
-    }
-    lookupURL.erase(lookupURL.size() - 4, 4);
-    lookupURL += "&btnI";
+	for (auto it = config_.application.modArchiveExtensions.begin(); it < config_.application.modArchiveExtensions.end(); ++it)
+	{
+		lookupURL = lookupURL + "%22" + modName + "." + *it + "%22+OR+";
+	}
+	lookupURL.erase(lookupURL.size() - 4, 4);
+	lookupURL += "&btnI";
 
 	wxLaunchDefaultBrowser(lookupURL);
 
@@ -328,7 +325,7 @@ void MainFrame::openReadmeButtonOnButtonClick(wxCommandEvent& event)
 	ShellRun shellRun;
 	bool isSuccess = false;
 
-	path = modsFolderPath + '\\' + modManager_.getMods()[selected].getName() +'\\' + modManager_.getMods()[selected].getReadme();
+	path = modsFolderPath + '\\' + modManager_.getMods()[selected].getName() + '\\' + modManager_.getMods()[selected].getReadme();
 	isSuccess = shellRun.open(path);
 
 	if (!isSuccess)
@@ -369,7 +366,7 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 
 	while (!selectionFinished)
 	{
-		wxFileDialog genericFileDialog_(this, wxString("Choose mod archive(s) to install."), wxEmptyString, wxEmptyString, wdCardArchives + " files|" + wdCards + "|All files (*.*)|*.*", wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE);
+		wxFileDialog genericFileDialog_(this, wxString("Choose mod archive(s) to install."), wxEmptyString, wxEmptyString, wdCardArchives + " files|" + wdCards + "|All files (*.*)|*.*", wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
 		modalVal = genericFileDialog_.ShowModal();
 
 		if (modalVal == wxID_CANCEL)
@@ -391,7 +388,6 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 			}
 		}
 	}
-
 
 	if (!modArchives.IsEmpty())
 		extractModArchives(modArchives, true);
@@ -470,35 +466,35 @@ void MainFrame::listCtrlOnKeyDown(wxKeyEvent& event)
 	{
 		switch (event.GetKeyCode())
 		{
-			case WXK_RETURN:
-				button = activateDeactivateButton_;
-				break;
+		case WXK_RETURN:
+			button = activateDeactivateButton_;
+			break;
 
-			case WXK_SPACE:
-				button = pauseResumeButton_;
-				break;
+		case WXK_SPACE:
+			button = pauseResumeButton_;
+			break;
 
-			case WXK_F5:
-				modManager_.scheduleModsFoldersReload();
-				scheduleInterfaceUpdate();
-				break;
+		case WXK_F5:
+			modManager_.scheduleModsFoldersReload();
+			scheduleInterfaceUpdate();
+			break;
 
-			case WXK_DELETE:
-				button = deleteButton_;
-				break;
+		case WXK_DELETE:
+			button = deleteButton_;
+			break;
 		}
 	}
 	else if (event.GetModifiers() == wxMOD_ALT)
 	{
 		switch (event.GetKeyCode())
 		{
-			case WXK_UP:
-				button = increasePriorityButton_;
-				break;
+		case WXK_UP:
+			button = increasePriorityButton_;
+			break;
 
-			case WXK_DOWN:
-				button = decreasePriorityButton_;
-				break;
+		case WXK_DOWN:
+			button = decreasePriorityButton_;
+			break;
 		}
 	}
 
@@ -524,15 +520,15 @@ void MainFrame::initialize()
 	SetTitle(wxString(ApplicationInfo::full));
 
 	std::array<wxSize, 4> iconSizes =
-	{{
-		// 16x16 and 32x32 are recommended to be present.
-		wxSize(16, 16),
-		wxSize(32, 32),
+	{ {
+			// 16x16 and 32x32 are recommended to be present.
+			wxSize(16, 16),
+			wxSize(32, 32),
 
-		// These sizes are loaded for good measure.
-		wxSize(48, 48),
-		wxSize(256, 256)
-	}};
+			// These sizes are loaded for good measure.
+			wxSize(48, 48),
+			wxSize(256, 256)
+		} };
 
 	wxIconBundle iconBundle;
 
@@ -585,9 +581,9 @@ void MainFrame::interfaceInitialize()
 
 		if (wxApp::GetComCtl32Version() >= 600)
 		{
-			#ifndef LVS_EX_DOUBLEBUFFER
-				#define LVS_EX_DOUBLEBUFFER 0x00010000
-			#endif
+#ifndef LVS_EX_DOUBLEBUFFER
+#define LVS_EX_DOUBLEBUFFER 0x00010000
+#endif
 
 			listCtrlStyle |= LVS_EX_DOUBLEBUFFER;
 		}
@@ -832,69 +828,68 @@ bool MainFrame::fileSystemWatcherProcessEvent(wxFileSystemWatcherEvent& event)
 
 	switch (changeType)
 	{
-		case wxFSW_EVENT_CREATE:
+	case wxFSW_EVENT_CREATE:
+	{
+		if (wxDirExists(path))
 		{
-			if (wxDirExists(path))
-			{
-				bool shouldUpdate = modManager_.directoryAdd(modName);
-
-				return shouldUpdate;
-			}
-
-			return false;
-		}
-		case wxFSW_EVENT_DELETE:
-		{
-			bool shouldUpdate = modManager_.directoryRemove(modName);
+			bool shouldUpdate = modManager_.directoryAdd(modName);
 
 			return shouldUpdate;
 		}
-		case wxFSW_EVENT_RENAME:
-		{
-			std::string newModName(event.GetNewPath().GetFullName());
-			bool shouldUpdate = modManager_.directoryRename(modName, newModName);
 
-			return shouldUpdate;
-		}
-		case wxFSW_EVENT_MODIFY:
-		{
-			//piggybacking modify event here to extract mod archives
-			bool shouldUpdate = modManager_.directoryUpdate(modName);
+		return false;
+	}
+	case wxFSW_EVENT_DELETE:
+	{
+		bool shouldUpdate = modManager_.directoryRemove(modName);
 
-			bool isArchive = (std::find(config_.application.modArchiveExtensions.begin(), config_.application.modArchiveExtensions.end(), ext) != config_.application.modArchiveExtensions.end());
-			if (isArchive && wxFileName(path).IsFileReadable() && modManager_.getCanExtractArchives())
+		return shouldUpdate;
+	}
+	case wxFSW_EVENT_RENAME:
+	{
+		std::string newModName(event.GetNewPath().GetFullName());
+		bool shouldUpdate = modManager_.directoryRename(modName, newModName);
+
+		return shouldUpdate;
+	}
+	case wxFSW_EVENT_MODIFY:
+	{
+		//piggybacking modify event here to extract mod archives
+		bool shouldUpdate = modManager_.directoryUpdate(modName);
+
+		bool isArchive = (std::find(config_.application.modArchiveExtensions.begin(), config_.application.modArchiveExtensions.end(), ext) != config_.application.modArchiveExtensions.end());
+		if (isArchive && wxFileName(path).IsFileReadable() && modManager_.getCanExtractArchives())
+		{
+			wxArrayString archive;
+			archive.Add(wxString(path));
+			extractModArchives(archive, true);
+
+			wxRenameFile(path, modManager_.getArchivesFolderPath() + "\\" + modName, true);
+			if (config_.application.showExtractTip && !messageDialogOpen_)
 			{
-				wxArrayString archive;
-				archive.Add(wxString(path));
-				extractModArchives(archive, true);
+				messageDialogOpen_ = true;
 
-				wxRenameFile(path, modManager_.getArchivesFolderPath() + "\\" + modName, true);
-				if (config_.application.showExtractTip && !messageDialogOpen_)
+				if (fswHasSubpaths_)
 				{
-					messageDialogOpen_ = true;
+					wxMessageDialog messageDialogCheckWine(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted. \n\nShow this message again?"), wxEmptyString, wxYES_NO);
 
-					if (fswHasSubpaths_)
-					{
-						wxMessageDialog messageDialogCheckWine(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted. \n\nShow this message again?"), wxEmptyString, wxYES_NO);
-
-						if (messageDialogCheckWine.ShowModal() == wxID_NO)
-							config_.application.showExtractTip = false;
-
-					}
-					else
-					{
-						wxRichMessageDialog messageDialogCheck_(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted."), wxEmptyString, wxOK);
-						messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
-						messageDialogCheck_.ShowModal();
-						config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
-					}
-					
-					messageDialogOpen_ = false;
+					if (messageDialogCheckWine.ShowModal() == wxID_NO)
+						config_.application.showExtractTip = false;
 				}
-			}
+				else
+				{
+					wxRichMessageDialog messageDialogCheck_(this, wxString("All archives added to the " + config_.game.modsFolder + " folder are extracted/installed and then moved to the " + config_.game.archivesFolder + " folder. \nThe contents of " + config_.game.archivesFolder + " are not needed anymore and can be safely deleted."), wxEmptyString, wxOK);
+					messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
+					messageDialogCheck_.ShowModal();
+					config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
+				}
 
-			return shouldUpdate;
+				messageDialogOpen_ = false;
+			}
 		}
+
+		return shouldUpdate;
+	}
 	}
 
 	return false;
@@ -910,90 +905,90 @@ void MainFrame::setTooltip(int windowId)
 
 	switch (windowId)
 	{
-		case ID_ACTIVATE_DEACTIVATE_BUTTON :
-			tip = "(Double-click list element or Enter)";
-			window = activateDeactivateButton_;
-			break;
+	case ID_ACTIVATE_DEACTIVATE_BUTTON:
+		tip = "(Double-click list element or Enter)";
+		window = activateDeactivateButton_;
+		break;
 
-		case ID_INCREASE_PRIORITY_BUTTON :
-			tip = "(Alt+Up)";
-			window = increasePriorityButton_;
-			break;
+	case ID_INCREASE_PRIORITY_BUTTON:
+		tip = "(Alt+Up)";
+		window = increasePriorityButton_;
+		break;
 
-		case ID_DECREASE_PRIORITY_BUTTON :
-			tip = "(Alt+Down)";
-			window = decreasePriorityButton_;
-			break;
+	case ID_DECREASE_PRIORITY_BUTTON:
+		tip = "(Alt+Down)";
+		window = decreasePriorityButton_;
+		break;
 
-		case ID_PAUSE_RESUME_BUTTON :
-			tip = "Pause deactivates a mod while maintaining its order on the list ";
-			tip += "(Space)";
-			window = pauseResumeButton_;
-			break;
+	case ID_PAUSE_RESUME_BUTTON:
+		tip = "Pause deactivates a mod while maintaining its order on the list ";
+		tip += "(Space)";
+		window = pauseResumeButton_;
+		break;
 
-		case ID_DELETE_BUTTON:
-			tip = "Delete this mod folder from your installation";
-			tip += "(Del)";
-			window = deleteButton_;
-			break;
+	case ID_DELETE_BUTTON:
+		tip = "Delete this mod folder from your installation";
+		tip += "(Del)";
+		window = deleteButton_;
+		break;
 
-		case ID_OPEN_MODS_FOLDER_BUTTON :
-			tip = "Open \"";
-			nbs = config_.game.modsFolder;
-			Utils::stringMakeNonBreakingSpaces(nbs);
-			tip += nbs;
-			tip += "\"";
+	case ID_OPEN_MODS_FOLDER_BUTTON:
+		tip = "Open \"";
+		nbs = config_.game.modsFolder;
+		Utils::stringMakeNonBreakingSpaces(nbs);
+		tip += nbs;
+		tip += "\"";
 
-			if (Utils::stringIsEqualNoCase("DMM", config_.game.modsFolder))
-				tip += " (DataManagedMods)";
+		if (Utils::stringIsEqualNoCase("DMM", config_.game.modsFolder))
+			tip += " (DataManagedMods)";
 
-			tip += " folder in explorer";
-			window = openModsFolderButton_;
-			break;
+		tip += " folder in explorer";
+		window = openModsFolderButton_;
+		break;
 
-		case ID_SELECT_GAME_FOLDER_BUTTON :
-			tip = "Browse for the folder that contains ";
-			nbs = "System Shock 2";
-			Utils::stringMakeNonBreakingSpaces(nbs);
-			tip += nbs;
-			window = selectGameFolderButton_;
-			break;
+	case ID_SELECT_GAME_FOLDER_BUTTON:
+		tip = "Browse for the folder that contains ";
+		nbs = "System Shock 2";
+		Utils::stringMakeNonBreakingSpaces(nbs);
+		tip += nbs;
+		window = selectGameFolderButton_;
+		break;
 
-		case ID_OPEN_MOD_URL_BUTTON:
-			tip = "Lookup ";
-			nbs = modManager_.getMods()[modManager_.getSelected()].getName();
-			Utils::stringMakeNonBreakingSpaces(nbs);
-			tip += nbs;
-			tip += " mod on Systemshock.org";
-			window = openModURLButton_;
-			break;
+	case ID_OPEN_MOD_URL_BUTTON:
+		tip = "Lookup ";
+		nbs = modManager_.getMods()[modManager_.getSelected()].getName();
+		Utils::stringMakeNonBreakingSpaces(nbs);
+		tip += nbs;
+		tip += " mod on Systemshock.org";
+		window = openModURLButton_;
+		break;
 
-		case ID_OPEN_README_BUTTON:
-			tip = "Open readme file for ";
-			nbs = modManager_.getMods()[modManager_.getSelected()].getName();
-			Utils::stringMakeNonBreakingSpaces(nbs);
-			tip += nbs;
-			tip += " mod";
-			window = openReadmeButton_;
-			break;
+	case ID_OPEN_README_BUTTON:
+		tip = "Open readme file for ";
+		nbs = modManager_.getMods()[modManager_.getSelected()].getName();
+		Utils::stringMakeNonBreakingSpaces(nbs);
+		tip += nbs;
+		tip += " mod";
+		window = openReadmeButton_;
+		break;
 
-		case ID_EXTRACT_MOD_BUTTON:
-			tip = "Browse for System Shock 2 mod archives to install";
-			window = selectModArchivesButton_;
-			break;
+	case ID_EXTRACT_MOD_BUTTON:
+		tip = "Browse for System Shock 2 mod archives to install";
+		window = selectModArchivesButton_;
+		break;
 
-		case ID_ABOUT_BUTTON :
-			tip = "About ";
-			nbs = ApplicationInfo::name;
-			Utils::stringMakeNonBreakingSpaces(nbs);
-			tip += nbs;
-			window = aboutButton_;
-			break;
+	case ID_ABOUT_BUTTON:
+		tip = "About ";
+		nbs = ApplicationInfo::name;
+		Utils::stringMakeNonBreakingSpaces(nbs);
+		tip += nbs;
+		window = aboutButton_;
+		break;
 
-		case ID_APPLY_AND_START_GAME_BUTTON :
-			tip = "Apply and start game with current setup";
-			window = applyAndStartGameButton_;
-			break;
+	case ID_APPLY_AND_START_GAME_BUTTON:
+		tip = "Apply and start game with current setup";
+		window = applyAndStartGameButton_;
+		break;
 	}
 
 	if (window && !tip.empty())
@@ -1399,21 +1394,21 @@ std::string MainFrame::getColumnName(int index)
 
 	switch (index)
 	{
-		case ID_INDEX_ :
-			name = "index";
-			break;
+	case ID_INDEX_:
+		name = "index";
+		break;
 
-		case ID_NAME_ :
-			name = "name";
-			break;
+	case ID_NAME_:
+		name = "name";
+		break;
 
-		case ID_STATUS_ :
-			name = "status";
-			break;
+	case ID_STATUS_:
+		name = "status";
+		break;
 
-		case ID_TYPE_ :
-			name = "type";
-			break;
+	case ID_TYPE_:
+		name = "type";
+		break;
 	}
 
 	return name;
@@ -1421,7 +1416,6 @@ std::string MainFrame::getColumnName(int index)
 
 void MainFrame::loadInitialModArchives()
 {
-
 	if (!modManager_.getCanExtractArchives())
 		return;
 
@@ -1441,7 +1435,6 @@ void MainFrame::loadInitialModArchives()
 			for (auto& archiveToMove : modArchives)
 				if (wxFileName(archiveToMove).IsFileWritable())
 					wxRenameFile(archiveToMove, modManager_.getArchivesFolderPath() + "\\" + wxFileName(archiveToMove).GetFullName(), true);
-
 		}
 	}
 
@@ -1454,7 +1447,6 @@ void MainFrame::loadInitialModArchives()
 
 			if (messageDialogCheckWine.ShowModal() == wxID_NO)
 				config_.application.showExtractTip = false;
-
 		}
 		else
 		{
@@ -1465,10 +1457,9 @@ void MainFrame::loadInitialModArchives()
 		}
 		messageDialogOpen_ = false;
 	}
-
 }
 
-void MainFrame::extractModArchives(const wxArrayString &modArchives, bool showProgress)
+void MainFrame::extractModArchives(const wxArrayString& modArchives, bool showProgress)
 {
 	wxString pathDLL = config_.game.folderPath + "\\7z.dll";
 	wxString pathModFolder = modManager_.getModsFolderPath();
@@ -1499,7 +1490,6 @@ void MainFrame::extractModArchives(const wxArrayString &modArchives, bool showPr
 		progressBar_.Hide();
 	}
 
-
 	for (auto& archiveName : modArchives)
 	{
 		if (showProgress)
@@ -1527,7 +1517,6 @@ void MainFrame::extractModArchives(const wxArrayString &modArchives, bool showPr
 	if (showProgress)
 		progressBar_.Update(1000, wxString("Done."), NULL);
 
-
 	if (!failedMods.IsEmpty())
 	{
 		std::string error_output;
@@ -1536,7 +1525,6 @@ void MainFrame::extractModArchives(const wxArrayString &modArchives, bool showPr
 
 		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't extract mod archives:\n", error_output);
 	}
-
 
 	lib_7zdll.Free();
 }

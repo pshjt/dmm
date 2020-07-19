@@ -8,19 +8,19 @@
 
 class InstallConfig : public Config
 {
-	public:
-		std::string movie_path;
+public:
+	std::string movie_path;
 
-		InstallConfig()
-		{
-			configVariables();
-		}
+	InstallConfig()
+	{
+		configVariables();
+	}
 
-		// ~InstallConfig() {}
+	// ~InstallConfig() {}
 
-	private:
-		virtual void configVariables()
-		{
-			CVAR(movie_path, "");
-		}
+private:
+	virtual void configVariables()
+	{
+		CVAR(movie_path, "");
+	}
 };

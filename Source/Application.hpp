@@ -6,6 +6,6 @@
 
 class Application : public wxApp
 {
-	private:
-		virtual bool OnInit();
+private:
+	virtual bool OnInit();
 };

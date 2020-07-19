@@ -46,7 +46,7 @@ const std::string SelectGameFolderDialog::getAlternativeExecutable(std::string g
 {
 	std::string alternativeExePath;
 
-	for (auto &alternativeExe : config_.game.additionalExecutableFiles) {
+	for (auto& alternativeExe : config_.game.additionalExecutableFiles) {
 		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
 
 		if (wxFileExists(alternativeExePath))

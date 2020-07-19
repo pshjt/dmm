@@ -8,21 +8,21 @@
 
 class ModConfig : public Config
 {
-	public:
-		std::string mod_path;
-		std::string uber_mod_path;
+public:
+	std::string mod_path;
+	std::string uber_mod_path;
 
-		ModConfig()
-		{
-			configVariables();
-		}
+	ModConfig()
+	{
+		configVariables();
+	}
 
-		// ~ModConfig() {}
+	// ~ModConfig() {}
 
-	private:
-		virtual void configVariables()
-		{
-			CVAR_READ_ONLY(uber_mod_path, "");
-			CVAR(mod_path, "");
-		}
+private:
+	virtual void configVariables()
+	{
+		CVAR_READ_ONLY(uber_mod_path, "");
+		CVAR(mod_path, "");
+	}
 };

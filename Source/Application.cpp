@@ -12,16 +12,16 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
-	#ifdef _DEBUG
-		wxLogWindow* logWindow = new wxLogWindow(nullptr, "Logger");
+#ifdef _DEBUG
+	wxLogWindow* logWindow = new wxLogWindow(nullptr, "Logger");
 
-		wxRect clientArea = wxDisplay().GetClientArea();
-		logWindow->GetFrame()->SetPosition(clientArea.GetPosition());
+	wxRect clientArea = wxDisplay().GetClientArea();
+	logWindow->GetFrame()->SetPosition(clientArea.GetPosition());
 
-		logWindow->Show();
+	logWindow->Show();
 
-		wxLogDebug(wxGetLibraryVersionInfo().ToString());
-	#endif
+	wxLogDebug(wxGetLibraryVersionInfo().ToString());
+#endif
 
 	new MainFrame(nullptr);
 

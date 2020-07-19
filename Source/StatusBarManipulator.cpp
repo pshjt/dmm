@@ -74,59 +74,59 @@ void StatusBarManipulator::setStatus(StatusBarStatus status)
 
 	switch (status)
 	{
-		case StatusBarStatus::GAME_FOLDER_NOT_SELECTED :
-			statusText = "Game folder is not selected.";
-			break;
+	case StatusBarStatus::GAME_FOLDER_NOT_SELECTED:
+		statusText = "Game folder is not selected.";
+		break;
 
-		case StatusBarStatus::NO_MODS_DETECTED :
-			statusText = "Press \"Install mod archives...\" button and choose the mods you want to use";
-			break;
+	case StatusBarStatus::NO_MODS_DETECTED:
+		statusText = "Press \"Install mod archives...\" button and choose the mods you want to use";
+		break;
 
-		case StatusBarStatus::MOD_TYPE_UNRECOGNIZED :
-			statusText = "Unrecognized mod type. Make sure that mod is extracted and placed properly.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::MOD_TYPE_UNRECOGNIZED:
+		statusText = "Unrecognized mod type. Make sure that mod is extracted and placed properly.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::FOLDER_NAME_TOO_LONG :
-			statusText = "Mod's folder name is too long, rename to shorter. Maximum length is ";
-			statusText += Utils::toString(config_.game.maxFolderLength);
-			statusText += " characters for mod folder and ";
-			statusText += Utils::toString(config_.game.maxFullPathLength);
-			statusText += " for full path length including mod folder.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::FOLDER_NAME_TOO_LONG:
+		statusText = "Mod's folder name is too long, rename to shorter. Maximum length is ";
+		statusText += Utils::toString(config_.game.maxFolderLength);
+		statusText += " characters for mod folder and ";
+		statusText += Utils::toString(config_.game.maxFullPathLength);
+		statusText += " for full path length including mod folder.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::PLUS_SIGN_IN_FOLDER_NAME :
-			statusText = "Plus sign is reserved as a path separator. Remove \"+\" from mod's folder name.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::PLUS_SIGN_IN_FOLDER_NAME:
+		statusText = "Plus sign is reserved as a path separator. Remove \"+\" from mod's folder name.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::MULTIPLE_GAMESYS_MODS_ACTIVE :
-			statusText = statusBase;
-			statusText += "Multiple gamesys mods are active. Do not activate more than one at a time.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::MULTIPLE_GAMESYS_MODS_ACTIVE:
+		statusText = statusBase;
+		statusText += "Multiple gamesys mods are active. Do not activate more than one at a time.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::TOO_MANY_MODS_ACTIVE :
-			statusText = "Too many mods are active or paused. Do not exceed ";
-			statusText += Utils::toString(config_.game.maxActive);
-			statusText += " mods limit.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::TOO_MANY_MODS_ACTIVE:
+		statusText = "Too many mods are active or paused. Do not exceed ";
+		statusText += Utils::toString(config_.game.maxActive);
+		statusText += " mods limit.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::ISSUES_DETECTED :
-			statusText = statusBase;
-			statusText += "Issues detected. Select mod with a warning for details.";
-			isWarning = true;
-			break;
+	case StatusBarStatus::ISSUES_DETECTED:
+		statusText = statusBase;
+		statusText += "Issues detected. Select mod with a warning for details.";
+		isWarning = true;
+		break;
 
-		case StatusBarStatus::OK :
-			statusText = statusBase;
-			statusText += "OK";
-			break;
+	case StatusBarStatus::OK:
+		statusText = statusBase;
+		statusText += "OK";
+		break;
 
-		case StatusBarStatus::NONE :
-			break;
+	case StatusBarStatus::NONE:
+		break;
 	}
 
 	int posX;

@@ -56,7 +56,7 @@ bool ShellRun::openFolderAndSelectItem(const std::string& item)
 
 	ITEMIDLIST* itemIdList = ILCreateFromPathA(item.c_str());
 
-	if(!itemIdList)
+	if (!itemIdList)
 	{
 		errorMessage_ = Message::makeSystemErrorMessage(GetLastError());
 

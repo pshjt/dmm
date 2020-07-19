@@ -23,27 +23,27 @@ enum class StatusBarStatus
 
 class StatusBarManipulator
 {
-	public:
-		StatusBarManipulator(wxStatusBar* statusBar, ApplicationConfig& config);
-		// ~StatusBarManipulator() {}
+public:
+	StatusBarManipulator(wxStatusBar* statusBar, ApplicationConfig& config);
+	// ~StatusBarManipulator() {}
 
-		void setStatus(StatusBarStatus status);
-		void adjustSize();
+	void setStatus(StatusBarStatus status);
+	void adjustSize();
 
-	private:
-		// Non copyable.
-		StatusBarManipulator(const StatusBarManipulator&); // Not to implement.
-		StatusBarManipulator& operator = (const StatusBarManipulator&); // Not to implement.
+private:
+	// Non copyable.
+	StatusBarManipulator(const StatusBarManipulator&); // Not to implement.
+	StatusBarManipulator& operator = (const StatusBarManipulator&); // Not to implement.
 
-		wxStatusBar* statusBar_;
-		StatusBarStatus status_;
+	wxStatusBar* statusBar_;
+	StatusBarStatus status_;
 
-		wxStaticBitmap* warningStaticBitmap_;
-		TransparentStaticText* staticText_;
+	wxStaticBitmap* warningStaticBitmap_;
+	TransparentStaticText* staticText_;
 
-		int staticTextPositionX_;
-		int staticTextWithBitmapPositionX_;
-		int staticTextSizeGripPadding_;
+	int staticTextPositionX_;
+	int staticTextWithBitmapPositionX_;
+	int staticTextSizeGripPadding_;
 
-		ApplicationConfig& config_;
+	ApplicationConfig& config_;
 };

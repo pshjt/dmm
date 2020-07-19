@@ -305,7 +305,7 @@ const std::string ModManager::getAlternativeExecutable(std::string gameFolderPat
 {
 	std::string alternativeExePath;
 
-	for (auto &alternativeExe : config_.game.additionalExecutableFiles) {
+	for (auto& alternativeExe : config_.game.additionalExecutableFiles) {
 		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
 
 		if (wxFileExists(alternativeExePath))
@@ -313,8 +313,6 @@ const std::string ModManager::getAlternativeExecutable(std::string gameFolderPat
 	}
 	return std::string();
 }
-
-
 
 const std::string& ModManager::getModsFolderPath() const
 {
@@ -824,7 +822,6 @@ void ModManager::setModType(Mod& mod)
 
 void ModManager::setModReadme(Mod& mod) const
 {
-
 	wxDir dir;
 	if (!dir.Open(wxString(modsFolderPath_ + "\\" + mod.getName())))
 		return;
@@ -846,17 +843,17 @@ void ModManager::setModReadme(Mod& mod) const
 			foundReadmes.push_back(foundName);
 			if (foundName.Find("pdf") != wxNOT_FOUND)
 			{
-				idxExt[0] = foundReadmes.size()-1;
+				idxExt[0] = foundReadmes.size() - 1;
 				idxExt[1] = 3;
 			}
-			else if (foundName.Find("txt") != wxNOT_FOUND && idxExt[1]<3)
+			else if (foundName.Find("txt") != wxNOT_FOUND && idxExt[1] < 3)
 			{
-				idxExt[0] = foundReadmes.size()-1;
+				idxExt[0] = foundReadmes.size() - 1;
 				idxExt[1] = 2;
 			}
-			else if (idxExt[1]<2)
+			else if (idxExt[1] < 2)
 			{
-				idxExt[0] = foundReadmes.size()-1;
+				idxExt[0] = foundReadmes.size() - 1;
 				idxExt[1] = 1;
 			}
 		}
@@ -868,7 +865,6 @@ void ModManager::setModReadme(Mod& mod) const
 
 	mod.setReadme(foundReadmes[idxExt[0]].ToStdString());
 	mod.setHasReadme(true);
-
 }
 
 void ModManager::checkModDirectory(Mod& mod)
@@ -1192,7 +1188,7 @@ void ModManager::createModsTable(std::string& modsTable) const
 }
 
 const std::array<wxString, 16> ModManager::dataDirectories_ =
-{{
+{ {
 	"bitmap",
 	"book",
 	"editor",
@@ -1209,10 +1205,10 @@ const std::array<wxString, 16> ModManager::dataDirectories_ =
 	"snd2",
 	"song",
 	"strings"
-}};
+} };
 
 const std::array<wxString, 8> ModManager::dataFiles_ =
-{{
+{ {
 	"motiondb.bin",
 	"editor.res",
 	"metaui_r.res",
@@ -1221,4 +1217,4 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 	"texture.res",
 	"*.mis",
 	"*.osm"
-}};
+} };
