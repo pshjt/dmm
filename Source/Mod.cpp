@@ -25,6 +25,7 @@ Mod::Mod()
 	, isNameTooLong_(false)
 	, isPlusSignInName_(false)
 	, isMultipleGamesys_(false)
+	, hasDuplicateFolders_(false)
 	, shouldUpdateType_(true)
 	, isChanged_(true)
 {
@@ -115,6 +116,11 @@ bool Mod::getIsMultipleGamesys() const
 	return isMultipleGamesys_;
 }
 
+bool Mod::getHasDuplicateFolders() const
+{
+	return hasDuplicateFolders_;
+}
+
 bool Mod::getShouldUpdateType() const
 {
 	return shouldUpdateType_;
@@ -199,6 +205,11 @@ void Mod::setIsPlusSignInName(bool isPlusSignInName)
 void Mod::setIsMultipleGamesys(bool isMultipleGamesys)
 {
 	set(isMultipleGamesys_, isMultipleGamesys);
+}
+
+void Mod::setHasDuplicateFolders(bool hasDuplicateFolders)
+{
+	set(hasDuplicateFolders_, hasDuplicateFolders);
 }
 
 void Mod::setShouldUpdateType(bool shouldUpdateType)

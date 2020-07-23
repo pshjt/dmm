@@ -18,13 +18,18 @@ public:
 	void initialize();
 	void initialize(const std::string& gamePath);
 	void shutDown();
+	void refreshModListAndSaveToFile();
+
+	std::string constructMoviePath(int lastActive, bool updateConfig);
+	std::string constructModPath(int lastActive, bool updateConfig);
+
+	void setSelected(int selected);
 
 	bool getHasStateChanged();
 	bool getIsInitialized() const;
 	bool getCanExtractArchives();
 	void scheduleModsFoldersReload();
 	void update();
-	void setSelected(int selected);
 	int getSelected() const;
 	const std::string& getModsFolderPath() const;
 	const std::string& getArchivesFolderPath() const;
@@ -36,6 +41,7 @@ public:
 	bool canDecreasePriority() const;
 	bool canPauseResume() const;
 	bool canOpenReadme() const;
+	bool needsToApply();
 
 	void activateDeactivate();
 	void increasePriority();
@@ -89,6 +95,7 @@ private:
 	void countStats();
 	void createLogFile();
 	void createModsTable(std::string& modsTable) const;
+	int calculateLastActiveIndex();
 
 	static const std::array<wxString, 16> dataDirectories_;
 	static const std::array<wxString, 8> dataFiles_;

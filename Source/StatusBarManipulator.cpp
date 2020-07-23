@@ -107,6 +107,11 @@ void StatusBarManipulator::setStatus(StatusBarStatus status)
 		isWarning = true;
 		break;
 
+	case StatusBarStatus::DUPLICATE_FOLDERS:
+		statusText += "Mod has duplicate folder names. Fix archive.";
+		isWarning = true;
+		break;
+
 	case StatusBarStatus::TOO_MANY_MODS_ACTIVE:
 		statusText = "Too many mods are active or paused. Do not exceed ";
 		statusText += Utils::toString(config_.game.maxActive);

@@ -32,6 +32,7 @@ public:
 	bool getIsNameTooLong() const;
 	bool getIsPlusSignInName() const;
 	bool getIsMultipleGamesys() const;
+	bool getHasDuplicateFolders() const;
 
 	bool getShouldUpdateType() const;
 
@@ -53,6 +54,7 @@ public:
 	void setIsNameTooLong(bool isNameTooLong);
 	void setIsPlusSignInName(bool isPlusSignInName);
 	void setIsMultipleGamesys(bool isMultipleGamesys);
+	void setHasDuplicateFolders(bool hasDuplicateFolders);
 
 	void setShouldUpdateType(bool shouldUpdateType);
 
@@ -79,6 +81,7 @@ private:
 	bool isNameTooLong_;
 	bool isPlusSignInName_;
 	bool isMultipleGamesys_;
+	bool hasDuplicateFolders_;
 
 	bool shouldUpdateType_;
 	bool isChanged_;

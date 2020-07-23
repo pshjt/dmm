@@ -410,6 +410,15 @@ void MainFrame::aboutButtonOnButtonClick(wxCommandEvent& event)
 	buttonClickFinish(event);
 }
 
+void MainFrame::applyButtonOnButtonClick(wxCommandEvent& event)
+{
+	buttonClickStart(event);
+
+	modManager_.refreshModListAndSaveToFile();
+
+	buttonClickFinish(event);
+}
+
 void MainFrame::applyAndStartGameButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
@@ -460,6 +469,7 @@ void MainFrame::onFileSystemWatcherEvent(wxFileSystemWatcherEvent& event)
 
 void MainFrame::listCtrlOnKeyDown(wxKeyEvent& event)
 {
+	wxLogDebug(wxString() << "Key event: " << event.GetKeyCode());
 	wxButton* button = nullptr;
 
 	if (!event.HasAnyModifiers())
@@ -494,6 +504,15 @@ void MainFrame::listCtrlOnKeyDown(wxKeyEvent& event)
 
 		case WXK_DOWN:
 			button = decreasePriorityButton_;
+			break;
+		}
+	}
+	else if (event.GetModifiers() == wxMOD_CONTROL)
+	{
+		switch (event.GetKeyCode())
+		{
+		case 83: //"s"
+			button = applyButton_;
 			break;
 		}
 	}
@@ -661,6 +680,7 @@ void MainFrame::interfaceUpdate()
 		if (modManager_.getIsInitialized())
 		{
 			openModsFolderButton_->Enable();
+			applyButton_->Enable();
 			applyAndStartGameButton_->Enable();
 			if (modManager_.getCanExtractArchives())
 				selectModArchivesButton_->Enable();
@@ -668,6 +688,7 @@ void MainFrame::interfaceUpdate()
 		else
 		{
 			openModsFolderButton_->Disable();
+			applyButton_->Disable();
 			applyAndStartGameButton_->Disable();
 			selectModArchivesButton_->Disable();
 		}
@@ -985,8 +1006,13 @@ void MainFrame::setTooltip(int windowId)
 		window = aboutButton_;
 		break;
 
+	case ID_APPLY_BUTTON:
+		tip = "Apply mod config (Ctrl+s)";
+		window = applyButton_;
+		break;
+
 	case ID_APPLY_AND_START_GAME_BUTTON:
-		tip = "Apply and start game with current setup";
+		tip = "Apply mod config and start game with current setup";
 		window = applyAndStartGameButton_;
 		break;
 	}
@@ -1059,6 +1085,7 @@ void MainFrame::editButtonsUpdate()
 	deleteButton_->Enable(modManager_.canActivateDeactivate());
 	openModURLButton_->Enable(modManager_.canActivateDeactivate());
 	openReadmeButton_->Enable(modManager_.canOpenReadme());
+	applyButton_->Enable(modManager_.needsToApply());
 }
 
 void MainFrame::statusBarUpdate()
@@ -1100,6 +1127,10 @@ void MainFrame::statusBarUpdate()
 			statusBarManipulator_.setStatus(StatusBarStatus::PLUS_SIGN_IN_FOLDER_NAME);
 
 			return;
+		}
+		if (mod.getHasDuplicateFolders())
+		{
+			statusBarManipulator_.setStatus(StatusBarStatus::DUPLICATE_FOLDERS);
 		}
 	}
 	if (activeGamesysCount > 1)
@@ -1483,7 +1514,7 @@ void MainFrame::extractModArchives(const wxArrayString& modArchives, bool showPr
 		}
 	}
 
-	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, this, wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_REMAINING_TIME);
+	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, this, wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_ESTIMATED_TIME);
 	if (!showProgress)
 	{
 		progressBar_.Update(1000, wxEmptyString, NULL);

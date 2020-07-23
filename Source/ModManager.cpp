@@ -153,6 +153,17 @@ void ModManager::shutDown()
 	if (!getIsInitialized())
 		return;
 
+	refreshModListAndSaveToFile();
+
+	std::vector<Mod>().swap(mods_);
+
+	countStats();
+
+	setIsInitialized(false);
+}
+
+void ModManager::refreshModListAndSaveToFile()
+{
 	scheduleSetModTypeAll();
 	update();
 
@@ -161,52 +172,12 @@ void ModManager::shutDown()
 		lastActive = i;
 
 	// Prepare mod_path.
-
-	modConfig_.mod_path = "";
-
-	for (int i = 0; i <= lastActive; ++i)
-	{
-		modConfig_.mod_path += '+';
-
-		if (mods_[i].getIsPaused())
-			modConfig_.mod_path += config_.game.pauseIndicator;
-
-		modConfig_.mod_path += ".\\";
-		modConfig_.mod_path += config_.game.modsFolder;
-		modConfig_.mod_path += '\\';
-		modConfig_.mod_path += mods_[i].getName();
-	}
-
-	Utils::stringTrim(config_.game.baseModPath);
-	Utils::stringTrim(config_.game.baseModPath, '+');
-	modConfig_.mod_path += '+' + config_.game.baseModPath;
-	Utils::stringTrim(modConfig_.mod_path, '+');
+	constructModPath(lastActive, true);
 
 	// Prepare movie_path.
-
-	installConfig_.movie_path = "";
-
-	for (int i = 0; i <= lastActive; ++i)
-	{
-		if (!mods_[i].getIsPaused() && mods_[i].getHasCutscene())
-		{
-			installConfig_.movie_path += '+';
-			installConfig_.movie_path += ".\\";
-			installConfig_.movie_path += config_.game.modsFolder;
-			installConfig_.movie_path += '\\';
-			installConfig_.movie_path += mods_[i].getName();
-			installConfig_.movie_path += '\\';
-			installConfig_.movie_path += config_.game.cutsceneFolder;
-		}
-	}
-
-	Utils::stringTrim(config_.game.baseMoviePath);
-	Utils::stringTrim(config_.game.baseMoviePath, '+');
-	installConfig_.movie_path += '+' + config_.game.baseMoviePath;
-	Utils::stringTrim(installConfig_.movie_path, '+');
+	constructMoviePath(lastActive, true);
 
 	// Save mods setup.
-
 	std::string errorMessage;
 
 	bool isModConfigSaved = modConfig_.saveUpdating();
@@ -229,12 +200,71 @@ void ModManager::shutDown()
 	else
 		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
 
-	std::vector<Mod>().swap(mods_);
 	selected_ = -1;
+}
 
-	countStats();
+std::string ModManager::constructMoviePath(int lastActive, bool updateConfig)
+{
+	std::string moviePath = "";
 
-	setIsInitialized(false);
+	for (int i = 0; i <= lastActive; ++i)
+	{
+		if (!mods_[i].getIsPaused() && mods_[i].getHasCutscene())
+		{
+			moviePath += '+';
+			moviePath += ".\\";
+			moviePath += config_.game.modsFolder;
+			moviePath += '\\';
+			moviePath += mods_[i].getName();
+			moviePath += '\\';
+			moviePath += config_.game.cutsceneFolder;
+		}
+	}
+
+	std::string baseMoviePath = config_.game.baseMoviePath;
+	Utils::stringTrim(baseMoviePath);
+	Utils::stringTrim(baseMoviePath, '+');
+	moviePath += '+' + config_.game.baseMoviePath;
+	Utils::stringTrim(moviePath, '+');
+
+	if (updateConfig)
+	{
+		installConfig_.movie_path = moviePath;
+		config_.game.baseMoviePath = baseMoviePath;
+	}
+
+	return moviePath;
+}
+
+std::string ModManager::constructModPath(int lastActive, bool updateConfig)
+{
+	std::string modPath = "";
+
+	for (int i = 0; i <= lastActive; ++i)
+	{
+		modPath += '+';
+
+		if (mods_[i].getIsPaused())
+			modPath += config_.game.pauseIndicator;
+
+		modPath += ".\\";
+		modPath += config_.game.modsFolder;
+		modPath += '\\';
+		modPath += mods_[i].getName();
+	}
+	std::string baseModPath = std::string(config_.game.baseModPath);
+	Utils::stringTrim(baseModPath);
+	Utils::stringTrim(baseModPath, '+');
+	modPath += '+' + baseModPath;
+	Utils::stringTrim(modPath, '+');
+
+	if (updateConfig)
+	{
+		modConfig_.mod_path = modPath;
+		config_.game.baseModPath = baseModPath;
+	}
+
+	return modPath;
 }
 
 bool ModManager::getHasStateChanged()
@@ -388,6 +418,21 @@ bool ModManager::canOpenReadme() const
 		return false;
 
 	return true;
+}
+
+bool ModManager::needsToApply()
+{
+	if (!getIsInitialized())
+		return false;
+
+	int lastActiveIndex = calculateLastActiveIndex();
+
+	std::string modPath = constructModPath(lastActiveIndex, false);
+	std::string moviePath = constructMoviePath(lastActiveIndex, false);
+	if (modPath.compare(modConfig_.mod_path) == 0 && moviePath.compare(installConfig_.movie_path) == 0)
+		return false;
+	else
+		return true;
 }
 
 void ModManager::activateDeactivate()
@@ -702,6 +747,8 @@ bool ModManager::loadModsConfig()
 		}
 	}
 
+	refreshModListAndSaveToFile();
+
 	return true;
 }
 
@@ -879,25 +926,37 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasDML(dir.HasFiles("*.dml"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 
+	std::list<std::string> allSubDirs;
 	wxString foundName;
-
 	bool isDirFound = dir.GetFirst(&foundName, wxEmptyString, wxDIR_DIRS | wxDIR_HIDDEN);
 	while (isDirFound)
 	{
-		foundName.MakeLower();
+		// go through all folders and collect for later case-sensitive check
+		allSubDirs.push_back(foundName.ToStdString());
+		isDirFound = dir.GetNext(&foundName);
 
+		// check existence of any data directory
+		foundName.MakeLower();
 		for (auto& dirName : dataDirectories_)
 		{
 			if (dirName.compare(foundName) == 0)
 			{
 				mod.setHasOther(true);
-
-				return;
 			}
 		}
-
-		isDirFound = dir.GetNext(&foundName);
 	}
+
+	// Wine-only check
+	if (!allSubDirs.empty()) {
+		std::for_each(allSubDirs.begin(), allSubDirs.end(), Utils::stringToLowerCase);
+		unsigned int dirNumberIncludingNonUnique = allSubDirs.size();
+		allSubDirs.unique();
+		if (dirNumberIncludingNonUnique != allSubDirs.size())
+			mod.setHasDuplicateFolders(true);
+	}
+
+	if (mod.getHasOther())
+		return;
 
 	bool isFileFound = dir.GetFirst(&foundName, wxEmptyString, wxDIR_FILES | wxDIR_HIDDEN);
 	while (isFileFound)
@@ -1185,6 +1244,15 @@ void ModManager::createModsTable(std::string& modsTable) const
 		Utils::stringTrimTrailing(line);
 		modsTable += line + '\n';
 	}
+}
+
+int ModManager::calculateLastActiveIndex()
+{
+	int lastActiveIndex = -1;
+	for (size_t i = 0; i < mods_.size() && mods_[i].getIsActive(); ++i)
+		lastActiveIndex = i;
+
+	return lastActiveIndex;
 }
 
 const std::array<wxString, 16> ModManager::dataDirectories_ =

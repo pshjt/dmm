@@ -52,7 +52,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	boxSizer11111->Add( pauseResumeButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	deleteButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DELETE_BUTTON, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	boxSizer11111->Add( deleteButton_, 0, wxEXPAND, 5 );
+	boxSizer11111->Add( deleteButton_, 0, wxEXPAND, 1 );
 
 
 	boxSizer1111->Add( boxSizer11111, 0, wxEXPAND|wxALL, 2 );
@@ -76,7 +76,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	staticBoxSizer11113->Add( openModURLButton_, 0, wxEXPAND|wxBOTTOM, 1 );
 
 	openReadmeButton_ = new wxButton( staticBoxSizer11113->GetStaticBox(), ID_OPEN_README_BUTTON, wxT("Open ReadMe file"), wxDefaultPosition, wxDefaultSize, 0 );
-	staticBoxSizer11113->Add( openReadmeButton_, 0, wxEXPAND, 5 );
+	staticBoxSizer11113->Add( openReadmeButton_, 0, wxEXPAND, 1 );
 
 
 	boxSizer1111->Add( staticBoxSizer11113, 0, wxALL|wxEXPAND, 2 );
@@ -103,10 +103,16 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer02 = new wxBoxSizer( wxVERTICAL );
 
 	aboutButton_ = new wxButton( scrolledWindow_, ID_ABOUT_BUTTON, wxT("About..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer02->Add( aboutButton_, 0, wxALL|wxEXPAND, 1 );
+	bSizer02->Add( aboutButton_, 0, wxALIGN_BOTTOM|wxALL|wxEXPAND, 1 );
+
+
+	bSizer02->Add( 0, 5, 1, wxEXPAND, 5 );
+
+	applyButton_ = new wxButton( scrolledWindow_, ID_APPLY_BUTTON, wxT("Apply"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer02->Add( applyButton_, 0, wxALL|wxBOTTOM|wxEXPAND, 1 );
 
 	applyAndStartGameButton_ = new wxButton( scrolledWindow_, ID_APPLY_AND_START_GAME_BUTTON, wxT("Apply and start game"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer02->Add( applyAndStartGameButton_, 0, wxALL|wxEXPAND, 1 );
+	bSizer02->Add( applyAndStartGameButton_, 0, wxALL|wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 
 	boxSizer11115->Add( bSizer02, 1, wxALIGN_BOTTOM|wxALL, 1 );
@@ -162,6 +168,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	selectModArchivesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	aboutButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::aboutButtonOnButtonClick ), NULL, this );
 	aboutButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
+	applyButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyButtonOnButtonClick ), NULL, this );
+	applyButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	applyAndStartGameButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyAndStartGameButtonOnButtonClick ), NULL, this );
 	applyAndStartGameButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 }

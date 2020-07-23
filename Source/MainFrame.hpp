@@ -40,6 +40,7 @@ private:
 	virtual void openReadmeButtonOnButtonClick(wxCommandEvent& event);
 	virtual void selectModArchivesButtonOnButtonClick(wxCommandEvent& event);
 	virtual void aboutButtonOnButtonClick(wxCommandEvent& event);
+	virtual void applyButtonOnButtonClick(wxCommandEvent& event);
 	virtual void applyAndStartGameButtonOnButtonClick(wxCommandEvent& event);
 	virtual void buttonOnEnterWindow(wxMouseEvent& event);
 

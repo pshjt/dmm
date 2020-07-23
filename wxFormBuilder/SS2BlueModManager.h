@@ -43,7 +43,8 @@
 #define ID_OPEN_README_BUTTON 1008
 #define ID_EXTRACT_MOD_BUTTON 1009
 #define ID_ABOUT_BUTTON 1010
-#define ID_APPLY_AND_START_GAME_BUTTON 1011
+#define ID_APPLY_BUTTON 1011
+#define ID_APPLY_AND_START_GAME_BUTTON 1012
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class WxfbMainFrame
@@ -67,6 +68,7 @@ class WxfbMainFrame : public wxFrame
 		wxButton* openReadmeButton_;
 		wxButton* selectModArchivesButton_;
 		wxButton* aboutButton_;
+		wxButton* applyButton_;
 		wxButton* applyAndStartGameButton_;
 
 		// Virtual event handlers, overide them in your derived class
@@ -92,12 +94,13 @@ class WxfbMainFrame : public wxFrame
 		virtual void openReadmeButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void selectModArchivesButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void aboutButtonOnButtonClick( wxCommandEvent& event ) = 0;
+		virtual void applyButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyAndStartGameButtonOnButtonClick( wxCommandEvent& event ) = 0;
 
 
 	public:
 
-		WxfbMainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 493,574 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		WxfbMainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,1024 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~WxfbMainFrame();
 
