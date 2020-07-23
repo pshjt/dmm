@@ -21,10 +21,6 @@
 
 /*7zpp*/
 #define NOMINMAX
-#include <windows.h>
-#include <atlbase.h>
-#include <vector>
-#include <deque>
 
 #ifdef _MSC_VER
 #pragma warning(push)
