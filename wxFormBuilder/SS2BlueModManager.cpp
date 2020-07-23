@@ -13,7 +13,7 @@
 
 WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( -1,-1 ), wxDefaultSize );
+	this->SetSizeHints( wxSize( 800,1024 ), wxDefaultSize );
 
 	statusBar_ = this->CreateStatusBar( 1, wxSTB_SIZEGRIP, wxID_ANY );
 	wxBoxSizer* boxSizer1;
@@ -111,7 +111,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	applyButton_ = new wxButton( scrolledWindow_, ID_APPLY_BUTTON, wxT("Apply"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer02->Add( applyButton_, 0, wxALL|wxBOTTOM|wxEXPAND, 1 );
 
-	applyAndStartGameButton_ = new wxButton( scrolledWindow_, ID_APPLY_AND_START_GAME_BUTTON, wxT("Apply and start game"), wxDefaultPosition, wxDefaultSize, 0 );
+	applyAndStartGameButton_ = new wxButton( scrolledWindow_, ID_APPLY_AND_START_GAME_BUTTON, wxT("Launch game"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer02->Add( applyAndStartGameButton_, 0, wxALL|wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 

@@ -42,7 +42,7 @@
             <property name="hidden">0</property>
             <property name="id">wxID_ANY</property>
             <property name="maximum_size"></property>
-            <property name="minimum_size">-1,-1</property>
+            <property name="minimum_size">800,1024</property>
             <property name="name">WxfbMainFrame</property>
             <property name="pos"></property>
             <property name="size">800,1024</property>
@@ -1253,7 +1253,7 @@
                                                             <property name="gripper">0</property>
                                                             <property name="hidden">0</property>
                                                             <property name="id">ID_APPLY_AND_START_GAME_BUTTON</property>
-                                                            <property name="label">Apply and start game</property>
+                                                            <property name="label">Launch game</property>
                                                             <property name="margins"></property>
                                                             <property name="markup">0</property>
                                                             <property name="max_size"></property>

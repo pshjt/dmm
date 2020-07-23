@@ -1012,7 +1012,7 @@ void MainFrame::setTooltip(int windowId)
 		break;
 
 	case ID_APPLY_AND_START_GAME_BUTTON:
-		tip = "Apply mod config and start game with current setup";
+		tip = "Apply mod config and launch game with current setup";
 		window = applyAndStartGameButton_;
 		break;
 	}
