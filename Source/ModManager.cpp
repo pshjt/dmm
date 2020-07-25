@@ -927,19 +927,21 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 
 	std::list<std::string> allSubDirs;
-	wxString foundName;
-	bool isDirFound = dir.GetFirst(&foundName, wxEmptyString, wxDIR_DIRS | wxDIR_HIDDEN);
+	wxString nextDirName;
+	wxString currentDirName;
+	bool isDirFound = dir.GetFirst(&nextDirName, wxEmptyString, wxDIR_DIRS | wxDIR_HIDDEN);
 	while (isDirFound)
 	{
+		currentDirName = wxString(nextDirName).MakeLower();
+		isDirFound = dir.GetNext(&nextDirName);
+
 		// go through all folders and collect for later case-sensitive check
-		allSubDirs.push_back(foundName.ToStdString());
-		isDirFound = dir.GetNext(&foundName);
+		allSubDirs.push_back(currentDirName.ToStdString());
 
 		// check existence of any data directory
-		foundName.MakeLower();
 		for (auto& dirName : dataDirectories_)
 		{
-			if (dirName.compare(foundName) == 0)
+			if (dirName.compare(currentDirName) == 0)
 			{
 				mod.setHasOther(true);
 			}
@@ -948,7 +950,6 @@ void ModManager::checkModDirectory(Mod& mod)
 
 	// Wine-only check
 	if (!allSubDirs.empty()) {
-		std::for_each(allSubDirs.begin(), allSubDirs.end(), Utils::stringToLowerCase);
 		unsigned int dirNumberIncludingNonUnique = allSubDirs.size();
 		allSubDirs.unique();
 		if (dirNumberIncludingNonUnique != allSubDirs.size())
@@ -958,14 +959,14 @@ void ModManager::checkModDirectory(Mod& mod)
 	if (mod.getHasOther())
 		return;
 
-	bool isFileFound = dir.GetFirst(&foundName, wxEmptyString, wxDIR_FILES | wxDIR_HIDDEN);
+	bool isFileFound = dir.GetFirst(&nextDirName, wxEmptyString, wxDIR_FILES | wxDIR_HIDDEN);
 	while (isFileFound)
 	{
-		foundName.MakeLower();
+		nextDirName.MakeLower();
 
 		for (auto& fileName : dataFiles_)
 		{
-			if (wxMatchWild(fileName, foundName))
+			if (wxMatchWild(fileName, nextDirName))
 			{
 				mod.setHasOther(true);
 
@@ -973,7 +974,7 @@ void ModManager::checkModDirectory(Mod& mod)
 			}
 		}
 
-		isFileFound = dir.GetNext(&foundName);
+		isFileFound = dir.GetNext(&nextDirName);
 	}
 
 	mod.setHasOther(false);
