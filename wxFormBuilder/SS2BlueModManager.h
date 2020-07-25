@@ -100,7 +100,7 @@ class WxfbMainFrame : public wxFrame
 
 	public:
 
-		WxfbMainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,1024 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		WxfbMainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,800 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~WxfbMainFrame();
 

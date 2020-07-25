@@ -42,10 +42,10 @@
             <property name="hidden">0</property>
             <property name="id">wxID_ANY</property>
             <property name="maximum_size"></property>
-            <property name="minimum_size">800,1024</property>
+            <property name="minimum_size">600,600</property>
             <property name="name">WxfbMainFrame</property>
             <property name="pos"></property>
-            <property name="size">800,1024</property>
+            <property name="size">800,800</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title"></property>

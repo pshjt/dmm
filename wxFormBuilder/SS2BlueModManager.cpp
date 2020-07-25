@@ -13,7 +13,7 @@
 
 WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 800,1024 ), wxDefaultSize );
+	this->SetSizeHints( wxSize( 600,600 ), wxDefaultSize );
 
 	statusBar_ = this->CreateStatusBar( 1, wxSTB_SIZEGRIP, wxID_ANY );
 	wxBoxSizer* boxSizer1;
