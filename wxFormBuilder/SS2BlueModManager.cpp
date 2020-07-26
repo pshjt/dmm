@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////
 // C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
@@ -39,10 +39,10 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	wxStaticBoxSizer* boxSizer11111;
 	boxSizer11111 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("Edit") ), wxVERTICAL );
 
-	increasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_INCREASE_PRIORITY_BUTTON, wxT("Increase priority"), wxDefaultPosition, wxDefaultSize, 0 );
+	increasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_INCREASE_PRIORITY_BUTTON, wxT("▲ Increase priority"), wxDefaultPosition, wxDefaultSize, 0 );
 	boxSizer11111->Add( increasePriorityButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
-	decreasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DECREASE_PRIORITY_BUTTON, wxT("Decrease priority"), wxDefaultPosition, wxDefaultSize, 0 );
+	decreasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DECREASE_PRIORITY_BUTTON, wxT("▼ Decrease priority"), wxDefaultPosition, wxDefaultSize, 0 );
 	boxSizer11111->Add( decreasePriorityButton_, 0, wxEXPAND|wxTOP|wxBOTTOM, 1 );
 
 	activateDeactivateButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_ACTIVATE_DEACTIVATE_BUTTON, wxT("Activate / Deactivate"), wxDefaultPosition, wxDefaultSize, 0 );
