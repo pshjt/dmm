@@ -167,9 +167,7 @@ void ModManager::refreshModListAndSaveToFile()
 	scheduleSetModTypeAll();
 	update();
 
-	int lastActive = -1;
-	for (size_t i = 0; i < mods_.size() && mods_[i].getIsActive(); ++i)
-		lastActive = i;
+	int lastActive = calculateLastActiveIndex();
 
 	// Prepare mod_path.
 	constructModPath(lastActive, true);
@@ -782,9 +780,17 @@ void ModManager::activate(int index)
 	Mod mod = mods_[index];
 	mod.setIsActive(true);
 
-	std::move_backward(mods_.begin(), mods_.begin() + index, mods_.begin() + index + 1);
-
-	mods_[0] = mod;
+	if (mod.getHasGamesys())
+	{
+		// move gamesys mods to last possible position
+		int lastActive = calculateLastActiveIndex() + 1;
+		std::rotate(mods_.begin() + lastActive, mods_.begin() + index, mods_.begin() + index + 1);
+		mods_[lastActive] = mod;
+	}
+	else {
+		std::move_backward(mods_.begin(), mods_.begin() + index, mods_.begin() + index + 1);
+		mods_[0] = mod;
+	}
 }
 
 void ModManager::deactivate(int index)
