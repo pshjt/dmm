@@ -9,7 +9,7 @@
 namespace ApplicationInfo {
 	const std::string name = "SS2 Blue Mod Manager";
 	const std::string versionMajor = "1";
-	const std::string versionMinor = "15";
+	const std::string versionMinor = "16";
 	const std::string releaseType = "";
 
 	const std::string copyright = "\x00A9 2013-2015 bluemess, 2016 Marvin";
