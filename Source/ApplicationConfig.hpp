@@ -72,7 +72,7 @@ public:
 		application.configFile = "ss2bmm.cfg";
 		application.logFile = "ss2bmm.log";
 		application.lookupURL = "https://www.google.com/search?q=site:systemshock.org+";
-		application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod", "cfg" });
+		application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod", "crf" });
 
 		game.maxFolderLength = 30;
 		game.maxFullPathLength = 255;
