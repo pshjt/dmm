@@ -1,5 +1,26 @@
+#Version 1.16#
++ Added warning for long file paths (mod folder >=255 chars).
++ Added warning for duplicate folder names (only useful for Wine/Linux).
++ Set min size so as not to squish window too much.
++ Activate gamesys mods in last possible position.
+~ Reorganized buttons and prettified labels and tooltips.
+~ Added crf archive option and "All files" wildcard (*.*).
+~ Changed config save mechanism: 
+	Added specific apply button and relabelled existing "exit and start game" button to clarify what is actually happening.
+	Added Ctrl+s shortcut for saving config.
+	
+Internal:
+~ Upgraded build files to VS2019 Community (v142).
+	Upgraded to WinSDK 10+.
+	Dropped WinXP support.
+~ Upgraded to wxFormBuilder 3.9.0.
+~ Updated 7zip-cpp to current version.
+~ Upgraded wxWidgets to 3.0.5.
+
+
 #Version 1.15#
-~ Improved compatiblity on OSX and Linux systems using Wine
+~ Improved compatiblity on OSX and Linux systems using Wine.
+~ Fixed notification when archives are present in the DMM folder during startup.
 
 
 #Version 1.14#
