@@ -927,17 +927,18 @@ void MainFrame::setTooltip(int windowId)
 	switch (windowId)
 	{
 	case ID_ACTIVATE_DEACTIVATE_BUTTON:
-		tip = "(Double-click list element or Enter)";
+		tip = "(De-)Activate mod ";
+		tip += "(Double-click element / Enter)";
 		window = activateDeactivateButton_;
 		break;
 
 	case ID_INCREASE_PRIORITY_BUTTON:
-		tip = "(Alt+Up)";
+		tip = "Increase priority (Alt+Up)";
 		window = increasePriorityButton_;
 		break;
 
 	case ID_DECREASE_PRIORITY_BUTTON:
-		tip = "(Alt+Down)";
+		tip = "Decrease priority (Alt+Down)";
 		window = decreasePriorityButton_;
 		break;
 
@@ -948,7 +949,7 @@ void MainFrame::setTooltip(int windowId)
 		break;
 
 	case ID_DELETE_BUTTON:
-		tip = "Delete this mod folder from your installation";
+		tip = "Delete this mod folder from your installation ";
 		tip += "(Del)";
 		window = deleteButton_;
 		break;
