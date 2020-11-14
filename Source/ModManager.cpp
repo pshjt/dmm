@@ -939,8 +939,6 @@ void ModManager::checkModDirectory(Mod& mod)
 	while (isDirFound)
 	{
 		currentDirName = wxString(nextDirName).MakeLower();
-		isDirFound = dir.GetNext(&nextDirName);
-
 		// go through all folders and collect for later case-sensitive check
 		allSubDirs.push_back(currentDirName.ToStdString());
 
@@ -948,10 +946,10 @@ void ModManager::checkModDirectory(Mod& mod)
 		for (auto& dirName : dataDirectories_)
 		{
 			if (dirName.compare(currentDirName) == 0)
-			{
 				mod.setHasOther(true);
-			}
 		}
+
+		isDirFound = dir.GetNext(&nextDirName);
 	}
 
 	// Wine-only check
