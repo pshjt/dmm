@@ -62,9 +62,11 @@ private:
 	class PredicateIsModNameEqualNoCase
 	{
 	public:
-		PredicateIsModNameEqualNoCase(const std::string& str) : str_(str) {}
+		PredicateIsModNameEqualNoCase(const std::string& str) : str_(str)
+		{
+		}
 
-		bool operator () (const Mod& mod)
+		bool operator ()(const Mod& mod)
 		{
 			return Utils::stringIsEqualNoCase(str_, mod.getName());
 		}
@@ -75,7 +77,7 @@ private:
 
 	// Non copyable.
 	ModManager(const ModManager&); // Not to implement.
-	ModManager& operator = (const ModManager&); // Not to implement.
+	ModManager& operator =(const ModManager&); // Not to implement.
 
 	void setIsInitialized(bool isInitialized);
 	void setCanExtractArchives(bool canExtractArchvies);

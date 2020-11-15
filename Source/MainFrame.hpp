@@ -14,35 +14,35 @@ public:
 	MainFrame(wxWindow* parent);
 
 private:
-	virtual void onClose(wxCloseEvent& event);
-	virtual void onSize(wxSizeEvent& event);
+	void onClose(wxCloseEvent& event) override;
+	void onSize(wxSizeEvent& event) override;
 	void onMove(wxMoveEvent& event);
 	void onRefresh(wxCommandEvent& event);
 
-	virtual void statusBarOnSize(wxSizeEvent& event);
+	void statusBarOnSize(wxSizeEvent& event) override;
 
-	virtual void listCtrlOnKillFocus(wxFocusEvent& event);
-	virtual void listCtrlOnListColBeginDrag(wxListEvent& event);
-	virtual void listCtrlOnListColDragging(wxListEvent& event);
-	virtual void listCtrlOnListItemActivated(wxListEvent& event);
-	virtual void listCtrlOnListItemDeselected(wxListEvent& event);
-	virtual void listCtrlOnListItemSelected(wxListEvent& event);
-	virtual void listCtrlOnSize(wxSizeEvent& event);
+	void listCtrlOnKillFocus(wxFocusEvent& event) override;
+	void listCtrlOnListColBeginDrag(wxListEvent& event) override;
+	void listCtrlOnListColDragging(wxListEvent& event) override;
+	void listCtrlOnListItemActivated(wxListEvent& event) override;
+	void listCtrlOnListItemDeselected(wxListEvent& event) override;
+	void listCtrlOnListItemSelected(wxListEvent& event) override;
+	void listCtrlOnSize(wxSizeEvent& event) override;
 
-	virtual void activateDeactivateButtonOnButtonClick(wxCommandEvent& event);
-	virtual void increasePriorityButtonOnButtonClick(wxCommandEvent& event);
-	virtual void decreasePriorityButtonOnButtonClick(wxCommandEvent& event);
-	virtual void pauseResumeButtonOnButtonClick(wxCommandEvent& event);
-	virtual void deleteButtonOnButtonClick(wxCommandEvent& event);
-	virtual void openModsFolderButtonOnButtonClick(wxCommandEvent& event);
-	virtual void selectGameFolderButtonOnButtonClick(wxCommandEvent& event);
-	virtual void openModURLButtonOnButtonClick(wxCommandEvent& event);
-	virtual void openReadmeButtonOnButtonClick(wxCommandEvent& event);
-	virtual void selectModArchivesButtonOnButtonClick(wxCommandEvent& event);
-	virtual void aboutButtonOnButtonClick(wxCommandEvent& event);
-	virtual void applyButtonOnButtonClick(wxCommandEvent& event);
-	virtual void applyAndStartGameButtonOnButtonClick(wxCommandEvent& event);
-	virtual void buttonOnEnterWindow(wxMouseEvent& event);
+	void activateDeactivateButtonOnButtonClick(wxCommandEvent& event) override;
+	void increasePriorityButtonOnButtonClick(wxCommandEvent& event) override;
+	void decreasePriorityButtonOnButtonClick(wxCommandEvent& event) override;
+	void pauseResumeButtonOnButtonClick(wxCommandEvent& event) override;
+	void deleteButtonOnButtonClick(wxCommandEvent& event) override;
+	void openModsFolderButtonOnButtonClick(wxCommandEvent& event) override;
+	void selectGameFolderButtonOnButtonClick(wxCommandEvent& event) override;
+	void openModURLButtonOnButtonClick(wxCommandEvent& event) override;
+	void openReadmeButtonOnButtonClick(wxCommandEvent& event) override;
+	void selectModArchivesButtonOnButtonClick(wxCommandEvent& event) override;
+	void aboutButtonOnButtonClick(wxCommandEvent& event) override;
+	void applyButtonOnButtonClick(wxCommandEvent& event) override;
+	void applyAndStartGameButtonOnButtonClick(wxCommandEvent& event) override;
+	void buttonOnEnterWindow(wxMouseEvent& event) override;
 
 	void onListRefresh(wxCommandEvent& event);
 	void onInterfaceUpdate(wxCommandEvent& event);

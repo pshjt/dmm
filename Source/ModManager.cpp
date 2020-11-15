@@ -12,13 +12,13 @@
 
 ModManager::ModManager(ApplicationConfig& config)
 	: config_(config)
-	, selected_(-1)
-	, shouldReloadModsFolders_(false)
-	, shouldSortInactives_(false)
-	, warningCount_(0)
-	, activeOrPausedCount_(0)
-	, activeGamesysCount_(0)
-	, logFilePath_(config_.application.executableFolderPath + '\\' + config_.application.logFile)
+	  , selected_(-1)
+	  , shouldReloadModsFolders_(false)
+	  , shouldSortInactives_(false)
+	  , warningCount_(0)
+	  , activeOrPausedCount_(0)
+	  , activeGamesysCount_(0)
+	  , logFilePath_(config_.application.executableFolderPath + '\\' + config_.application.logFile)
 {
 	setIsInitialized(false);
 	setCanExtractArchives(false);
@@ -84,9 +84,9 @@ void ModManager::initialize()
 		if (!wxMkdir(modsFolderPath_))
 		{
 			std::string extendedErrorMessage =
-				Message::makeErrorMessage(Message::ErrorMessageType::ERROR_CREATE_DIRECTORY, modsFolderPath_);
+				makeErrorMessage(Message::ErrorMessageType::ERROR_CREATE_DIRECTORY, modsFolderPath_);
 
-			Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't create mods folder.", extendedErrorMessage);
+			showMessage(Message::MessageType::ERROR_OK, "Couldn't create mods folder.", extendedErrorMessage);
 
 			return;
 		}
@@ -94,8 +94,11 @@ void ModManager::initialize()
 
 	if (Utils::getPathLength(modsFolderPath_) > config_.game.maxFullPathLength)
 	{
-		std::string extendedErrorMessage = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY, modsFolderPath_);
-		Message::showMessage(Message::MessageType::ERROR_OK, "Mod folder path must not exceed " + std::to_string(config_.game.maxFullPathLength) + " characters.", extendedErrorMessage);
+		std::string extendedErrorMessage = makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY,
+		                                                    modsFolderPath_);
+		showMessage(Message::MessageType::ERROR_OK,
+		            "Mod folder path must not exceed " + std::to_string(config_.game.maxFullPathLength) +
+		            " characters.", extendedErrorMessage);
 
 		return;
 	}
@@ -108,9 +111,9 @@ void ModManager::initialize()
 		if (!wxMkdir(archivesFolderPath_))
 		{
 			std::string extendedErrorMessage =
-				Message::makeErrorMessage(Message::ErrorMessageType::ERROR_CREATE_DIRECTORY, archivesFolderPath_);
+				makeErrorMessage(Message::ErrorMessageType::ERROR_CREATE_DIRECTORY, archivesFolderPath_);
 
-			Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't create mod archives folder.", extendedErrorMessage);
+			showMessage(Message::MessageType::ERROR_OK, "Couldn't create mod archives folder.", extendedErrorMessage);
 
 			return;
 		}
@@ -122,9 +125,8 @@ void ModManager::initialize()
 	wxFileName path_7zdll(gameFolderPath + "\\7z.dll");
 	if (path_7zdll.FileExists())
 		setCanExtractArchives(true);
-	else
-		if (wxFileName(config_.application.executableFolderPath + "\\7z.dll").FileExists())
-			setCanExtractArchives(true);
+	else if (wxFileName(config_.application.executableFolderPath + "\\7z.dll").FileExists())
+		setCanExtractArchives(true);
 
 	loadModsFolders();
 	loadModsConfig();
@@ -196,7 +198,7 @@ void ModManager::refreshModListAndSaveToFile()
 	if (isModConfigSaved && isInstallConfigSaved)
 		createLogFile();
 	else
-		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
+		showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
 
 	selected_ = -1;
 }
@@ -333,7 +335,8 @@ const std::string ModManager::getAlternativeExecutable(std::string gameFolderPat
 {
 	std::string alternativeExePath;
 
-	for (auto& alternativeExe : config_.game.additionalExecutableFiles) {
+	for (auto& alternativeExe : config_.game.additionalExecutableFiles)
+	{
 		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
 
 		if (wxFileExists(alternativeExePath))
@@ -429,8 +432,7 @@ bool ModManager::needsToApply()
 	std::string moviePath = constructMoviePath(lastActiveIndex, false);
 	if (modPath.compare(modConfig_.mod_path) == 0 && moviePath.compare(installConfig_.movie_path) == 0)
 		return false;
-	else
-		return true;
+	return true;
 }
 
 void ModManager::activateDeactivate()
@@ -593,9 +595,9 @@ void ModManager::loadModsFolders()
 		std::vector<Mod>().swap(mods_);
 
 		std::string extendedErrorMessage =
-			Message::makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY, modsFolderPath_);
+			makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY, modsFolderPath_);
 
-		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't load mods folder list.", extendedErrorMessage);
+		showMessage(Message::MessageType::ERROR_OK, "Couldn't load mods folder list.", extendedErrorMessage);
 
 		return;
 	}
@@ -610,7 +612,7 @@ void ModManager::loadModsFolders()
 		isFound = dir.GetNext(&name);
 	}
 
-	for (size_t i = 0; i < mods_.size(); )
+	for (size_t i = 0; i < mods_.size();)
 	{
 		auto foundMod = std::find(modsFolders.begin(), modsFolders.end(), mods_[i].getName());
 
@@ -665,7 +667,7 @@ bool ModManager::loadModsConfig()
 	installConfig_.assignFile(config_.game.folderPath + '\\' + config_.game.installConfigFile);
 
 	if (!modConfig_.load())
-		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't load mods setup.", modConfig_.getErrorMessage());
+		showMessage(Message::MessageType::ERROR_OK, "Couldn't load mods setup.", modConfig_.getErrorMessage());
 
 	remainder = modConfig_.mod_path;
 
@@ -682,7 +684,8 @@ bool ModManager::loadModsConfig()
 	{
 		ActiveMod activeMod;
 
-		if (Utils::stringIsEqualNoCase(token.substr(0, config_.game.pauseIndicator.length()), config_.game.pauseIndicator))
+		if (Utils::stringIsEqualNoCase(token.substr(0, config_.game.pauseIndicator.length()),
+		                               config_.game.pauseIndicator))
 		{
 			token.erase(0, config_.game.pauseIndicator.length());
 			activeMod.isPaused = true;
@@ -726,7 +729,7 @@ bool ModManager::loadModsConfig()
 		for (auto& foreignPath : foreignPaths)
 			msg += "\n" + foreignPath;
 
-		Message::showMessage(Message::MessageType::INFORMATION_OK, msg);
+		showMessage(Message::MessageType::INFORMATION_OK, msg);
 	}
 
 	size_t lastInactive = 0;
@@ -787,7 +790,8 @@ void ModManager::activate(int index)
 		std::rotate(mods_.begin() + lastActive, mods_.begin() + index, mods_.begin() + index + 1);
 		mods_[lastActive] = mod;
 	}
-	else {
+	else
+	{
 		std::move_backward(mods_.begin(), mods_.begin() + index, mods_.begin() + index + 1);
 		mods_[0] = mod;
 	}
@@ -813,7 +817,8 @@ void ModManager::setModName(Mod& mod, const std::string& name) const
 {
 	mod.setName(name);
 	std::string modPath(getModsFolderPath() + "\\" + name);
-	if (static_cast<int>(name.length()) > config_.game.maxFolderLength || Utils::getPathLength(modPath) > config_.game.maxFullPathLength)
+	if (static_cast<int>(name.length()) > config_.game.maxFolderLength || Utils::getPathLength(modPath) > config_.game.
+		maxFullPathLength)
 		mod.setIsNameTooLong(true);
 	else
 		mod.setIsNameTooLong(false);
@@ -886,7 +891,7 @@ void ModManager::setModReadme(Mod& mod) const
 	if (!isFileFound)
 		return;
 
-	int idxExt[2] = { -1, -1 };
+	int idxExt[2] = {-1, -1};
 	while (isFileFound)
 	{
 		foundName.MakeLower();
@@ -953,7 +958,8 @@ void ModManager::checkModDirectory(Mod& mod)
 	}
 
 	// Wine-only check
-	if (!allSubDirs.empty()) {
+	if (!allSubDirs.empty())
+	{
 		unsigned int dirNumberIncludingNonUnique = allSubDirs.size();
 		allSubDirs.unique();
 		if (dirNumberIncludingNonUnique != allSubDirs.size())
@@ -1067,8 +1073,8 @@ void ModManager::createLogFile()
 
 	if (log.fail())
 	{
-		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
-			Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
+		showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
+		            makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
 
 		return;
 	}
@@ -1116,8 +1122,8 @@ void ModManager::createLogFile()
 
 	if (log.fail())
 	{
-		Message::showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
-			Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
+		showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
+		            makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
 	}
 }
 
@@ -1261,33 +1267,37 @@ int ModManager::calculateLastActiveIndex()
 }
 
 const std::array<wxString, 16> ModManager::dataDirectories_ =
-{ {
-	"bitmap",
-	"book",
-	"editor",
-	"fam",
-	"fonts",
-	"iface",
-	"intrface",
-	"mesh",
-	"motions",
-	"obj",
-	"objicon",
-	"pal",
-	"snd",
-	"snd2",
-	"song",
-	"strings"
-} };
+{
+	{
+		"bitmap",
+		"book",
+		"editor",
+		"fam",
+		"fonts",
+		"iface",
+		"intrface",
+		"mesh",
+		"motions",
+		"obj",
+		"objicon",
+		"pal",
+		"snd",
+		"snd2",
+		"song",
+		"strings"
+	}
+};
 
 const std::array<wxString, 8> ModManager::dataFiles_ =
-{ {
-	"motiondb.bin",
-	"editor.res",
-	"metaui_r.res",
-	"shkres.res",
-	"skeldata.res",
-	"texture.res",
-	"*.mis",
-	"*.osm"
-} };
+{
+	{
+		"motiondb.bin",
+		"editor.res",
+		"metaui_r.res",
+		"shkres.res",
+		"skeldata.res",
+		"texture.res",
+		"*.mis",
+		"*.osm"
+	}
+};

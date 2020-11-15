@@ -34,7 +34,7 @@ public:
 private:
 	// Non copyable.
 	StatusBarManipulator(const StatusBarManipulator&); // Not to implement.
-	StatusBarManipulator& operator = (const StatusBarManipulator&); // Not to implement.
+	StatusBarManipulator& operator =(const StatusBarManipulator&); // Not to implement.
 
 	wxStatusBar* statusBar_;
 	StatusBarStatus status_;

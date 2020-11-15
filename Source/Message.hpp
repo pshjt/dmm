@@ -6,7 +6,8 @@
 
 #include "ApplicationInfo.hpp"
 
-namespace Message {
+namespace Message
+{
 	enum class MessageType
 	{
 		ERROR_OK,
@@ -26,7 +27,8 @@ namespace Message {
 	};
 
 	MessageAnswer showMessage(MessageType messageType, const std::string& message,
-		const std::string& extendedMessage = "", const std::string& caption = ApplicationInfo::name);
+	                          const std::string& extendedMessage = "",
+	                          const std::string& caption = ApplicationInfo::name);
 
 	enum class ErrorMessageType
 	{

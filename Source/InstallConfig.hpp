@@ -19,7 +19,7 @@ public:
 	// ~InstallConfig() {}
 
 private:
-	virtual void configVariables()
+	void configVariables() override
 	{
 		CVAR(movie_path, "");
 	}

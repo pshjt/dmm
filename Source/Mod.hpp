@@ -12,7 +12,7 @@ public:
 	// Mod& operator = (const Mod&); // Default.
 	// ~Mod() {}
 
-	bool operator < (const Mod& mod) const;
+	bool operator <(const Mod& mod) const;
 
 	int getIndex() const;
 	const std::string& getName() const;
@@ -86,7 +86,8 @@ private:
 	bool shouldUpdateType_;
 	bool isChanged_;
 
-	template <typename T> void set(T& var, const T& newValue);
+	template <typename T>
+	void set(T& var, const T& newValue);
 };
 
 template <typename T>

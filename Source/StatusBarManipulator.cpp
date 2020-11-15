@@ -22,8 +22,9 @@ StatusBarManipulator::StatusBarManipulator(wxStatusBar* statusBar, ApplicationCo
 
 	///
 
-	warningStaticBitmap_ = new wxStaticBitmap(statusBar_, wxID_ANY, wxArtProvider::GetBitmap(wxART_WARNING, wxART_FRAME_ICON,
-		wxArtProvider::GetSizeHint(wxART_FRAME_ICON)));
+	warningStaticBitmap_ = new wxStaticBitmap(statusBar_, wxID_ANY, wxArtProvider::GetBitmap(
+		                                          wxART_WARNING, wxART_FRAME_ICON,
+		                                          wxArtProvider::GetSizeHint(wxART_FRAME_ICON)));
 
 	int bitmapWidth, bitmapHeight;
 	warningStaticBitmap_->GetSize(&bitmapWidth, &bitmapHeight);
@@ -39,7 +40,7 @@ StatusBarManipulator::StatusBarManipulator(wxStatusBar* statusBar, ApplicationCo
 	///
 
 	staticText_ = new TransparentStaticText(statusBar_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-		wxST_ELLIPSIZE_END);
+	                                        wxST_ELLIPSIZE_END);
 
 	statusBar_->SetDoubleBuffered(true);
 

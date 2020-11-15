@@ -6,15 +6,18 @@
 
 #include "Utils.hpp"
 
-namespace Utils {
+namespace Utils
+{
 	void stringToLowerCase(std::string& str)
 	{
-		std::transform(str.begin(), str.end(), str.begin(), [](int c) -> char { return static_cast<char>(::tolower(c)); });
+		std::transform(str.begin(), str.end(), str.begin(),
+		               [](int c) -> char { return static_cast<char>(tolower(c)); });
 	}
 
 	void stringToUpperCase(std::string& str)
 	{
-		std::transform(str.begin(), str.end(), str.begin(), [](int c) -> char { return static_cast<char>(::toupper(c)); });
+		std::transform(str.begin(), str.end(), str.begin(),
+		               [](int c) -> char { return static_cast<char>(toupper(c)); });
 	}
 
 	bool stringIsEqualNoCase(const std::string& str1, const std::string& str2)
@@ -53,12 +56,12 @@ namespace Utils {
 
 	void stringTrimLeading(std::string& str)
 	{
-		str.erase(str.begin(), std::find_if_not(str.begin(), str.end(), ::isspace));
+		str.erase(str.begin(), std::find_if_not(str.begin(), str.end(), isspace));
 	}
 
 	void stringTrimTrailing(std::string& str)
 	{
-		str.erase(std::find_if_not(str.rbegin(), str.rend(), ::isspace).base(), str.end());
+		str.erase(std::find_if_not(str.rbegin(), str.rend(), isspace).base(), str.end());
 	}
 
 	void stringTrim(std::string& str)
@@ -96,15 +99,15 @@ namespace Utils {
 	bool tokenize(std::string& token, std::string& remainder, const std::string& sequence)
 	{
 		std::string str(sequence);
-		Utils::stringTrim(str);
+		stringTrim(str);
 
 		if (str.empty())
 			return false;
 
-		auto it = std::find_if(str.begin(), str.end(), ::isspace);
+		auto it = std::find_if(str.begin(), str.end(), isspace);
 
 		token = std::string(str.begin(), it);
-		remainder = std::string(std::find_if_not(it, str.end(), ::isspace), str.end());
+		remainder = std::string(std::find_if_not(it, str.end(), isspace), str.end());
 
 		return true;
 	}
@@ -112,8 +115,8 @@ namespace Utils {
 	bool tokenize(std::string& token, std::string& remainder, const std::string& sequence, char delimiter)
 	{
 		std::string str(sequence);
-		Utils::stringTrim(str);
-		Utils::stringTrim(str, delimiter);
+		stringTrim(str);
+		stringTrim(str, delimiter);
 
 		if (str.empty())
 			return false;
@@ -123,8 +126,8 @@ namespace Utils {
 		token = std::string(str.begin(), it);
 		remainder = std::string(std::find_if_not(it, str.end(), CharPredicateIsEqual(delimiter)), str.end());
 
-		Utils::stringTrimTrailing(token);
-		Utils::stringTrimLeading(remainder);
+		stringTrimTrailing(token);
+		stringTrimLeading(remainder);
 
 		return true;
 	}
@@ -140,7 +143,7 @@ namespace Utils {
 		while (emptyLine && it != lines.rend())
 		{
 			std::string line = *it;
-			Utils::stringTrim(line);
+			stringTrim(line);
 
 			if (!line.empty())
 				emptyLine = false;
@@ -175,14 +178,14 @@ namespace Utils {
 			result.erase(0, 1);
 
 		stringTrim(result, '/');
-		return  result.length();
+		return result.length();
 	}
 
 	void listDirectoryContent(std::string& directoryContent, const std::string& path, int maxDepth, int indent /*= 0*/)
 	{
 		struct CmpNoCase
 		{
-			bool operator() (const wxString& str1, const wxString& str2) const
+			bool operator()(const wxString& str1, const wxString& str2) const
 			{
 				return str1.CmpNoCase(str2) < 0;
 			}
@@ -348,11 +351,12 @@ namespace Utils {
 		LPVOID productVersionBuffer = nullptr;
 		UINT productVersionLength = 0;
 
-		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductName", &productNameBuffer, &productNameLength) == 0)
+		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductName", &productNameBuffer,
+		                   &productNameLength) == 0)
 			return false;
 
 		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductVersion", &productVersionBuffer,
-			&productVersionLength) == 0)
+		                   &productVersionLength) == 0)
 		{
 			return false;
 		}
@@ -384,23 +388,22 @@ namespace Utils {
 		auto dot = std::find(requiredVersion.begin(), requiredVersion.end(), '.');
 
 		int requiredMajor = 0;
-		Utils::stringTo(std::string(requiredVersion.begin(), dot), requiredMajor);
+		stringTo(std::string(requiredVersion.begin(), dot), requiredMajor);
 
 		std::string requiredMinor(dot, requiredVersion.end());
 
 		dot = std::find(version.begin(), version.end(), '.');
 
 		int major = 0;
-		Utils::stringTo(std::string(version.cbegin(), dot), major);
+		stringTo(std::string(version.cbegin(), dot), major);
 
 		std::string minor(dot, version.cend());
 
 		if (requiredMajor > major)
 			return false;
-		else if (requiredMajor < major)
+		if (requiredMajor < major)
 			return true;
-		else
-			return !std::lexicographical_compare(minor.begin(), minor.end(), requiredMinor.begin(), requiredMinor.end());
+		return !std::lexicographical_compare(minor.begin(), minor.end(), requiredMinor.begin(), requiredMinor.end());
 	}
 
 	void getCurrentDateTime(std::string& dateTime)

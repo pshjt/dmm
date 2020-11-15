@@ -34,10 +34,12 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	aboutPanelAddStaticText(boxSizer111, "");
 
 	wxStaticText* st = aboutPanelAddStaticText(boxSizer111, "For everything that's System Shock related visit:",
-		wxALIGN_CENTER_HORIZONTAL);
+	                                           wxALIGN_CENTER_HORIZONTAL);
 
-	wxHyperlinkCtrl* hyperlink1 = new wxHyperlinkCtrl(aboutPanel_, wxID_ANY, "www.systemshock.org", "www.systemshock.org",
-		wxDefaultPosition, wxSize(-1, st->GetSize().GetHeight()), wxHL_DEFAULT_STYLE);
+	wxHyperlinkCtrl* hyperlink1 = new wxHyperlinkCtrl(aboutPanel_, wxID_ANY, "www.systemshock.org",
+	                                                  "www.systemshock.org",
+	                                                  wxDefaultPosition, wxSize(-1, st->GetSize().GetHeight()),
+	                                                  wxHL_DEFAULT_STYLE);
 
 	hyperlink1->SetFont(st->GetFont());
 	hyperlink1->SetHoverColour(hyperlink1->GetNormalColour());
@@ -60,7 +62,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	topBoxSizer12 = new wxBoxSizer(wxVERTICAL);
 
 	licenseTextCtrl_ = new wxTextCtrl(licensePanel_, wxID_ANY, wxEmptyString, wxDefaultPosition,
-		wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH);
+	                                  wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH);
 	licenseTextCtrl_->SetLabel(wxString(ApplicationInfo::license));
 	topBoxSizer12->Add(licenseTextCtrl_, 1, wxALL | wxEXPAND, 8);
 
@@ -75,7 +77,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	wxBoxSizer* boxSizer131 = new wxBoxSizer(wxVERTICAL);
 
 	licenseHyperlink_ = new wxHyperlinkCtrl(this, wxID_ANY, "temp", "temp", wxDefaultPosition, wxDefaultSize,
-		wxBORDER_NONE | wxHL_ALIGN_LEFT);
+	                                        wxBORDER_NONE | wxHL_ALIGN_LEFT);
 
 	licenseHyperlink_->SetHoverColour(licenseHyperlink_->GetNormalColour());
 	licenseHyperlink_->SetVisitedColour(licenseHyperlink_->GetNormalColour());
@@ -105,7 +107,8 @@ AboutDialog::AboutDialog(wxWindow* parent)
 
 	hyperlink1->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(AboutDialog::hyperlinkOnSetFocus), nullptr, this);
 
-	licenseHyperlink_->Connect(wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler(AboutDialog::licenseHyperlinkOnHyperlink),
+	licenseHyperlink_->Connect(
+		wxEVT_COMMAND_HYPERLINK, wxHyperlinkEventHandler(AboutDialog::licenseHyperlinkOnHyperlink),
 		nullptr, this);
 
 	licenseHyperlink_->Connect(wxEVT_SET_FOCUS, wxFocusEventHandler(AboutDialog::hyperlinkOnSetFocus), nullptr, this);

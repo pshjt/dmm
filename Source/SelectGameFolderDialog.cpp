@@ -11,8 +11,8 @@
 
 SelectGameFolderDialog::SelectGameFolderDialog(wxWindow* parent, const ApplicationConfig& applicationConfig)
 	: WxfbSelectGameFolderDialog(parent)
-	, config_(applicationConfig)
-	, queuedRefreshEvents_(0)
+	  , config_(applicationConfig)
+	  , queuedRefreshEvents_(0)
 {
 	Connect(wxEVT_MOVE, wxMoveEventHandler(SelectGameFolderDialog::onMove));
 	Connect(REFRESH_EVENT, wxCommandEventHandler(SelectGameFolderDialog::onRefresh));
@@ -46,7 +46,8 @@ const std::string SelectGameFolderDialog::getAlternativeExecutable(std::string g
 {
 	std::string alternativeExePath;
 
-	for (auto& alternativeExe : config_.game.additionalExecutableFiles) {
+	for (auto& alternativeExe : config_.game.additionalExecutableFiles)
+	{
 		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
 
 		if (wxFileExists(alternativeExePath))

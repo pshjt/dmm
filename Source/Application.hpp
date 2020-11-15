@@ -7,5 +7,5 @@
 class Application : public wxApp
 {
 private:
-	virtual bool OnInit();
+	bool OnInit() override;
 };

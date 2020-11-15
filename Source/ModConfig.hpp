@@ -20,7 +20,7 @@ public:
 	// ~ModConfig() {}
 
 private:
-	virtual void configVariables()
+	void configVariables() override
 	{
 		CVAR_READ_ONLY(uber_mod_path, "");
 		CVAR(mod_path, "");

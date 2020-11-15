@@ -22,12 +22,12 @@ public:
 
 	// ~TransparentStaticText() {}
 
-	virtual WXHBRUSH MSWControlColor(WXHDC pDC, WXHWND WXUNUSED(hWnd))
+	WXHBRUSH MSWControlColor(WXHDC pDC, WXHWND WXUNUSED(hWnd)) override
 	{
 		wxColour fgColour = GetForegroundColour();
-		::SetTextColor((HDC)pDC, RGB(fgColour.Red(), fgColour.Green(), fgColour.Blue()));
-		::SetBkMode((HDC)pDC, TRANSPARENT);
+		SetTextColor(static_cast<HDC>(pDC), RGB(fgColour.Red(), fgColour.Green(), fgColour.Blue()));
+		SetBkMode(static_cast<HDC>(pDC), TRANSPARENT);
 
-		return (WXHBRUSH)GetStockObject(HOLLOW_BRUSH);
+		return static_cast<WXHBRUSH>(GetStockObject(HOLLOW_BRUSH));
 	}
 };

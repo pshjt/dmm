@@ -4,7 +4,8 @@
 
 #pragma once
 
-namespace ApplicationInfo {
+namespace ApplicationInfo
+{
 	extern const std::string name;
 	extern const std::string versionMajor;
 	extern const std::string versionMinor;

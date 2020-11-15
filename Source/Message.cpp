@@ -8,9 +8,11 @@
 
 #include "Message.hpp"
 
-namespace Message {
+namespace Message
+{
 	MessageAnswer showMessage(MessageType messageType, const std::string& message,
-		const std::string& extendedMessage /*= ""*/, const std::string& caption /*= applicationinfo::name*/)
+	                          const std::string& extendedMessage /*= ""*/,
+	                          const std::string& caption /*= applicationinfo::name*/)
 	{
 #ifdef _DEBUG
 		wxLogDebug(wxString() << "Message: " << message);
@@ -58,8 +60,9 @@ namespace Message {
 		else
 			dialog.SetOKLabel(wxMessageDialog::ButtonLabel(wxString("OK")));
 
-		dialog.SetYesNoCancelLabels(wxMessageDialog::ButtonLabel(wxString("Yes")), wxMessageDialog::ButtonLabel(wxString("No")),
-			wxMessageDialog::ButtonLabel(wxString("Cancel")));
+		dialog.SetYesNoCancelLabels(wxMessageDialog::ButtonLabel(wxString("Yes")),
+		                            wxMessageDialog::ButtonLabel(wxString("No")),
+		                            wxMessageDialog::ButtonLabel(wxString("Cancel")));
 
 		int answer = dialog.ShowModal();
 		MessageAnswer messageAnswer;

@@ -26,11 +26,12 @@ public:
 protected:
 	virtual void configVariables() = 0;
 
-	template <typename T> void configVariable(T& variable, const std::string& name, const T& defaultValue,
-		bool isReadOnly = false);
+	template <typename T>
+	void configVariable(T& variable, const std::string& name, const T& defaultValue,
+	                    bool isReadOnly = false);
 
 	void configVariable(std::string& variable, const std::string& name, const char* defaultValue,
-		bool isReadOnly = false);
+	                    bool isReadOnly = false);
 
 private:
 	enum class OperationType
@@ -52,9 +53,11 @@ private:
 	class PredicateIsKeyNameEqualNoCase
 	{
 	public:
-		PredicateIsKeyNameEqualNoCase(const std::string& str) : str_(str) {}
+		PredicateIsKeyNameEqualNoCase(const std::string& str) : str_(str)
+		{
+		}
 
-		bool operator () (const Key& key)
+		bool operator ()(const Key& key)
 		{
 			return Utils::stringIsEqualNoCase(str_, key.name);
 		}
@@ -65,18 +68,21 @@ private:
 
 	// Non copyable.
 	Config(const Config&); // Not to implement.
-	Config& operator = (const Config&); // Not to implement.
+	Config& operator =(const Config&); // Not to implement.
 
 	void initialize();
 	void getVariables();
 	void setVariables();
 
-	template <typename T> void addVariable(T& variable, const std::string& name, const T& defaultValue, bool isReadOnly);
-	template <typename T> void setVariable(T& variable);
-	template <typename T> void getVariable(const T& variable);
+	template <typename T>
+	void addVariable(T& variable, const std::string& name, const T& defaultValue, bool isReadOnly);
+	template <typename T>
+	void setVariable(T& variable);
+	template <typename T>
+	void getVariable(const T& variable);
 
 	void addKey(const std::string& name, const std::string& defaultValue, bool isReadOnly);
-	std::vector<Config::Key>::iterator findKey(const std::string& name);
+	std::vector<Key>::iterator findKey(const std::string& name);
 	static void computeKeyLine(const Key& key, std::string& line);
 	bool tokenize(std::string& token, std::string& remainder, const std::string& sequence);
 

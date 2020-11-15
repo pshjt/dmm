@@ -15,12 +15,12 @@ public:
 	const std::string getAlternativeExecutable(std::string) const;
 
 private:
-	virtual void onSize(wxSizeEvent& event);
+	void onSize(wxSizeEvent& event) override;
 	void onMove(wxMoveEvent& event);
 	void onRefresh(wxCommandEvent& event);
 
-	virtual void pathTextCtrlOnText(wxCommandEvent& event);
-	virtual void genericDirCtrlOnTreeSelChanged(wxTreeEvent& event);
+	void pathTextCtrlOnText(wxCommandEvent& event) override;
+	void genericDirCtrlOnTreeSelChanged(wxTreeEvent& event) override;
 
 	void scheduleRefresh();
 

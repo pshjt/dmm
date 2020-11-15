@@ -10,28 +10,28 @@
 
 Mod::Mod()
 	: index_(-1)
-	//, name_("")
-	, isActive_(false)
-	, isPaused_(false)
-	//, type_("")
-	//, readme("")
-	, hasCFG_(false)
-	, hasCutscene_(false)
-	, hasDML_(false)
-	, hasGamesys_(false)
-	, hasSubtitle_(false)
-	, hasOther_(false)
-	, hasReadme_(false)
-	, isNameTooLong_(false)
-	, isPlusSignInName_(false)
-	, isMultipleGamesys_(false)
-	, hasDuplicateFolders_(false)
-	, shouldUpdateType_(true)
-	, isChanged_(true)
+	  //, name_("")
+	  , isActive_(false)
+	  , isPaused_(false)
+	  //, type_("")
+	  //, readme("")
+	  , hasCFG_(false)
+	  , hasCutscene_(false)
+	  , hasDML_(false)
+	  , hasGamesys_(false)
+	  , hasSubtitle_(false)
+	  , hasOther_(false)
+	  , hasReadme_(false)
+	  , isNameTooLong_(false)
+	  , isPlusSignInName_(false)
+	  , isMultipleGamesys_(false)
+	  , hasDuplicateFolders_(false)
+	  , shouldUpdateType_(true)
+	  , isChanged_(true)
 {
 }
 
-bool Mod::operator < (const Mod& mod) const
+bool Mod::operator <(const Mod& mod) const
 {
 	return Utils::stringIsLessNoCase(name_, mod.name_);
 }

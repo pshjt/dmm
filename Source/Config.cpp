@@ -37,7 +37,7 @@ bool Config::load()
 
 	if (file.fail())
 	{
-		errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_FILE, fileName_);
+		errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_FILE, fileName_);
 		return false;
 	}
 
@@ -73,7 +73,7 @@ bool Config::saveOverwriting(const std::string& frontComment)
 
 	if (file.fail())
 	{
-		errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
+		errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
 		return false;
 	}
 
@@ -95,7 +95,7 @@ bool Config::saveOverwriting(const std::string& frontComment)
 
 	if (file.fail())
 	{
-		errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
+		errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
 		return false;
 	}
 
@@ -112,7 +112,7 @@ bool Config::saveUpdating()
 
 		if (file.fail())
 		{
-			errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_FILE, fileName_);
+			errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_FILE, fileName_);
 			return false;
 		}
 
@@ -175,7 +175,7 @@ bool Config::saveUpdating()
 
 		if (file.fail())
 		{
-			errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
+			errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
 			return false;
 		}
 
@@ -184,7 +184,7 @@ bool Config::saveUpdating()
 
 		if (file.fail())
 		{
-			errorMessage_ = Message::makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
+			errorMessage_ = makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, fileName_);
 			return false;
 		}
 	}
@@ -198,7 +198,7 @@ std::string Config::getErrorMessage() const
 }
 
 void Config::configVariable(std::string& variable, const std::string& name, const char* defaultValue,
-	bool isReadOnly /*= false*/)
+                            bool isReadOnly /*= false*/)
 {
 	configVariable(variable, name, std::string(defaultValue), isReadOnly);
 }
@@ -225,7 +225,8 @@ void Config::setVariables()
 }
 
 template <>
-void Config::addVariable(std::string& variable, const std::string& name, const std::string& defaultValue, bool isReadOnly)
+void Config::addVariable(std::string& variable, const std::string& name, const std::string& defaultValue,
+                         bool isReadOnly)
 {
 	variable = defaultValue;
 

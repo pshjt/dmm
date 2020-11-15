@@ -4,16 +4,22 @@
 
 #pragma once
 
-namespace Utils {
+namespace Utils
+{
 	void stringToLowerCase(std::string& str);
 	void stringToUpperCase(std::string& str);
 	bool stringIsEqualNoCase(const std::string& str1, const std::string& str2);
 	bool stringIsLessNoCase(const std::string& str1, const std::string& str2);
-	template <typename T> std::string toString(const T& value);
-	template <typename T> void toString(const T& value, std::string& str);
-	template <typename T> bool isStringValid(std::string& str);
-	template <typename T> T stringTo(std::string& str);
-	template <typename T> bool stringTo(const std::string& str, T& value);
+	template <typename T>
+	std::string toString(const T& value);
+	template <typename T>
+	void toString(const T& value, std::string& str);
+	template <typename T>
+	bool isStringValid(std::string& str);
+	template <typename T>
+	T stringTo(std::string& str);
+	template <typename T>
+	bool stringTo(const std::string& str, T& value);
 	void stringTrimLeading(std::string& str);
 	void stringTrimTrailing(std::string& str);
 	void stringTrim(std::string& str);
@@ -45,7 +51,8 @@ namespace Utils {
 	class StringPredicateIsEqualNoCase;
 } // namespace Utils
 
-namespace Utils {
+namespace Utils
+{
 	template <typename T>
 	std::string toString(const T& value)
 	{
@@ -103,9 +110,11 @@ namespace Utils {
 	class CharPredicateIsEqual
 	{
 	public:
-		CharPredicateIsEqual(char c) : c_(c) {}
+		CharPredicateIsEqual(char c) : c_(c)
+		{
+		}
 
-		bool operator () (char c) const
+		bool operator ()(char c) const
 		{
 			return c_ == c;
 		}
@@ -117,9 +126,11 @@ namespace Utils {
 	class StringPredicateIsEqualNoCase
 	{
 	public:
-		StringPredicateIsEqualNoCase(const std::string& str) : str_(str) {}
+		StringPredicateIsEqualNoCase(const std::string& str) : str_(str)
+		{
+		}
 
-		bool operator () (const std::string& str) const
+		bool operator ()(const std::string& str) const
 		{
 			return stringIsEqualNoCase(str_, str);
 		}

@@ -6,7 +6,8 @@
 
 #include "ApplicationInfo.hpp"
 
-namespace ApplicationInfo {
+namespace ApplicationInfo
+{
 	const std::string name = "SS2 Blue Mod Manager";
 	const std::string versionMajor = "1";
 	const std::string versionMinor = "16";
@@ -119,7 +120,8 @@ namespace ApplicationInfo {
 		"Igor Pavlov\n";
 } // namespace ApplicationInfo
 
-namespace ApplicationInfo {
+namespace ApplicationInfo
+{
 	const std::string version = [&]()
 	{
 		std::string str;
@@ -149,7 +151,7 @@ namespace ApplicationInfo {
 #endif
 
 		return str;
-	} ();
+	}();
 
 	const std::string full = [&]()
 	{
@@ -166,5 +168,5 @@ namespace ApplicationInfo {
 		}
 
 		return str;
-	} ();
+	}();
 } // namespace ApplicationInfo
