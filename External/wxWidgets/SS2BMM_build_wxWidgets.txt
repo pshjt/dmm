@@ -1,3 +1,0 @@
-1) Download the wxWidgets 3.0.2 source code: https://www.wxwidgets.org/downloads/
-2) Extract the contents of the archive here
-3) Run build scripts in SS2BMM\Script\wxWidgetsMSVCBuild

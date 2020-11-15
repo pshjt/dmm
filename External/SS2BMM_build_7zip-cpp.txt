@@ -1,4 +1,0 @@
-1) Open Git bash here, execute:
-	git clone https://github.com/getnamo/7zip-cpp.git --recursive
-2) Run build PreBuild.bat in in SS2BMM\Script\7zppMSVCBuild
-3) Run other build scripts as seen fit

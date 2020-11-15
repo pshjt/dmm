@@ -1,6 +1,3 @@
-External/7zip-cpp/
-External/wxWidgets/*
-!External/wxWidgets/SS2BMM_build_wxWidgets.txt
 VisualStudio/*
 !VisualStudio/SS2BlueModManager.sln
 !VisualStudio/SS2BlueModManager.vcxproj

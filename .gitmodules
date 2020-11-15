@@ -1,0 +1,6 @@
+[submodule "External/7zip-cpp"]
+	path = External/7zip-cpp
+	url = https://github.com/getnamo/7zip-cpp.git
+[submodule "External/wxWidgets"]
+	path = External/wxWidgets
+	url = https://github.com/wxWidgets/wxWidgets.git
