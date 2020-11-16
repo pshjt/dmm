@@ -45,9 +45,7 @@ bool ModExtractor::loadSevenZipLibrary()
 }
 
 void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArrayString& modArchives)
-{
-	const bool SHOW_PROGRESS = true; // turn off if you don't want a progress bar
-	
+{	
 	if (!loadSevenZipLibrary()) // Lazy loading of 7zip.dll
 	{
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't load 7z.dll .\n");
@@ -55,32 +53,21 @@ void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArra
 	}
 
 	wxArrayString failedMods;
-	float progressCounter = 1;
-
-	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, parentWindow_,
-		wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_ESTIMATED_TIME);
-	if (!SHOW_PROGRESS)
-	{
-		progressBar_.Update(1000, wxEmptyString, nullptr);
-		progressBar_.Hide();
-	}
-
+	unsigned int archiveIndex = 1;
 	for (auto& archiveName : modArchives)
 	{
-		if (SHOW_PROGRESS)
-		{
-			progressBar_.Update(
-				static_cast<int>(progressCounter / static_cast<float>(modArchives.Count()) * 1000 * 0.99),
-				wxString("Extracting mod " + wxFileName(archiveName).GetName()), nullptr);
-			progressBar_.Show();
-		}
-
+		wxProgressDialog progressBar_(wxString("Extracting mod archives.."), wxEmptyString, 1000, parentWindow_,
+			wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_ELAPSED_TIME);
+		progressBar_.Update(0, wxString::Format("%i/%i: %s", archiveIndex, modArchives.Count(), archiveName));
+		
+		
 		wxString pathExtract = pathModFolder + "\\" + wxFileName(archiveName).GetName();
 		SevenZip::SevenZipExtractor modExtractor(lib_7zdll_, archiveName.ToStdWstring());
 
 		if (modExtractor.DetectCompressionFormat())
 		{
-			const bool isSuccess = modExtractor.ExtractArchive(pathExtract.ToStdWstring(), nullptr);
+			ProgressCallbackHandler callbackHandler(progressBar_);
+			const bool isSuccess = modExtractor.ExtractArchive(pathExtract.ToStdWstring(), &callbackHandler);
 			if (!isSuccess)
 				failedMods.Add(archiveName + "\n");
 		}
@@ -88,11 +75,9 @@ void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArra
 		{
 			failedMods.Add(archiveName + "\n");
 		}
-
-		progressCounter++;
+		
+		archiveIndex++;
 	}
-	if (SHOW_PROGRESS)
-		progressBar_.Update(1000, wxString("Done."), nullptr);
 
 	if (!failedMods.IsEmpty())
 	{

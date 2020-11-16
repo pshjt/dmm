@@ -16,7 +16,45 @@
 
 
 /**
- * \brief 
+ * Used for updating a wxProgressDialog when extracting archives.
+ */
+class ProgressCallbackHandler : public SevenZip::ProgressCallback
+{
+public:
+	ProgressCallbackHandler() = delete;
+	ProgressCallbackHandler(wxProgressDialog& progressDialog) 
+		: progress_(progressDialog)
+	{};
+	
+	void OnStartWithTotal(const SevenZip::TString& archivePath, unsigned long long totalBytes) override
+	{
+		totalBytes_ = totalBytes;
+	}
+	
+	void OnProgress(const SevenZip::TString& archivePath, unsigned long long bytesCompleted) override
+	{
+		totalBytesCompleted_ += bytesCompleted;
+		progress_.Update(static_cast<double>(totalBytesCompleted_) / static_cast<double>(totalBytes_) * 1000.0 );
+	}
+	
+	void OnDone(const SevenZip::TString& archivePath) override
+	{
+		progress_.Update(1000 );
+	}
+
+	bool OnCheckBreak() override { return false;  };
+	void OnFileDone(const SevenZip::TString& archivePath, const SevenZip::TString& filePath, unsigned long long bytesCompleted) override {};
+
+private:
+	wxProgressDialog& progress_;
+	unsigned long long totalBytes_ = 0;
+	unsigned long long totalBytesCompleted_ = 0;	
+};
+
+
+
+/**
+ * Handles extraction of mod archive files. The 7z.dll library is loaded lazily.
  */
 class ModExtractor
 {
