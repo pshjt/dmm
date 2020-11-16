@@ -5,12 +5,14 @@
 #include <Precompiled.hpp>
 
 #include "AboutDialog.hpp"
-#include "ApplicationInfo.hpp"
 #include "CustomEvent.hpp"
 #include "Message.hpp"
-#include "SelectGameFolderDialog.hpp"
 #include "ShellRun.hpp"
 #include "Utils.hpp"
+
+#include "ApplicationInfo.hpp"
+#include "ManageProfilesDialog.hpp"
+#include "SelectGameFolderDialog.hpp"
 
 #include "MainFrame.hpp"
 
@@ -307,11 +309,10 @@ void MainFrame::manageProfilesOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	SelectGameFolderDialog selectGameFolder(this, config_);
-
-	if (selectGameFolder.ShowModal() == wxID_OK)
+	ManageProfilesDialog profileManager(this, config_);
+	if (profileManager.ShowModal() == wxID_OK)
 	{
-		modManager_.initialize(selectGameFolder.getGameFolderPath());
+		profileManager.apply();
 	}
 
 	buttonClickFinish(event);

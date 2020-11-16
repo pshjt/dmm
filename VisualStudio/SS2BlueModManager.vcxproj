@@ -134,7 +134,7 @@
     <ClCompile Include="..\Source\StatusBarManipulator.cpp" />
     <ClCompile Include="..\Source\Utils.cpp" />
     <ClCompile Include="..\wxFormBuilder\SS2BlueModManager.cpp" />
-    <ClCompile Include="..\Source\ManageProfilesFrame.cpp" />
+    <ClCompile Include="..\Source\ManageProfilesDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\AboutDialog.hpp" />
@@ -157,7 +157,8 @@
     <ClInclude Include="..\Source\TransparentStaticText.hpp" />
     <ClInclude Include="..\Source\Utils.hpp" />
     <ClInclude Include="..\wxFormBuilder\SS2BlueModManager.h" />
-    <ClInclude Include="..\Source\ManageProfilesFrame.hpp" />
+    <ClInclude Include="..\Source\ManageProfilesDialog.hpp" />
+    <ClInclude Include="..\Source\ProfileConfig.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Resource\Resource.rc" />

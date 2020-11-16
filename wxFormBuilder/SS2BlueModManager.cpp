@@ -242,7 +242,7 @@ WxfbSelectGameFolderDialog::~WxfbSelectGameFolderDialog()
 {
 }
 
-WxfbManageProfilesFrame::WxfbManageProfilesFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
@@ -284,7 +284,7 @@ WxfbManageProfilesFrame::WxfbManageProfilesFrame( wxWindow* parent, wxWindowID i
 	wxStaticBoxSizer* sbSizer6;
 	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Update") ), wxVERTICAL );
 
-	useProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_ANY, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	useProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_OK, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer6->Add( useProfileButton_, 0, wxALL, 5 );
 
 
@@ -302,10 +302,11 @@ WxfbManageProfilesFrame::WxfbManageProfilesFrame( wxWindow* parent, wxWindowID i
 
 	this->SetSizer( bSizer10 );
 	this->Layout();
+	bSizer10->Fit( this );
 
 	this->Centre( wxBOTH );
 }
 
-WxfbManageProfilesFrame::~WxfbManageProfilesFrame()
+WxfbManageProfilesDialog::~WxfbManageProfilesDialog()
 {
 }

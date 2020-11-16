@@ -140,9 +140,9 @@ class WxfbSelectGameFolderDialog : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class WxfbManageProfilesFrame
+/// Class WxfbManageProfilesDialog
 ///////////////////////////////////////////////////////////////////////////////
-class WxfbManageProfilesFrame : public wxFrame
+class WxfbManageProfilesDialog : public wxDialog
 {
 	private:
 
@@ -156,9 +156,8 @@ class WxfbManageProfilesFrame : public wxFrame
 
 	public:
 
-		WxfbManageProfilesFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 884,875 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-
-		~WxfbManageProfilesFrame();
+		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+		~WxfbManageProfilesDialog();
 
 };
 

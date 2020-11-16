@@ -63,7 +63,7 @@
     <ClCompile Include="..\Source\ModExtractor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\ManageProfilesFrame.cpp">
+    <ClCompile Include="..\Source\ManageProfilesDialog.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,7 +128,10 @@
     <ClInclude Include="..\Source\ModExtractor.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\ManageProfilesFrame.hpp">
+    <ClInclude Include="..\Source\ManageProfilesDialog.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ProfileConfig.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
