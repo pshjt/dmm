@@ -151,6 +151,49 @@ void MainFrame::listCtrlOnKillFocus(wxFocusEvent& WXUNUSED(event))
 {
 }
 
+void MainFrame::listCtrlOnItemBeginDrag(wxListEvent& event)
+{
+	const long eventIndex = event.GetIndex();
+	
+	if(modManager_.getMods()[eventIndex].getIsActive())
+	{
+		draggedListItemIndex_ = eventIndex;
+		SetCursor(wxCursor(wxCURSOR_HAND));
+	} else
+	{
+		draggedListItemIndex_ = -1;
+	}
+}
+
+void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
+{
+	if (draggedListItemIndex_ < 0)
+		return;
+	
+	int hitFlags;
+	const int hitIndex = listCtrl_->HitTest(event.GetPosition(), hitFlags);
+
+	const bool hitInsideListArea = (hitIndex != wxNOT_FOUND) || (hitFlags == wxLIST_HITTEST_NOWHERE);
+	if(hitInsideListArea)
+	{
+		int targetIndex = -1;
+		if (hitIndex != wxNOT_FOUND)
+		{ // Drag ends on an item
+			targetIndex = hitIndex;
+		}
+		else if (hitFlags == wxLIST_HITTEST_NOWHERE)
+		{ // Drag ends below last item
+			targetIndex = modManager_.getModCount()-1;
+		}
+
+		modManager_.movePriority(draggedListItemIndex_, targetIndex);
+		scheduleInterfaceUpdate();
+	}
+
+	draggedListItemIndex_ = -1;
+	SetCursor(wxCursor(*wxSTANDARD_CURSOR));
+}
+
 void MainFrame::listCtrlOnListColBeginDrag(wxListEvent& event)
 {
 	event.Veto();

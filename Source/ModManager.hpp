@@ -45,6 +45,8 @@ public:
 	void activateDeactivate();
 	void increasePriority();
 	void decreasePriority();
+	void movePriority(int sourceIndex, int targetIndex);
+	void swapPriorities(int idx1, int idx2);
 	void pauseResume();
 
 	int getModCount() const;

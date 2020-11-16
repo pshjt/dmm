@@ -333,6 +333,8 @@ const std::string ModManager::getAlternativeExecutable(std::string gameFolderPat
 	return std::string();
 }
 
+
+
 const std::string& ModManager::getModsFolderPath() const
 {
 	return modsFolderPath_;
@@ -467,6 +469,46 @@ void ModManager::decreasePriority()
 	mods_[selected_].setIndex(selected_);
 
 	++selected_;
+}
+
+void ModManager::movePriority(int sourceIndex, int targetIndex)
+{
+	if (sourceIndex < 0 || targetIndex < 0 ||
+		sourceIndex == targetIndex ||
+		sourceIndex >= mods_.size() ||
+		!mods_[sourceIndex].getIsActive() ) // only active mods can be moved
+		return;
+
+	if (targetIndex >= mods_.size() || !mods_[targetIndex].getIsActive())
+	{
+		targetIndex = calculateLastActiveIndex();
+	}
+
+	if (sourceIndex > targetIndex)
+		std::rotate(mods_.rend() - sourceIndex - 1, mods_.rend() - sourceIndex, mods_.rend() - targetIndex);
+	else
+		std::rotate(mods_.begin() + sourceIndex, mods_.begin() + sourceIndex + 1, mods_.begin() + targetIndex + 1);	
+}
+
+void ModManager::swapPriorities(int idx1, int idx2)
+{
+	if (idx1 < 0 || idx2 < 0 ||
+		idx1 >= mods_.size() || idx2 >= mods_.size() ||
+		(!mods_[idx1].getIsActive() && !mods_[idx2].getIsActive()) ) // return if both mods are inactive (one must be active to swap)
+		return;
+
+	const auto minmax = std::minmax(idx1, idx2);
+	const int min = minmax.first;
+	int max = minmax.second;
+
+	// If max is inactive, replace it with the last index
+	// Note: the minimum index mod must be active as otherwise both have to be inactive (which we already tested in the beginning)
+	if (!mods_[max].getIsActive())
+	{
+		max = calculateLastActiveIndex();
+	}
+	
+	std::swap(mods_[min], mods_[max]);
 }
 
 void ModManager::pauseResume()

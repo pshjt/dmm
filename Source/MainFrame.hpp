@@ -23,6 +23,8 @@ private:
 	void statusBarOnSize(wxSizeEvent& event) override;
 
 	void listCtrlOnKillFocus(wxFocusEvent& event) override;
+	void listCtrlOnItemBeginDrag(wxListEvent& event) override;
+	void listCtrlOnItemEndDrag(wxMouseEvent& event) override;
 	void listCtrlOnListColBeginDrag(wxListEvent& event) override;
 	void listCtrlOnListColDragging(wxListEvent& event) override;
 	void listCtrlOnListItemActivated(wxListEvent& event) override;
@@ -126,4 +128,6 @@ private:
 	int auxLastNameWidth_;
 
 	StatusBarManipulator statusBarManipulator_;
+
+	int draggedListItemIndex_ = -1;
 };
