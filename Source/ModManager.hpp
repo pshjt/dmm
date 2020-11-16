@@ -27,7 +27,6 @@ public:
 
 	bool getHasStateChanged();
 	bool getIsInitialized() const;
-	bool getCanExtractArchives();
 	void scheduleModsFoldersReload();
 	void update();
 	int getSelected() const;
@@ -80,7 +79,6 @@ private:
 	ModManager& operator =(const ModManager&); // Not to implement.
 
 	void setIsInitialized(bool isInitialized);
-	void setCanExtractArchives(bool canExtractArchvies);
 
 	void loadModsFolders();
 	bool loadModsConfig();
@@ -109,7 +107,6 @@ private:
 
 	bool isInitialized_;
 	bool hasStateChanged_;
-	bool canExtractArchives_;
 
 	std::string gameVersion_;
 	int selected_;

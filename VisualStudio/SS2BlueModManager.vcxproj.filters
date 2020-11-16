@@ -60,6 +60,9 @@
     <ClCompile Include="..\Source\SelectGameFolderDialog.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\ModExtractor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Precompiled\Precompiled.hpp">
@@ -117,6 +120,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\SelectGameFolderDialog.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ModExtractor.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

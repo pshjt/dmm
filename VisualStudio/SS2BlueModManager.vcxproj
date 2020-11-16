@@ -129,6 +129,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Source\SelectGameFolderDialog.cpp" />
+    <ClCompile Include="..\Source\ModExtractor.cpp" />
     <ClCompile Include="..\Source\ShellRun.cpp" />
     <ClCompile Include="..\Source\StatusBarManipulator.cpp" />
     <ClCompile Include="..\Source\Utils.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="..\Source\ModManager.hpp" />
     <ClInclude Include="..\Source\Precompiled\Precompiled.hpp" />
     <ClInclude Include="..\Source\SelectGameFolderDialog.hpp" />
+    <ClInclude Include="..\Source\ModExtractor.hpp" />
     <ClInclude Include="..\Source\ShellRun.hpp" />
     <ClInclude Include="..\Source\StatusBarManipulator.hpp" />
     <ClInclude Include="..\Source\TransparentStaticText.hpp" />

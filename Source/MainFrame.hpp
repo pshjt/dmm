@@ -6,6 +6,7 @@
 
 #include "ApplicationConfig.hpp"
 #include "ModManager.hpp"
+#include "ModExtractor.hpp"
 #include "StatusBarManipulator.hpp"
 
 class MainFrame : public WxfbMainFrame
@@ -83,7 +84,6 @@ private:
 	std::string getColumnName(int index);
 
 	void loadInitialModArchives();
-	void extractModArchives(const wxArrayString& modArchives, bool showProgress);
 
 	static const int ID_DUMMY_0_;
 	static const int ID_INDEX_;
@@ -96,6 +96,7 @@ private:
 	const ApplicationConfig defaultConfig_;
 	ApplicationConfig config_;
 	ModManager modManager_;
+	ModExtractor modExtractor_;
 
 	int queuedInterfaceUpdateEvents_;
 	bool shouldSetColumnsWidth_;

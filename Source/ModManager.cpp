@@ -21,7 +21,6 @@ ModManager::ModManager(ApplicationConfig& config)
 	  , logFilePath_(config_.application.executableFolderPath + '\\' + config_.application.logFile)
 {
 	setIsInitialized(false);
-	setCanExtractArchives(false);
 }
 
 void ModManager::initialize()
@@ -121,12 +120,6 @@ void ModManager::initialize()
 
 	config_.game.folderPath = gameFolderPath;
 	setIsInitialized(true);
-
-	wxFileName path_7zdll(gameFolderPath + "\\7z.dll");
-	if (path_7zdll.FileExists())
-		setCanExtractArchives(true);
-	else if (wxFileName(config_.application.executableFolderPath + "\\7z.dll").FileExists())
-		setCanExtractArchives(true);
 
 	loadModsFolders();
 	loadModsConfig();
@@ -282,11 +275,6 @@ bool ModManager::getHasStateChanged()
 bool ModManager::getIsInitialized() const
 {
 	return isInitialized_;
-}
-
-bool ModManager::getCanExtractArchives()
-{
-	return canExtractArchives_;
 }
 
 void ModManager::scheduleModsFoldersReload()
@@ -576,11 +564,6 @@ void ModManager::setIsInitialized(bool isInitialized)
 {
 	isInitialized_ = isInitialized;
 	hasStateChanged_ = true;
-}
-
-void ModManager::setCanExtractArchives(bool canExtractArchives)
-{
-	canExtractArchives_ = canExtractArchives;
 }
 
 void ModManager::loadModsFolders()

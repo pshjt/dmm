@@ -36,6 +36,7 @@ const std::vector<int> MainFrame::DEFAULT_ORDER_ =
 MainFrame::MainFrame(wxWindow* parent)
 	: WxfbMainFrame(parent)
 	  , modManager_(config_)
+	  , modExtractor_(this, config_)
 	  , queuedInterfaceUpdateEvents_(0)
 	  , shouldSetColumnsWidth_(false)
 	  , shouldStartGame_(false)
@@ -295,7 +296,9 @@ void MainFrame::selectGameFolderButtonOnButtonClick(wxCommandEvent& event)
 	SelectGameFolderDialog selectGameFolder(this, config_);
 
 	if (selectGameFolder.ShowModal() == wxID_OK)
+	{
 		modManager_.initialize(selectGameFolder.getGameFolderPath());
+	}
 
 	buttonClickFinish(event);
 }
@@ -347,7 +350,7 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	if (!modManager_.getCanExtractArchives())
+	if (!modExtractor_.canExtract())
 	{
 		buttonClickFinish(event);
 		showMessage(Message::MessageType::ERROR_OK, "Cannot open 7z.dll. \nArchive extraction not possible.");
@@ -399,7 +402,7 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 	}
 
 	if (!modArchives.IsEmpty())
-		extractModArchives(modArchives, true);
+		modExtractor_.extractModArchives(modManager_.getModsFolderPath(), modArchives);
 
 	if (fswHasSubpaths_)
 	{
@@ -693,7 +696,7 @@ void MainFrame::interfaceUpdate()
 			openModsFolderButton_->Enable();
 			applyButton_->Enable();
 			applyAndStartGameButton_->Enable();
-			if (modManager_.getCanExtractArchives())
+			if (modExtractor_.canExtract())
 				selectModArchivesButton_->Enable();
 		}
 		else
@@ -892,11 +895,11 @@ bool MainFrame::fileSystemWatcherProcessEvent(wxFileSystemWatcherEvent& event)
 			bool isArchive = (std::find(config_.application.modArchiveExtensions.begin(),
 			                            config_.application.modArchiveExtensions.end(), ext) != config_.application.
 				modArchiveExtensions.end());
-			if (isArchive && wxFileName(path).IsFileReadable() && modManager_.getCanExtractArchives())
+			if (isArchive && wxFileName(path).IsFileReadable() && modExtractor_.canExtract())
 			{
 				wxArrayString archive;
 				archive.Add(wxString(path));
-				extractModArchives(archive, true);
+				modExtractor_.extractModArchives(modManager_.getModsFolderPath(), archive);
 
 				wxRenameFile(path, modManager_.getArchivesFolderPath() + "\\" + modName, true);
 				if (config_.application.showExtractTip && !messageDialogOpen_)
@@ -1472,7 +1475,7 @@ std::string MainFrame::getColumnName(int index)
 
 void MainFrame::loadInitialModArchives()
 {
-	if (!modManager_.getCanExtractArchives())
+	if (!modExtractor_.canExtract())
 		return;
 
 	wxDir dir;
@@ -1486,8 +1489,9 @@ void MainFrame::loadInitialModArchives()
 
 		if (isFound > 0)
 		{
-			extractionTookPlace = true;
-			extractModArchives(modArchives, true);
+			extractionTookPlace = true;			
+			modExtractor_.extractModArchives(modManager_.getModsFolderPath(), modArchives);
+			
 			for (auto& archiveToMove : modArchives)
 				if (wxFileName(archiveToMove).IsFileWritable())
 					wxRenameFile(archiveToMove,
@@ -1527,77 +1531,4 @@ void MainFrame::loadInitialModArchives()
 		}
 		messageDialogOpen_ = false;
 	}
-}
-
-void MainFrame::extractModArchives(const wxArrayString& modArchives, bool showProgress)
-{
-	wxString pathDLL = config_.game.folderPath + "\\7z.dll";
-	wxString pathModFolder = modManager_.getModsFolderPath();
-
-	wxArrayString failedMods;
-	wxString pathExtract;
-
-	bool isSuccess;
-	float progressCounter = 1;
-	SevenZip::SevenZipLibrary lib_7zdll;
-	bool loadDLL = lib_7zdll.Load(pathDLL.ToStdWstring());
-
-	if (!loadDLL)
-	{
-		pathDLL = config_.application.executableFolderPath + "\\7z.dll";
-		loadDLL = lib_7zdll.Load(pathDLL.ToStdWstring());
-		if (!loadDLL)
-		{
-			showMessage(Message::MessageType::ERROR_OK, "Couldn't load 7z.dll .\n");
-			return;
-		}
-	}
-
-	wxProgressDialog progressBar_(wxString("Extracting mod archives..."), wxEmptyString, 1000, this,
-	                              wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_ESTIMATED_TIME);
-	if (!showProgress)
-	{
-		progressBar_.Update(1000, wxEmptyString, nullptr);
-		progressBar_.Hide();
-	}
-
-	for (auto& archiveName : modArchives)
-	{
-		if (showProgress)
-		{
-			progressBar_.Update(
-				static_cast<int>(progressCounter / static_cast<float>(modArchives.Count()) * 1000 * 0.99),
-				wxString("Extracting mod " + wxFileName(archiveName).GetName()), nullptr);
-			progressBar_.Show();
-		}
-
-		pathExtract = pathModFolder + "\\" + wxFileName(archiveName).GetName();
-		SevenZip::SevenZipExtractor modExtractor(lib_7zdll, archiveName.ToStdWstring());
-
-		if (modExtractor.DetectCompressionFormat())
-		{
-			isSuccess = modExtractor.ExtractArchive(pathExtract.ToStdWstring(), nullptr);
-			if (!isSuccess)
-				failedMods.Add(archiveName + "\n");
-		}
-		else
-		{
-			failedMods.Add(archiveName + "\n");
-		}
-
-		progressCounter++;
-	}
-	if (showProgress)
-		progressBar_.Update(1000, wxString("Done."), nullptr);
-
-	if (!failedMods.IsEmpty())
-	{
-		std::string error_output;
-		for (auto& failed : failedMods)
-			error_output = error_output + failed;
-
-		showMessage(Message::MessageType::ERROR_OK, "Couldn't extract mod archives:\n", error_output);
-	}
-
-	lib_7zdll.Free();
 }
