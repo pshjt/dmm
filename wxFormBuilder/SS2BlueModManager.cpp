@@ -84,6 +84,11 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	selectGameFolderButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_SELECT_GAME_FOLDER_BUTTON, wxT("Select game folder..."), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer4->Add( selectGameFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
+	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
+	manageProfilesButton_->SetToolTip( wxT("Dummy tooltip for manager") );
+
+	sbSizer4->Add( manageProfilesButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
+
 
 	boxSizer1111->Add( sbSizer4, 0, wxALL|wxEXPAND, 2 );
 
@@ -147,6 +152,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	openModsFolderButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	selectGameFolderButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::selectGameFolderButtonOnButtonClick ), NULL, this );
 	selectGameFolderButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
+	manageProfilesButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::manageProfilesOnButtonClick ), NULL, this );
+	manageProfilesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	applyButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyButtonOnButtonClick ), NULL, this );
 	applyButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	applyAndStartGameButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyAndStartGameButtonOnButtonClick ), NULL, this );
@@ -232,5 +239,73 @@ WxfbSelectGameFolderDialog::WxfbSelectGameFolderDialog( wxWindow* parent, wxWind
 }
 
 WxfbSelectGameFolderDialog::~WxfbSelectGameFolderDialog()
+{
+}
+
+WxfbManageProfilesFrame::WxfbManageProfilesFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* bSizer13;
+	bSizer13 = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* bSizer11;
+	bSizer11 = new wxBoxSizer( wxVERTICAL );
+
+	profileListBox_ = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_HSCROLL|wxLB_NEEDED_SB|wxLB_SINGLE|wxLB_SORT );
+	bSizer11->Add( profileListBox_, 1, wxALL|wxEXPAND, 2 );
+
+
+	bSizer13->Add( bSizer11, 1, wxEXPAND, 0 );
+
+	m_scrolledWindow4 = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	m_scrolledWindow4->SetScrollRate( 8, 8 );
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxVERTICAL );
+
+	wxStaticBoxSizer* sbSizer5;
+	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Create/Update") ), wxVERTICAL );
+
+	createProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Create/New"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer5->Add( createProfileButton_, 0, wxALL, 5 );
+
+	renameProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Rename"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer5->Add( renameProfileButton_, 0, wxALL, 5 );
+
+	deleteProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer5->Add( deleteProfileButton_, 0, wxALL, 5 );
+
+
+	bSizer12->Add( sbSizer5, 1, wxALL|wxEXPAND, 5 );
+
+	wxStaticBoxSizer* sbSizer6;
+	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Update") ), wxVERTICAL );
+
+	useProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_ANY, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer6->Add( useProfileButton_, 0, wxALL, 5 );
+
+
+	bSizer12->Add( sbSizer6, 1, wxALL|wxEXPAND, 5 );
+
+
+	m_scrolledWindow4->SetSizer( bSizer12 );
+	m_scrolledWindow4->Layout();
+	bSizer12->Fit( m_scrolledWindow4 );
+	bSizer13->Add( m_scrolledWindow4, 0, wxEXPAND|wxFIXED_MINSIZE, 2 );
+
+
+	bSizer10->Add( bSizer13, 1, wxALL|wxEXPAND, 2 );
+
+
+	this->SetSizer( bSizer10 );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+WxfbManageProfilesFrame::~WxfbManageProfilesFrame()
 {
 }

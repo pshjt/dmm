@@ -29,6 +29,7 @@
 #include <wx/stattext.h>
 #include <wx/panel.h>
 #include <wx/dialog.h>
+#include <wx/listbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -43,8 +44,9 @@
 #define ID_EXTRACT_MOD_BUTTON 1008
 #define ID_OPEN_MODS_FOLDER_BUTTON 1009
 #define ID_SELECT_GAME_FOLDER_BUTTON 1010
-#define ID_APPLY_BUTTON 1011
-#define ID_APPLY_AND_START_GAME_BUTTON 1012
+#define ID_MANAGE_PROFILES_BUTTON 1011
+#define ID_APPLY_BUTTON 1012
+#define ID_APPLY_AND_START_GAME_BUTTON 1013
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class WxfbMainFrame
@@ -68,6 +70,7 @@ class WxfbMainFrame : public wxFrame
 		wxButton* selectModArchivesButton_;
 		wxButton* openModsFolderButton_;
 		wxButton* selectGameFolderButton_;
+		wxButton* manageProfilesButton_;
 		wxButton* applyButton_;
 		wxButton* applyAndStartGameButton_;
 
@@ -94,6 +97,7 @@ class WxfbMainFrame : public wxFrame
 		virtual void selectModArchivesButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void openModsFolderButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void selectGameFolderButtonOnButtonClick( wxCommandEvent& event ) = 0;
+		virtual void manageProfilesOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyAndStartGameButtonOnButtonClick( wxCommandEvent& event ) = 0;
 
@@ -132,6 +136,29 @@ class WxfbSelectGameFolderDialog : public wxDialog
 
 		WxfbSelectGameFolderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select game folder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
 		~WxfbSelectGameFolderDialog();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class WxfbManageProfilesFrame
+///////////////////////////////////////////////////////////////////////////////
+class WxfbManageProfilesFrame : public wxFrame
+{
+	private:
+
+	protected:
+		wxListBox* profileListBox_;
+		wxScrolledWindow* m_scrolledWindow4;
+		wxButton* createProfileButton_;
+		wxButton* renameProfileButton_;
+		wxButton* deleteProfileButton_;
+		wxButton* useProfileButton_;
+
+	public:
+
+		WxfbManageProfilesFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 884,875 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+
+		~WxfbManageProfilesFrame();
 
 };
 

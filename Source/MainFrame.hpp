@@ -37,6 +37,7 @@ private:
 	void deleteButtonOnButtonClick(wxCommandEvent& event) override;
 	void openModsFolderButtonOnButtonClick(wxCommandEvent& event) override;
 	void selectGameFolderButtonOnButtonClick(wxCommandEvent& event) override;
+	void manageProfilesOnButtonClick(wxCommandEvent& event) override;
 	void openModURLButtonOnButtonClick(wxCommandEvent& event) override;
 	void openReadmeButtonOnButtonClick(wxCommandEvent& event) override;
 	void selectModArchivesButtonOnButtonClick(wxCommandEvent& event) override;
