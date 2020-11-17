@@ -12,7 +12,15 @@ class ManageProfilesDialog : public WxfbManageProfilesDialog
 public:
 	ManageProfilesDialog(wxWindow* parent, const ApplicationConfig& applicationConfig);
 	void apply();
+
 private:
-	ProfileConfig profileConfig_;
 	void onRefresh(wxCommandEvent& event);
+	void createProfileButtonOnButtonClick(wxCommandEvent& event) override;
+	void deleteProfileOnButtonClick(wxCommandEvent& event) override;
+	void renameProfileButtonOnButtonClick(wxCommandEvent& event) override;
+
+	void scheduleRefresh();
+	const ApplicationConfig& config_;
+
+	int queuedRefreshEvents_;
 };

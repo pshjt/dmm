@@ -259,8 +259,8 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
-	profileListBox_ = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_HSCROLL|wxLB_NEEDED_SB|wxLB_SINGLE|wxLB_SORT );
-	bSizer11->Add( profileListBox_, 1, wxALL|wxEXPAND, 2 );
+	profileListCtrl_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	bSizer11->Add( profileListCtrl_, 1, wxALL|wxEXPAND, 2 );
 
 
 	bSizer13->Add( bSizer11, 1, wxEXPAND, 0 );
@@ -274,22 +274,22 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Create/Update") ), wxVERTICAL );
 
 	createProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Create/New"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( createProfileButton_, 0, wxALL, 5 );
+	sbSizer5->Add( createProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
 	renameProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Rename"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( renameProfileButton_, 0, wxALL, 5 );
+	sbSizer5->Add( renameProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
 	deleteProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( deleteProfileButton_, 0, wxALL, 5 );
+	sbSizer5->Add( deleteProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
 
 	bSizer12->Add( sbSizer5, 1, wxALL|wxEXPAND, 5 );
 
 	wxStaticBoxSizer* sbSizer6;
-	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Update") ), wxVERTICAL );
+	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
 
 	useProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_OK, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer6->Add( useProfileButton_, 0, wxALL, 5 );
+	sbSizer6->Add( useProfileButton_, 0, wxALIGN_CENTER_VERTICAL|wxEXPAND, 2 );
 
 
 	bSizer12->Add( sbSizer6, 1, wxALL|wxEXPAND, 5 );
@@ -309,6 +309,13 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	bSizer10->Fit( this );
 
 	this->Centre( wxBOTH );
+
+	// Connect Events
+	profileListCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( WxfbManageProfilesDialog::profileListCtrlOnListItemDeselected ), NULL, this );
+	profileListCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( WxfbManageProfilesDialog::profileListCtrlOnListItemSelected ), NULL, this );
+	createProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::createProfileButtonOnButtonClick ), NULL, this );
+	renameProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::renameProfileButtonOnButtonClick ), NULL, this );
+	deleteProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::deleteProfileOnButtonClick ), NULL, this );
 }
 
 WxfbManageProfilesDialog::~WxfbManageProfilesDialog()
