@@ -475,11 +475,11 @@ int ModManager::movePriority(int sourceIndex, int targetIndex)
 {
 	if (sourceIndex < 0 || targetIndex < 0 ||
 		sourceIndex == targetIndex ||
-		sourceIndex >= mods_.size() ||
+		sourceIndex >= signed(mods_.size()) ||
 		!mods_[sourceIndex].getIsActive() ) // only active mods can be moved
 		return -1;
 
-	if (targetIndex >= mods_.size() || !mods_[targetIndex].getIsActive())
+	if (targetIndex >= signed(mods_.size()) || !mods_[targetIndex].getIsActive())
 	{
 		targetIndex = calculateLastActiveIndex();
 	}
@@ -495,7 +495,7 @@ int ModManager::movePriority(int sourceIndex, int targetIndex)
 void ModManager::swapPriorities(int idx1, int idx2)
 {
 	if (idx1 < 0 || idx2 < 0 ||
-		idx1 >= mods_.size() || idx2 >= mods_.size() ||
+		idx1 >= signed(mods_.size()) || idx2 >= signed(mods_.size()) ||
 		(!mods_[idx1].getIsActive() && !mods_[idx2].getIsActive()) ) // return if both mods are inactive (one must be active to swap)
 		return;
 
