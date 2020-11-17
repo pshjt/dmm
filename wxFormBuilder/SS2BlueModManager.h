@@ -86,6 +86,7 @@ class WxfbMainFrame : public wxFrame
 		virtual void listCtrlOnListItemActivated( wxListEvent& event ) = 0;
 		virtual void listCtrlOnListItemDeselected( wxListEvent& event ) = 0;
 		virtual void listCtrlOnListItemSelected( wxListEvent& event ) = 0;
+		virtual void listCtrlOnItemDrag( wxMouseEvent& event ) = 0;
 		virtual void listCtrlOnSize( wxSizeEvent& event ) = 0;
 		virtual void increasePriorityButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void buttonOnEnterWindow( wxMouseEvent& event ) = 0;

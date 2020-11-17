@@ -124,6 +124,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( wxEVT_SIZE, wxSizeEventHandler( WxfbMainFrame::onSize ) );
 	statusBar_->Connect( wxEVT_SIZE, wxSizeEventHandler( WxfbMainFrame::statusBarOnSize ), NULL, this );
 	listCtrl_->Connect( wxEVT_KILL_FOCUS, wxFocusEventHandler( WxfbMainFrame::listCtrlOnKillFocus ), NULL, this );
+	listCtrl_->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( WxfbMainFrame::listCtrlOnItemEndDrag ), NULL, this );
 	listCtrl_->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( WxfbMainFrame::listCtrlOnItemEndDrag ), NULL, this );
 	listCtrl_->Connect( wxEVT_COMMAND_LIST_BEGIN_DRAG, wxListEventHandler( WxfbMainFrame::listCtrlOnItemBeginDrag ), NULL, this );
 	listCtrl_->Connect( wxEVT_COMMAND_LIST_COL_BEGIN_DRAG, wxListEventHandler( WxfbMainFrame::listCtrlOnListColBeginDrag ), NULL, this );
@@ -131,6 +132,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	listCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( WxfbMainFrame::listCtrlOnListItemActivated ), NULL, this );
 	listCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( WxfbMainFrame::listCtrlOnListItemDeselected ), NULL, this );
 	listCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( WxfbMainFrame::listCtrlOnListItemSelected ), NULL, this );
+	listCtrl_->Connect( wxEVT_MOTION, wxMouseEventHandler( WxfbMainFrame::listCtrlOnItemDrag ), NULL, this );
 	listCtrl_->Connect( wxEVT_SIZE, wxSizeEventHandler( WxfbMainFrame::listCtrlOnSize ), NULL, this );
 	increasePriorityButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::increasePriorityButtonOnButtonClick ), NULL, this );
 	increasePriorityButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
