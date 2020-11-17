@@ -165,7 +165,7 @@ void MainFrame::listCtrlOnItemBeginDrag(wxListEvent& event)
 	}
 }
 
-void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
+void MainFrame::listCtrlOnItemDrag(wxMouseEvent& event)
 {
 	if (draggedListItemIndex_ < 0)
 		return;
@@ -174,7 +174,7 @@ void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
 	const int hitIndex = listCtrl_->HitTest(event.GetPosition(), hitFlags);
 
 	const bool hitInsideListArea = (hitIndex != wxNOT_FOUND) || (hitFlags == wxLIST_HITTEST_NOWHERE);
-	if(hitInsideListArea)
+	if (hitInsideListArea)
 	{
 		int targetIndex = -1;
 		if (hitIndex != wxNOT_FOUND)
@@ -183,13 +183,21 @@ void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
 		}
 		else if (hitFlags == wxLIST_HITTEST_NOWHERE)
 		{ // Drag ends below last item
-			targetIndex = modManager_.getModCount()-1;
+			targetIndex = modManager_.calculateLastActiveIndex();
 		}
 
-		modManager_.movePriority(draggedListItemIndex_, targetIndex);
-		scheduleInterfaceUpdate();
-	}
+		if(!(targetIndex == draggedListItemIndex_))
+		{
+			draggedListItemIndex_ = modManager_.movePriority(draggedListItemIndex_, targetIndex); // refresh the dragged index to the final move target
+			interfaceUpdate();			
+			listCtrl_->Refresh();
+			listCtrl_->Update();
+		}
+	}	
+}
 
+void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
+{
 	draggedListItemIndex_ = -1;
 	SetCursor(wxCursor(*wxSTANDARD_CURSOR));
 }

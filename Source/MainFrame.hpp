@@ -24,6 +24,7 @@ private:
 
 	void listCtrlOnKillFocus(wxFocusEvent& event) override;
 	void listCtrlOnItemBeginDrag(wxListEvent& event) override;
+	void listCtrlOnItemDrag(wxMouseEvent& event) override;
 	void listCtrlOnItemEndDrag(wxMouseEvent& event) override;
 	void listCtrlOnListColBeginDrag(wxListEvent& event) override;
 	void listCtrlOnListColDragging(wxListEvent& event) override;

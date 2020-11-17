@@ -34,6 +34,7 @@ public:
 	const std::string& getArchivesFolderPath() const;
 	const std::string getAlternativeExecutable(std::string) const;
 	std::vector<Mod>& getMods();
+	int calculateLastActiveIndex();
 
 	bool canActivateDeactivate() const;
 	bool canIncreasePriority() const;
@@ -45,7 +46,9 @@ public:
 	void activateDeactivate();
 	void increasePriority();
 	void decreasePriority();
-	void movePriority(int sourceIndex, int targetIndex);
+	// Moves the mod at sourceIndex to targetIndex. If the mod at targetIndex is inactive, moves to the position of the last active mod.
+	// Returns: index the source was moved to
+	int movePriority(int sourceIndex, int targetIndex);
 	void swapPriorities(int idx1, int idx2);
 	void pauseResume();
 
@@ -97,7 +100,6 @@ private:
 	void countStats();
 	void createLogFile();
 	void createModsTable(std::string& modsTable) const;
-	int calculateLastActiveIndex();
 
 	static const std::array<wxString, 16> dataDirectories_;
 	static const std::array<wxString, 8> dataFiles_;

@@ -471,13 +471,13 @@ void ModManager::decreasePriority()
 	++selected_;
 }
 
-void ModManager::movePriority(int sourceIndex, int targetIndex)
+int ModManager::movePriority(int sourceIndex, int targetIndex)
 {
 	if (sourceIndex < 0 || targetIndex < 0 ||
 		sourceIndex == targetIndex ||
 		sourceIndex >= mods_.size() ||
 		!mods_[sourceIndex].getIsActive() ) // only active mods can be moved
-		return;
+		return -1;
 
 	if (targetIndex >= mods_.size() || !mods_[targetIndex].getIsActive())
 	{
@@ -487,7 +487,9 @@ void ModManager::movePriority(int sourceIndex, int targetIndex)
 	if (sourceIndex > targetIndex)
 		std::rotate(mods_.rend() - sourceIndex - 1, mods_.rend() - sourceIndex, mods_.rend() - targetIndex);
 	else
-		std::rotate(mods_.begin() + sourceIndex, mods_.begin() + sourceIndex + 1, mods_.begin() + targetIndex + 1);	
+		std::rotate(mods_.begin() + sourceIndex, mods_.begin() + sourceIndex + 1, mods_.begin() + targetIndex + 1);
+
+	return targetIndex;
 }
 
 void ModManager::swapPriorities(int idx1, int idx2)
