@@ -79,8 +79,8 @@ class WxfbMainFrame : public wxFrame
 		virtual void onSize( wxSizeEvent& event ) = 0;
 		virtual void statusBarOnSize( wxSizeEvent& event ) = 0;
 		virtual void listCtrlOnKillFocus( wxFocusEvent& event ) = 0;
-		virtual void listCtrlOnItemBeginDrag(wxListEvent& event) = 0;
-		virtual void listCtrlOnItemEndDrag(wxMouseEvent& event) = 0;
+		virtual void listCtrlOnItemEndDrag( wxMouseEvent& event ) = 0;
+		virtual void listCtrlOnItemBeginDrag( wxListEvent& event ) = 0;
 		virtual void listCtrlOnListColBeginDrag( wxListEvent& event ) = 0;
 		virtual void listCtrlOnListColDragging( wxListEvent& event ) = 0;
 		virtual void listCtrlOnListItemActivated( wxListEvent& event ) = 0;
