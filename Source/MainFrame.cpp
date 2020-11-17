@@ -189,9 +189,7 @@ void MainFrame::listCtrlOnItemDrag(wxMouseEvent& event)
 		if(!(targetIndex == draggedListItemIndex_))
 		{
 			draggedListItemIndex_ = modManager_.movePriority(draggedListItemIndex_, targetIndex); // refresh the dragged index to the final move target
-			interfaceUpdate();			
-			listCtrl_->Refresh();
-			listCtrl_->Update();
+			scheduleInterfaceUpdate();
 		}
 	}	
 }
