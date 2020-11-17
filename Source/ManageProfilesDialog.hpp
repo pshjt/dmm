@@ -15,9 +15,8 @@ public:
 
 private:
 	void onRefresh(wxCommandEvent& event);
-	void createProfileButtonOnButtonClick(wxCommandEvent& event) override;
-	void deleteProfileOnButtonClick(wxCommandEvent& event) override;
-	void renameProfileButtonOnButtonClick(wxCommandEvent& event) override;
+	void importProfileButtonOnButtonClick(wxCommandEvent& event) override;
+	void exportProfileButtonOnButtonClick(wxCommandEvent& event) override;
 
 	void scheduleRefresh();
 	const ApplicationConfig& config_;

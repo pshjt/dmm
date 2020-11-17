@@ -889,7 +889,7 @@
 #define wxUSE_GAUGE         1   // wxGauge
 #define wxUSE_HEADERCTRL    1   // wxHeaderCtrl
 #define wxUSE_HYPERLINKCTRL 1   // wxHyperlinkCtrl
-#define wxUSE_LISTBOX       RELEASE_0   // wxListBox
+#define wxUSE_LISTBOX       1   // wxListBox
 #define wxUSE_LISTCTRL      1   // wxListCtrl
 #define wxUSE_RADIOBOX      RELEASE_0   // wxRadioBox
 #define wxUSE_RADIOBTN      RELEASE_0   // wxRadioButton

@@ -29,6 +29,7 @@
 #include <wx/stattext.h>
 #include <wx/panel.h>
 #include <wx/dialog.h>
+#include <wx/listbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -149,24 +150,20 @@ class WxfbManageProfilesDialog : public wxDialog
 	private:
 
 	protected:
-		wxListCtrl* profileListCtrl_;
+		wxListBox* profileListBox_;
 		wxScrolledWindow* m_scrolledWindow4;
-		wxButton* createProfileButton_;
-		wxButton* renameProfileButton_;
-		wxButton* deleteProfileButton_;
+		wxButton* importProfileButton_;
+		wxButton* exportProfileButton_;
 		wxButton* useProfileButton_;
 
 		// Virtual event handlers, overide them in your derived class
-		virtual void profileListCtrlOnListItemDeselected( wxListEvent& event ) = 0;
-		virtual void profileListCtrlOnListItemSelected( wxListEvent& event ) = 0;
-		virtual void createProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
-		virtual void renameProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
-		virtual void deleteProfileOnButtonClick( wxCommandEvent& event ) = 0;
+		virtual void importProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
+		virtual void exportProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
 
 
 	public:
 
-		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
+		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 614,454 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
 		~WxfbManageProfilesDialog();
 
 };

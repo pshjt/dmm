@@ -14,22 +14,17 @@ ManageProfilesDialog::ManageProfilesDialog(wxWindow* parent, const ApplicationCo
 	, config_(applicationConfig)
 	, queuedRefreshEvents_(0)
 {
-	//Connect(wxEVT_MOVE, wxMoveEventHandler(SelectGameFolderDialog::onMove));
 	Connect(REFRESH_EVENT, wxCommandEventHandler(ManageProfilesDialog::onRefresh));
 }
 
-void createProfileButtonOnButtonClick(wxCommandEvent& event)
+void ManageProfilesDialog::importProfileButtonOnButtonClick(wxCommandEvent& event)
 {
-	//do it
-}
-void deleteProfileOnButtonClick(wxCommandEvent& event)
-{
-	// do it
+	return;
 }
 
-void renameProfileButtonOnButtonClick(wxCommandEvent& event)
+void ManageProfilesDialog::exportProfileButtonOnButtonClick(wxCommandEvent& event)
 {
-	// do it
+	return;
 }
 
 void ManageProfilesDialog::onRefresh(wxCommandEvent& WXUNUSED(event))
@@ -43,7 +38,7 @@ void ManageProfilesDialog::onRefresh(wxCommandEvent& WXUNUSED(event))
 
 	Refresh();
 	Update();
-	profileListCtrl_->Update();
+	profileListBox_->Update();
 }
 
 void ManageProfilesDialog::apply() {

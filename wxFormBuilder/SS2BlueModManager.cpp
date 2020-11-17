@@ -259,8 +259,8 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
-	profileListCtrl_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
-	bSizer11->Add( profileListCtrl_, 1, wxALL|wxEXPAND, 2 );
+	profileListBox_ = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	bSizer11->Add( profileListBox_, 1, wxALL|wxEXPAND, 2 );
 
 
 	bSizer13->Add( bSizer11, 1, wxEXPAND, 0 );
@@ -271,19 +271,16 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
 
 	wxStaticBoxSizer* sbSizer5;
-	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Create/Update") ), wxVERTICAL );
+	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
 
-	createProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Create/New"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( createProfileButton_, 0, wxALL|wxEXPAND, 5 );
+	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer5->Add( importProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
-	renameProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Rename"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( renameProfileButton_, 0, wxALL|wxEXPAND, 5 );
-
-	deleteProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( deleteProfileButton_, 0, wxALL|wxEXPAND, 5 );
+	exportProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer5->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
 
-	bSizer12->Add( sbSizer5, 1, wxALL|wxEXPAND, 5 );
+	bSizer12->Add( sbSizer5, 1, wxALL, 5 );
 
 	wxStaticBoxSizer* sbSizer6;
 	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
@@ -292,13 +289,13 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	sbSizer6->Add( useProfileButton_, 0, wxALIGN_CENTER_VERTICAL|wxEXPAND, 2 );
 
 
-	bSizer12->Add( sbSizer6, 1, wxALL|wxEXPAND, 5 );
+	bSizer12->Add( sbSizer6, 1, wxALL, 5 );
 
 
 	m_scrolledWindow4->SetSizer( bSizer12 );
 	m_scrolledWindow4->Layout();
 	bSizer12->Fit( m_scrolledWindow4 );
-	bSizer13->Add( m_scrolledWindow4, 0, wxEXPAND|wxFIXED_MINSIZE, 2 );
+	bSizer13->Add( m_scrolledWindow4, 0, 0, 2 );
 
 
 	bSizer10->Add( bSizer13, 1, wxALL|wxEXPAND, 2 );
@@ -306,16 +303,12 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 
 	this->SetSizer( bSizer10 );
 	this->Layout();
-	bSizer10->Fit( this );
 
 	this->Centre( wxBOTH );
 
 	// Connect Events
-	profileListCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( WxfbManageProfilesDialog::profileListCtrlOnListItemDeselected ), NULL, this );
-	profileListCtrl_->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( WxfbManageProfilesDialog::profileListCtrlOnListItemSelected ), NULL, this );
-	createProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::createProfileButtonOnButtonClick ), NULL, this );
-	renameProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::renameProfileButtonOnButtonClick ), NULL, this );
-	deleteProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::deleteProfileOnButtonClick ), NULL, this );
+	importProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::importProfileButtonOnButtonClick ), NULL, this );
+	exportProfileButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbManageProfilesDialog::exportProfileButtonOnButtonClick ), NULL, this );
 }
 
 WxfbManageProfilesDialog::~WxfbManageProfilesDialog()
