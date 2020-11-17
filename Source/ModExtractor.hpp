@@ -14,7 +14,6 @@
 #pragma warning(pop)
 #endif
 
-
 /**
  * Used for updating a wxProgressDialog when extracting archives.
  */
@@ -22,36 +21,34 @@ class ProgressCallbackHandler : public SevenZip::ProgressCallback
 {
 public:
 	ProgressCallbackHandler() = delete;
-	ProgressCallbackHandler(wxProgressDialog& progressDialog) 
+	ProgressCallbackHandler(wxProgressDialog& progressDialog)
 		: progress_(progressDialog)
 	{};
-	
-	void OnStartWithTotal(const SevenZip::TString& archivePath, unsigned long long totalBytes) override
+
+	void OnStartWithTotal(const SevenZip::TString&, unsigned long long totalBytes) override
 	{
 		totalBytes_ = totalBytes;
 	}
-	
-	void OnProgress(const SevenZip::TString& archivePath, unsigned long long bytesCompleted) override
+
+	void OnProgress(const SevenZip::TString&, unsigned long long bytesCompleted) override
 	{
 		totalBytesCompleted_ += bytesCompleted;
-		progress_.Update(static_cast<double>(totalBytesCompleted_) / static_cast<double>(totalBytes_) * 1000.0 );
-	}
-	
-	void OnDone(const SevenZip::TString& archivePath) override
-	{
-		progress_.Update(1000 );
+		progress_.Update(static_cast<double>(totalBytesCompleted_) / static_cast<double>(totalBytes_) * 1000.0);
 	}
 
-	bool OnCheckBreak() override { return false;  };
-	void OnFileDone(const SevenZip::TString& archivePath, const SevenZip::TString& filePath, unsigned long long bytesCompleted) override {};
+	void OnDone(const SevenZip::TString&) override
+	{
+		progress_.Update(1000);
+	}
+
+	bool OnCheckBreak() override { return false; };
+	void OnFileDone(const SevenZip::TString&, const SevenZip::TString&, unsigned long long) override {};
 
 private:
 	wxProgressDialog& progress_;
 	unsigned long long totalBytes_ = 0;
-	unsigned long long totalBytesCompleted_ = 0;	
+	unsigned long long totalBytesCompleted_ = 0;
 };
-
-
 
 /**
  * Handles extraction of mod archive files. The 7z.dll library is loaded lazily.
@@ -68,10 +65,10 @@ public:
 
 private:
 	bool loadSevenZipLibrary();
-	
+
 	class wxWindow* parentWindow_;
 	const class ApplicationConfig& config_;
-	
+
 	SevenZip::SevenZipLibrary lib_7zdll_;
-	bool libraryLoaded_ = false;	
+	bool libraryLoaded_ = false;
 };
