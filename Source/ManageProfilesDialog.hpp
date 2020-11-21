@@ -4,22 +4,29 @@
 
 #pragma once
 
-#include "ApplicationConfig.hpp"
+// why?
+#include "ModManager.hpp"
 #include "ProfileConfig.hpp"
+
+class ApplicationConfig;
+class ModManager;
 
 class ManageProfilesDialog : public WxfbManageProfilesDialog
 {
 public:
-	ManageProfilesDialog(wxWindow* parent, const ApplicationConfig& applicationConfig);
+	ManageProfilesDialog(wxWindow* parent, ApplicationConfig& applicationConfig, const ModManager& modManager);
 	void apply();
 
 private:
 	void onRefresh(wxCommandEvent& event);
 	void importProfileButtonOnButtonClick(wxCommandEvent& event) override;
 	void exportProfileButtonOnButtonClick(wxCommandEvent& event) override;
-
 	void scheduleRefresh();
-	const ApplicationConfig& config_;
 
+	const ApplicationConfig& config_;
+	const ModManager& modManager_;
+
+	ModManager importModManager_;
+	ProfileConfig profileConfig_;
 	int queuedRefreshEvents_;
 };

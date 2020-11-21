@@ -273,10 +273,10 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	wxStaticBoxSizer* sbSizer5;
 	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
 
-	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Load"), wxDefaultPosition, wxDefaultSize, 0 );
+	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Import"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer5->Add( importProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
-	exportProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	exportProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Export"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer5->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 5 );
 
 
@@ -295,7 +295,7 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	m_scrolledWindow4->SetSizer( bSizer12 );
 	m_scrolledWindow4->Layout();
 	bSizer12->Fit( m_scrolledWindow4 );
-	bSizer13->Add( m_scrolledWindow4, 0, 0, 2 );
+	bSizer13->Add( m_scrolledWindow4, 0, wxEXPAND|wxFIXED_MINSIZE, 2 );
 
 
 	bSizer10->Add( bSizer13, 1, wxALL|wxEXPAND, 2 );

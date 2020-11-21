@@ -18,10 +18,12 @@ public:
 	void initialize();
 	void initialize(const std::string& gamePath);
 	void shutDown();
-	void refreshModListAndSaveToFile();
+	void refreshModListAndSaveToFile(bool saveModList);
 
-	std::string constructMoviePath(int lastActive, bool updateConfig);
-	std::string constructModPath(int lastActive, bool updateConfig);
+	std::string constructMoviePath(bool updateConfig);
+	std::string constructAndUpdateModPath(bool updateConfig);
+	std::tuple<std::string, std::string> constructModPath() const;
+	std::tuple<std::string, std::string> constructMoviePath() const;
 
 	void setSelected(int selected);
 
@@ -34,7 +36,7 @@ public:
 	const std::string& getArchivesFolderPath() const;
 	const std::string getAlternativeExecutable(std::string) const;
 	std::vector<Mod>& getMods();
-	int calculateLastActiveIndex();
+	int calculateLastActiveIndex() const;
 
 	bool canActivateDeactivate() const;
 	bool canIncreasePriority() const;
@@ -86,7 +88,7 @@ private:
 	void setIsInitialized(bool isInitialized);
 
 	void loadModsFolders();
-	bool loadModsConfig();
+	bool loadModsConfig(bool saveModList);
 	void computeMaxActive();
 	void activate(int index);
 	void deactivate(int index);

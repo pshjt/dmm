@@ -154,12 +154,13 @@ void MainFrame::listCtrlOnKillFocus(wxFocusEvent& WXUNUSED(event))
 void MainFrame::listCtrlOnItemBeginDrag(wxListEvent& event)
 {
 	const long eventIndex = event.GetIndex();
-	
-	if(modManager_.getMods()[eventIndex].getIsActive())
+
+	if (modManager_.getMods()[eventIndex].getIsActive())
 	{
 		draggedListItemIndex_ = eventIndex;
 		SetCursor(wxCursor(wxCURSOR_HAND));
-	} else
+	}
+	else
 	{
 		draggedListItemIndex_ = -1;
 	}
@@ -169,7 +170,7 @@ void MainFrame::listCtrlOnItemDrag(wxMouseEvent& event)
 {
 	if (draggedListItemIndex_ < 0)
 		return;
-	
+
 	int hitFlags;
 	const int hitIndex = listCtrl_->HitTest(event.GetPosition(), hitFlags);
 
@@ -186,12 +187,12 @@ void MainFrame::listCtrlOnItemDrag(wxMouseEvent& event)
 			targetIndex = modManager_.calculateLastActiveIndex();
 		}
 
-		if(!(targetIndex == draggedListItemIndex_))
+		if (!(targetIndex == draggedListItemIndex_))
 		{
 			draggedListItemIndex_ = modManager_.movePriority(draggedListItemIndex_, targetIndex); // refresh the dragged index to the final move target
 			scheduleInterfaceUpdate();
 		}
-	}	
+	}
 }
 
 void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
@@ -358,7 +359,7 @@ void MainFrame::manageProfilesOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	ManageProfilesDialog profileManager(this, config_);
+	ManageProfilesDialog profileManager(this, config_, modManager_);
 	if (profileManager.ShowModal() == wxID_OK)
 	{
 		profileManager.apply();
@@ -490,7 +491,7 @@ void MainFrame::applyButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	modManager_.refreshModListAndSaveToFile();
+	modManager_.refreshModListAndSaveToFile(true);
 
 	buttonClickFinish(event);
 }

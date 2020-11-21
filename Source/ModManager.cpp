@@ -12,13 +12,13 @@
 
 ModManager::ModManager(ApplicationConfig& config)
 	: config_(config)
-	  , selected_(-1)
-	  , shouldReloadModsFolders_(false)
-	  , shouldSortInactives_(false)
-	  , warningCount_(0)
-	  , activeOrPausedCount_(0)
-	  , activeGamesysCount_(0)
-	  , logFilePath_(config_.application.executableFolderPath + '\\' + config_.application.logFile)
+	, selected_(-1)
+	, shouldReloadModsFolders_(false)
+	, shouldSortInactives_(false)
+	, warningCount_(0)
+	, activeOrPausedCount_(0)
+	, activeGamesysCount_(0)
+	, logFilePath_(config_.application.executableFolderPath + '\\' + config_.application.logFile)
 {
 	setIsInitialized(false);
 }
@@ -94,10 +94,10 @@ void ModManager::initialize()
 	if (Utils::getPathLength(modsFolderPath_) > config_.game.maxFullPathLength)
 	{
 		std::string extendedErrorMessage = makeErrorMessage(Message::ErrorMessageType::ERROR_ACCESS_DIRECTORY,
-		                                                    modsFolderPath_);
+			modsFolderPath_);
 		showMessage(Message::MessageType::ERROR_OK,
-		            "Mod folder path must not exceed " + std::to_string(config_.game.maxFullPathLength) +
-		            " characters.", extendedErrorMessage);
+			"Mod folder path must not exceed " + std::to_string(config_.game.maxFullPathLength) +
+			" characters.", extendedErrorMessage);
 
 		return;
 	}
@@ -122,7 +122,7 @@ void ModManager::initialize()
 	setIsInitialized(true);
 
 	loadModsFolders();
-	loadModsConfig();
+	loadModsConfig(true);
 	computeMaxActive();
 
 	selected_ = -1;
@@ -148,7 +148,7 @@ void ModManager::shutDown()
 	if (!getIsInitialized())
 		return;
 
-	refreshModListAndSaveToFile();
+	refreshModListAndSaveToFile(true);
 
 	std::vector<Mod>().swap(mods_);
 
@@ -157,18 +157,16 @@ void ModManager::shutDown()
 	setIsInitialized(false);
 }
 
-void ModManager::refreshModListAndSaveToFile()
+void ModManager::refreshModListAndSaveToFile(bool saveModList)
 {
 	scheduleSetModTypeAll();
 	update();
 
-	int lastActive = calculateLastActiveIndex();
-
 	// Prepare mod_path.
-	constructModPath(lastActive, true);
+	constructAndUpdateModPath(true);
 
 	// Prepare movie_path.
-	constructMoviePath(lastActive, true);
+	constructMoviePath(true);
 
 	// Save mods setup.
 	std::string errorMessage;
@@ -196,8 +194,35 @@ void ModManager::refreshModListAndSaveToFile()
 	selected_ = -1;
 }
 
-std::string ModManager::constructMoviePath(int lastActive, bool updateConfig)
+std::string ModManager::constructMoviePath(bool updateConfig)
 {
+	auto [moviePath, baseMoviePath] = constructMoviePath();
+
+	if (updateConfig)
+	{
+		installConfig_.movie_path = moviePath;
+		config_.game.baseMoviePath = baseMoviePath;
+	}
+
+	return moviePath;
+}
+
+std::string ModManager::constructAndUpdateModPath(bool updateConfig)
+{
+	auto [modPath, baseModPath] = constructModPath();
+
+	if (updateConfig)
+	{
+		modConfig_.mod_path = modPath;
+		config_.game.baseModPath = baseModPath;
+	}
+
+	return modPath;
+}
+
+std::tuple<std::string, std::string> ModManager::constructMoviePath() const
+{
+	int lastActive = calculateLastActiveIndex();
 	std::string moviePath = "";
 
 	for (int i = 0; i <= lastActive; ++i)
@@ -220,17 +245,12 @@ std::string ModManager::constructMoviePath(int lastActive, bool updateConfig)
 	moviePath += '+' + config_.game.baseMoviePath;
 	Utils::stringTrim(moviePath, '+');
 
-	if (updateConfig)
-	{
-		installConfig_.movie_path = moviePath;
-		config_.game.baseMoviePath = baseMoviePath;
-	}
-
-	return moviePath;
+	return std::make_tuple(moviePath, baseMoviePath);
 }
 
-std::string ModManager::constructModPath(int lastActive, bool updateConfig)
+std::tuple<std::string, std::string> ModManager::constructModPath() const
 {
+	int lastActive = calculateLastActiveIndex();
 	std::string modPath = "";
 
 	for (int i = 0; i <= lastActive; ++i)
@@ -251,13 +271,7 @@ std::string ModManager::constructModPath(int lastActive, bool updateConfig)
 	modPath += '+' + baseModPath;
 	Utils::stringTrim(modPath, '+');
 
-	if (updateConfig)
-	{
-		modConfig_.mod_path = modPath;
-		config_.game.baseModPath = baseModPath;
-	}
-
-	return modPath;
+	return std::make_tuple(modPath, baseModPath);
 }
 
 bool ModManager::getHasStateChanged()
@@ -332,8 +346,6 @@ const std::string ModManager::getAlternativeExecutable(std::string gameFolderPat
 	}
 	return std::string();
 }
-
-
 
 const std::string& ModManager::getModsFolderPath() const
 {
@@ -416,10 +428,8 @@ bool ModManager::needsToApply()
 	if (!getIsInitialized())
 		return false;
 
-	int lastActiveIndex = calculateLastActiveIndex();
-
-	std::string modPath = constructModPath(lastActiveIndex, false);
-	std::string moviePath = constructMoviePath(lastActiveIndex, false);
+	std::string modPath = constructAndUpdateModPath(false);
+	std::string moviePath = constructMoviePath(false);
 	if (modPath.compare(modConfig_.mod_path) == 0 && moviePath.compare(installConfig_.movie_path) == 0)
 		return false;
 	return true;
@@ -476,7 +486,7 @@ int ModManager::movePriority(int sourceIndex, int targetIndex)
 	if (sourceIndex < 0 || targetIndex < 0 ||
 		sourceIndex == targetIndex ||
 		sourceIndex >= signed(mods_.size()) ||
-		!mods_[sourceIndex].getIsActive() ) // only active mods can be moved
+		!mods_[sourceIndex].getIsActive()) // only active mods can be moved
 		return -1;
 
 	if (targetIndex >= signed(mods_.size()) || !mods_[targetIndex].getIsActive())
@@ -496,7 +506,7 @@ void ModManager::swapPriorities(int idx1, int idx2)
 {
 	if (idx1 < 0 || idx2 < 0 ||
 		idx1 >= signed(mods_.size()) || idx2 >= signed(mods_.size()) ||
-		(!mods_[idx1].getIsActive() && !mods_[idx2].getIsActive()) ) // return if both mods are inactive (one must be active to swap)
+		(!mods_[idx1].getIsActive() && !mods_[idx2].getIsActive())) // return if both mods are inactive (one must be active to swap)
 		return;
 
 	const auto minmax = std::minmax(idx1, idx2);
@@ -509,7 +519,7 @@ void ModManager::swapPriorities(int idx1, int idx2)
 	{
 		max = calculateLastActiveIndex();
 	}
-	
+
 	std::swap(mods_[min], mods_[max]);
 }
 
@@ -670,7 +680,7 @@ void ModManager::loadModsFolders()
 	}
 }
 
-bool ModManager::loadModsConfig()
+bool ModManager::loadModsConfig(bool saveModList)
 {
 	std::string token, remainder;
 
@@ -712,7 +722,7 @@ bool ModManager::loadModsConfig()
 		ActiveMod activeMod;
 
 		if (Utils::stringIsEqualNoCase(token.substr(0, config_.game.pauseIndicator.length()),
-		                               config_.game.pauseIndicator))
+			config_.game.pauseIndicator))
 		{
 			token.erase(0, config_.game.pauseIndicator.length());
 			activeMod.isPaused = true;
@@ -775,9 +785,9 @@ bool ModManager::loadModsConfig()
 		}
 	}
 
-	refreshModListAndSaveToFile();
+	refreshModListAndSaveToFile(saveModList);
 
-	return true;
+	return activeMods.size() == lastInactive;
 }
 
 void ModManager::computeMaxActive()
@@ -918,7 +928,7 @@ void ModManager::setModReadme(Mod& mod) const
 	if (!isFileFound)
 		return;
 
-	int idxExt[2] = {-1, -1};
+	int idxExt[2] = { -1, -1 };
 	while (isFileFound)
 	{
 		foundName.MakeLower();
@@ -1101,7 +1111,7 @@ void ModManager::createLogFile()
 	if (log.fail())
 	{
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
-		            makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
+			makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
 
 		return;
 	}
@@ -1150,7 +1160,7 @@ void ModManager::createLogFile()
 	if (log.fail())
 	{
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't create log file.",
-		            makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
+			makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, logFilePath_));
 	}
 }
 
@@ -1284,7 +1294,7 @@ void ModManager::createModsTable(std::string& modsTable) const
 	}
 }
 
-int ModManager::calculateLastActiveIndex()
+int ModManager::calculateLastActiveIndex() const
 {
 	int lastActiveIndex = -1;
 	for (size_t i = 0; i < mods_.size() && mods_[i].getIsActive(); ++i)
