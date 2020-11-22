@@ -195,7 +195,7 @@ void MainFrame::listCtrlOnItemDrag(wxMouseEvent& event)
 	}
 }
 
-void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& event)
+void MainFrame::listCtrlOnItemEndDrag(wxMouseEvent& WXUNUSED(event))
 {
 	draggedListItemIndex_ = -1;
 	SetCursor(wxCursor(*wxSTANDARD_CURSOR));
@@ -686,10 +686,10 @@ void MainFrame::interfaceInitialize()
 #endif
 
 			listCtrlStyle |= LVS_EX_DOUBLEBUFFER;
-	}
+		}
 
 		::SendMessage(listCtrlHwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, listCtrlStyle);
-}
+	}
 
 	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
 	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());
