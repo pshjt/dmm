@@ -19,7 +19,8 @@ enum class StatusBarStatus
 	TOO_MANY_MODS_ACTIVE,
 	ISSUES_DETECTED,
 	OK,
-	NONE
+	NONE,
+	MULTIPLE_MIS_MODS_ACTIVE
 };
 
 class StatusBarManipulator

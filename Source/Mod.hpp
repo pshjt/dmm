@@ -26,12 +26,14 @@ public:
 	bool getHasDML() const;
 	bool getHasGamesys() const;
 	bool getHasSubtitle() const;
+	bool getHasMis() const;
 	bool getHasOther() const;
 	bool getHasReadme() const;
 
 	bool getIsNameTooLong() const;
 	bool getIsPlusSignInName() const;
 	bool getIsMultipleGamesys() const;
+	bool getIsMultipleMis() const;
 	bool getHasDuplicateFolders() const;
 
 	bool getShouldUpdateType() const;
@@ -48,15 +50,19 @@ public:
 	void setHasDML(bool hasDML);
 	void setHasGamesys(bool hasGamesys);
 	void setHasSubtitle(bool hasSubtitle);
+	void setHasMis(bool hasMis);
 	void setHasOther(bool hasOther);
 	void setHasReadme(bool hasReadme);
 
 	void setIsNameTooLong(bool isNameTooLong);
 	void setIsPlusSignInName(bool isPlusSignInName);
 	void setIsMultipleGamesys(bool isMultipleGamesys);
+	void setIsMultipleMis(bool isMultipleMis);
 	void setHasDuplicateFolders(bool hasDuplicateFolders);
 
 	void setShouldUpdateType(bool shouldUpdateType);
+
+	void resetWarning();
 
 	bool getIsUnrecognized() const;
 	bool getHasWarning() const;
@@ -75,12 +81,14 @@ private:
 	bool hasDML_;
 	bool hasGamesys_;
 	bool hasSubtitle_;
+	bool hasMis_;
 	bool hasOther_;
 	bool hasReadme_;
 
 	bool isNameTooLong_;
 	bool isPlusSignInName_;
 	bool isMultipleGamesys_;
+	bool isMultipleMis_;
 	bool hasDuplicateFolders_;
 
 	bool shouldUpdateType_;

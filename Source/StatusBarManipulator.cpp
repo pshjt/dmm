@@ -23,8 +23,8 @@ StatusBarManipulator::StatusBarManipulator(wxStatusBar* statusBar, ApplicationCo
 	///
 
 	warningStaticBitmap_ = new wxStaticBitmap(statusBar_, wxID_ANY, wxArtProvider::GetBitmap(
-		                                          wxART_WARNING, wxART_FRAME_ICON,
-		                                          wxArtProvider::GetSizeHint(wxART_FRAME_ICON)));
+		wxART_WARNING, wxART_FRAME_ICON,
+		wxArtProvider::GetSizeHint(wxART_FRAME_ICON)));
 
 	int bitmapWidth, bitmapHeight;
 	warningStaticBitmap_->GetSize(&bitmapWidth, &bitmapHeight);
@@ -40,7 +40,7 @@ StatusBarManipulator::StatusBarManipulator(wxStatusBar* statusBar, ApplicationCo
 	///
 
 	staticText_ = new TransparentStaticText(statusBar_, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-	                                        wxST_ELLIPSIZE_END);
+		wxST_ELLIPSIZE_END);
 
 	statusBar_->SetDoubleBuffered(true);
 
@@ -105,6 +105,12 @@ void StatusBarManipulator::setStatus(StatusBarStatus status)
 	case StatusBarStatus::MULTIPLE_GAMESYS_MODS_ACTIVE:
 		statusText = statusBase;
 		statusText += "Multiple gamesys mods are active. Do not activate more than one at a time.";
+		isWarning = true;
+		break;
+
+	case StatusBarStatus::MULTIPLE_MIS_MODS_ACTIVE:
+		statusText = statusBase;
+		statusText += "Mod overwrites same *mis. file as other active level mod. Do not use mods with overlapping *.mis files.";
 		isWarning = true;
 		break;
 

@@ -104,6 +104,7 @@ private:
 	void sortInactives();
 	void selectByIndex();
 	void countStats();
+	void collectMisFileToModMapping(Mod& mod, std::unordered_map<std::string, std::vector<Mod*>>& misFileToMods);
 	void createLogFile();
 
 	static const std::array<wxString, 16> dataDirectories_;

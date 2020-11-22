@@ -941,6 +941,14 @@ void ModManager::setModType(Mod& mod)
 
 			type += "DML";
 		}
+
+		if (mod.getHasMis())
+		{
+			if (!type.empty())
+				type += ", ";
+
+			type += "Level";
+		}
 	}
 
 	mod.setType(type);
@@ -1004,6 +1012,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasCutscene(dir.HasSubDirs(config_.game.cutsceneFolder));
 	mod.setHasSubtitle(dir.HasSubDirs(config_.game.subtitleFolder));
 	mod.setHasDML(dir.HasFiles("*.dml"));
+	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 
 	std::list<std::string> allSubDirs;
@@ -1109,27 +1118,65 @@ void ModManager::countStats()
 	warningCount_ = 0;
 	activeOrPausedCount_ = 0;
 	activeGamesysCount_ = 0;
+	std::unordered_map<std::string, std::vector<Mod*>> misFileToMods;
 
 	for (auto& mod : mods_)
 	{
+		mod.resetWarning();
+
 		if (mod.getIsActive())
 		{
 			++activeOrPausedCount_;
 
 			if (!mod.getIsPaused() && mod.getHasGamesys())
 				++activeGamesysCount_;
+
+			if (mod.getHasMis() && mod.getIsActive())
+			{
+				collectMisFileToModMapping(mod, misFileToMods);
+			}
+		}
+	}
+
+	for (auto& [misFile, mods] : misFileToMods)
+	{
+		if (mods.size() > 1) {
+			for (auto mod_ptr : mods) {
+				mod_ptr->setIsMultipleMis(true);
+			}
 		}
 	}
 
 	for (auto& mod : mods_)
 	{
-		if ((activeGamesysCount_ > 1) && mod.getHasGamesys() && mod.getIsActive() && !mod.getIsPaused())
+		// multiple gamesys
+		if ((activeGamesysCount_ > 1) && mod.getHasGamesys() && mod.getIsActive())
 			mod.setIsMultipleGamesys(true);
-		else
-			mod.setIsMultipleGamesys(false);
 
 		if (mod.getHasWarning())
 			++warningCount_;
+	}
+}
+
+void ModManager::collectMisFileToModMapping(Mod& mod, std::unordered_map<std::string, std::vector<Mod*>>& misFileToMods)
+{
+	// get all *.mis files
+	wxString modPath = wxString(modsFolderPath_ + "\\" + mod.getName());
+	wxDir dir;
+	if (!dir.Open(modPath))
+	{
+		return;
+	}
+	wxArrayString modMisFiles;
+	dir.GetAllFiles(modPath, &modMisFiles, wxString("*.mis"), wxDIR_FILES);
+
+	for (auto& misFile : modMisFiles)
+	{
+		// get filename
+		std::string filename = misFile.ToStdString();
+		filename.erase(0, filename.find_last_of('\\') + 1);
+
+		misFileToMods[filename].push_back(&mod);
 	}
 }
 
@@ -1263,6 +1310,11 @@ void ModManager::createModsTable(std::string& modsTable) const
 			me.warning += " Multiple gamesys mods are active.";
 		}
 
+		if (mod.getIsMultipleMis())
+		{
+			me.warning += " Multiple mods changing same *.mis file active.";
+		}
+
 		Utils::stringTrim(me.warning);
 
 		modEntries.push_back(me);
@@ -1374,7 +1426,6 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 		"shkres.res",
 		"skeldata.res",
 		"texture.res",
-		"*.mis",
 		"*.osm"
 	}
 };

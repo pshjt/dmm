@@ -10,24 +10,26 @@
 
 Mod::Mod()
 	: index_(-1)
-	  //, name_("")
-	  , isActive_(false)
-	  , isPaused_(false)
-	  //, type_("")
-	  //, readme("")
-	  , hasCFG_(false)
-	  , hasCutscene_(false)
-	  , hasDML_(false)
-	  , hasGamesys_(false)
-	  , hasSubtitle_(false)
-	  , hasOther_(false)
-	  , hasReadme_(false)
-	  , isNameTooLong_(false)
-	  , isPlusSignInName_(false)
-	  , isMultipleGamesys_(false)
-	  , hasDuplicateFolders_(false)
-	  , shouldUpdateType_(true)
-	  , isChanged_(true)
+	//, name_("")
+	, isActive_(false)
+	, isPaused_(false)
+	//, type_("")
+	//, readme("")
+	, hasCFG_(false)
+	, hasCutscene_(false)
+	, hasDML_(false)
+	, hasGamesys_(false)
+	, hasMis_(false)
+	, hasSubtitle_(false)
+	, hasOther_(false)
+	, hasReadme_(false)
+	, isNameTooLong_(false)
+	, isPlusSignInName_(false)
+	, isMultipleGamesys_(false)
+	, isMultipleMis_(false)
+	, hasDuplicateFolders_(false)
+	, shouldUpdateType_(true)
+	, isChanged_(true)
 {
 }
 
@@ -91,6 +93,11 @@ bool Mod::getHasSubtitle() const
 	return hasSubtitle_;
 }
 
+bool Mod::getHasMis() const
+{
+	return hasMis_;
+}
+
 bool Mod::getHasOther() const
 {
 	return hasOther_;
@@ -114,6 +121,11 @@ bool Mod::getIsPlusSignInName() const
 bool Mod::getIsMultipleGamesys() const
 {
 	return isMultipleGamesys_;
+}
+
+bool Mod::getIsMultipleMis() const
+{
+	return isMultipleMis_;
 }
 
 bool Mod::getHasDuplicateFolders() const
@@ -182,6 +194,11 @@ void Mod::setHasSubtitle(bool hasSubtitle)
 	set(hasSubtitle_, hasSubtitle);
 }
 
+void Mod::setHasMis(bool hasMis)
+{
+	set(hasMis_, hasMis);
+}
+
 void Mod::setHasOther(bool hasOther)
 {
 	set(hasOther_, hasOther);
@@ -207,6 +224,11 @@ void Mod::setIsMultipleGamesys(bool isMultipleGamesys)
 	set(isMultipleGamesys_, isMultipleGamesys);
 }
 
+void Mod::setIsMultipleMis(bool isMultipleMis)
+{
+	set(isMultipleMis_, isMultipleMis);
+}
+
 void Mod::setHasDuplicateFolders(bool hasDuplicateFolders)
 {
 	set(hasDuplicateFolders_, hasDuplicateFolders);
@@ -215,6 +237,12 @@ void Mod::setHasDuplicateFolders(bool hasDuplicateFolders)
 void Mod::setShouldUpdateType(bool shouldUpdateType)
 {
 	shouldUpdateType_ = shouldUpdateType;
+}
+
+void Mod::resetWarning()
+{
+	setIsMultipleGamesys(false);
+	setIsMultipleMis(false);
 }
 
 bool Mod::getIsUnrecognized() const
@@ -227,7 +255,7 @@ bool Mod::getIsUnrecognized() const
 
 bool Mod::getHasWarning() const
 {
-	if (getIsUnrecognized() || isNameTooLong_ || isPlusSignInName_ || isMultipleGamesys_)
+	if (getIsUnrecognized() || isNameTooLong_ || isPlusSignInName_ || isMultipleGamesys_ || isMultipleMis_)
 		return true;
 
 	return false;

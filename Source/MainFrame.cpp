@@ -1226,6 +1226,14 @@ void MainFrame::statusBarUpdate()
 		if (mod.getHasDuplicateFolders())
 		{
 			statusBarManipulator_.setStatus(StatusBarStatus::DUPLICATE_FOLDERS);
+
+			return;
+		}
+		if (mod.getIsMultipleMis())
+		{
+			statusBarManipulator_.setStatus(StatusBarStatus::MULTIPLE_MIS_MODS_ACTIVE);
+
+			return;
 		}
 	}
 	if (activeGamesysCount > 1)
