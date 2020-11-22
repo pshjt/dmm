@@ -362,7 +362,9 @@ void MainFrame::manageProfilesOnButtonClick(wxCommandEvent& event)
 	ManageProfilesDialog profileManager(this, config_, modManager_);
 	if (profileManager.ShowModal() == wxID_OK)
 	{
-		profileManager.apply();
+		std::string modPath = profileManager.getProfileModPath();
+		modManager_.loadNewModPath(modPath);
+		modManager_.refreshModListAndSaveToFile();
 	}
 
 	buttonClickFinish(event);
@@ -491,7 +493,7 @@ void MainFrame::applyButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	modManager_.refreshModListAndSaveToFile(true);
+	modManager_.refreshModListAndSaveToFile();
 
 	buttonClickFinish(event);
 }
@@ -684,10 +686,10 @@ void MainFrame::interfaceInitialize()
 #endif
 
 			listCtrlStyle |= LVS_EX_DOUBLEBUFFER;
-		}
+	}
 
 		::SendMessage(listCtrlHwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, listCtrlStyle);
-	}
+}
 
 	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
 	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());

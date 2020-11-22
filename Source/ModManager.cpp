@@ -23,7 +23,7 @@ ModManager::ModManager(ApplicationConfig& config)
 	setIsInitialized(false);
 }
 
-void ModManager::initialize()
+void ModManager::initialize(bool saveToFile)
 {
 	if (getIsInitialized())
 		return;
@@ -122,33 +122,33 @@ void ModManager::initialize()
 	setIsInitialized(true);
 
 	loadModsFolders();
-	loadModsConfig(true);
+	loadModsConfig(saveToFile);
 	computeMaxActive();
 
 	selected_ = -1;
 	shouldSortInactives_ = true;
 }
 
-void ModManager::initialize(const std::string& gamePath)
+void ModManager::initialize(const std::string& gamePath, bool saveToFile, bool forceRefresh)
 {
 	if (getIsInitialized())
 	{
-		if (Utils::stringIsEqualNoCase(config_.game.folderPath, gamePath))
+		if (!forceRefresh && Utils::stringIsEqualNoCase(config_.game.folderPath, gamePath))
 			return;
 
-		shutDown();
+		shutDown(saveToFile);
 	}
 
 	config_.game.folderPath = gamePath;
-	initialize();
+	initialize(saveToFile);
 }
 
-void ModManager::shutDown()
+void ModManager::shutDown(bool saveToFile)
 {
 	if (!getIsInitialized())
 		return;
 
-	refreshModListAndSaveToFile(true);
+	refreshModListAndSaveToFile(saveToFile);
 
 	std::vector<Mod>().swap(mods_);
 
@@ -157,39 +157,42 @@ void ModManager::shutDown()
 	setIsInitialized(false);
 }
 
-void ModManager::refreshModListAndSaveToFile(bool saveModList)
+void ModManager::refreshModListAndSaveToFile(bool saveToFile)
 {
 	scheduleSetModTypeAll();
 	update();
 
 	// Prepare mod_path.
-	constructAndUpdateModPath(true);
+	constructAndUpdateModPath(saveToFile);
 
 	// Prepare movie_path.
-	constructMoviePath(true);
+	constructMoviePath(saveToFile);
 
 	// Save mods setup.
-	std::string errorMessage;
-
-	bool isModConfigSaved = modConfig_.saveUpdating();
-	if (!isModConfigSaved)
+	if (saveToFile)
 	{
-		errorMessage = modConfig_.getErrorMessage();
+		std::string errorMessage;
+
+		bool isModConfigSaved = modConfig_.saveUpdating();
+		if (!isModConfigSaved)
+		{
+			errorMessage = modConfig_.getErrorMessage();
+		}
+
+		bool isInstallConfigSaved = installConfig_.saveUpdating();
+		if (!isInstallConfigSaved)
+		{
+			if (!errorMessage.empty())
+				errorMessage += "\n";
+
+			errorMessage += installConfig_.getErrorMessage();
+		}
+
+		if (isModConfigSaved && isInstallConfigSaved)
+			createLogFile();
+		else
+			showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
 	}
-
-	bool isInstallConfigSaved = installConfig_.saveUpdating();
-	if (!isInstallConfigSaved)
-	{
-		if (!errorMessage.empty())
-			errorMessage += "\n";
-
-		errorMessage += installConfig_.getErrorMessage();
-	}
-
-	if (isModConfigSaved && isInstallConfigSaved)
-		createLogFile();
-	else
-		showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
 
 	selected_ = -1;
 }
@@ -355,6 +358,19 @@ const std::string& ModManager::getModsFolderPath() const
 const std::string& ModManager::getArchivesFolderPath() const
 {
 	return archivesFolderPath_;
+}
+
+const bool ModManager::hasModWithName(const std::string& modName) const
+{
+	for (size_t index = 0; index < mods_.size(); index++)
+	{
+		if (modName.compare(mods_[index].getName()) == 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 std::vector<Mod>& ModManager::getMods()
@@ -680,7 +696,7 @@ void ModManager::loadModsFolders()
 	}
 }
 
-bool ModManager::loadModsConfig(bool saveModList)
+bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOverride)
 {
 	std::string token, remainder;
 
@@ -707,6 +723,9 @@ bool ModManager::loadModsConfig(bool saveModList)
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't load mods setup.", modConfig_.getErrorMessage());
 
 	remainder = modConfig_.mod_path;
+	if (!modPathOverride.empty()) {
+		remainder = std::string(modPathOverride);
+	}
 
 	struct ActiveMod
 	{
@@ -788,6 +807,19 @@ bool ModManager::loadModsConfig(bool saveModList)
 	refreshModListAndSaveToFile(saveModList);
 
 	return activeMods.size() == lastInactive;
+}
+
+void ModManager::loadNewModPath(const std::string& modPath)
+{
+	modConfig_.mod_path = modPath;
+	if (!getIsInitialized() || !modConfig_.saveUpdating())
+	{
+		showMessage(Message::MessageType::ERROR_OK, "Could not load new mod path.",
+			makeErrorMessage(Message::ErrorMessageType::ERROR_WRITE_FILE, config_.game.modsConfigFile));
+		return;
+	}
+
+	initialize(config_.game.folderPath, false, true);
 }
 
 void ModManager::computeMaxActive()
@@ -1301,6 +1333,14 @@ int ModManager::calculateLastActiveIndex() const
 		lastActiveIndex = i;
 
 	return lastActiveIndex;
+}
+
+void ModManager::resetStates()
+{
+	for (auto& mod : mods_)
+	{
+		mod.setIsActive(false);
+	}
 }
 
 const std::array<wxString, 16> ModManager::dataDirectories_ =

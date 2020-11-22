@@ -29,7 +29,6 @@
 #include <wx/stattext.h>
 #include <wx/panel.h>
 #include <wx/dialog.h>
-#include <wx/listbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -150,11 +149,11 @@ class WxfbManageProfilesDialog : public wxDialog
 	private:
 
 	protected:
-		wxListBox* profileListBox_;
+		wxListCtrl* profileListBox_;
 		wxScrolledWindow* m_scrolledWindow4;
 		wxButton* importProfileButton_;
-		wxButton* exportProfileButton_;
 		wxButton* useProfileButton_;
+		wxButton* exportProfileButton_;
 
 		// Virtual event handlers, overide them in your derived class
 		virtual void importProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
@@ -163,7 +162,7 @@ class WxfbManageProfilesDialog : public wxDialog
 
 	public:
 
-		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 614,454 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
+		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,450 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
 		~WxfbManageProfilesDialog();
 
 };

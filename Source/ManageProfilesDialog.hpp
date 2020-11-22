@@ -4,23 +4,22 @@
 
 #pragma once
 
-// why?
 #include "ModManager.hpp"
 #include "ProfileConfig.hpp"
 
 class ApplicationConfig;
-class ModManager;
 
 class ManageProfilesDialog : public WxfbManageProfilesDialog
 {
 public:
 	ManageProfilesDialog(wxWindow* parent, ApplicationConfig& applicationConfig, const ModManager& modManager);
-	void apply();
+	const std::string& getProfileModPath() const;
 
 private:
 	void onRefresh(wxCommandEvent& event);
 	void importProfileButtonOnButtonClick(wxCommandEvent& event) override;
 	void exportProfileButtonOnButtonClick(wxCommandEvent& event) override;
+	void addListItems();
 	void scheduleRefresh();
 
 	const ApplicationConfig& config_;
@@ -29,4 +28,5 @@ private:
 	ModManager importModManager_;
 	ProfileConfig profileConfig_;
 	int queuedRefreshEvents_;
+	wxImageList imageList_;
 };

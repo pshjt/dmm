@@ -52,7 +52,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	boxSizer11111->Add( pauseResumeButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	deleteButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DELETE_BUTTON, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
-	boxSizer11111->Add( deleteButton_, 0, wxEXPAND, 1 );
+	boxSizer11111->Add( deleteButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
 	boxSizer1111->Add( boxSizer11111, 0, wxEXPAND|wxALL, 2 );
@@ -67,7 +67,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	staticBoxSizer11113->Add( openModURLButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	aboutButton_ = new wxButton( staticBoxSizer11113->GetStaticBox(), ID_ABOUT_BUTTON, wxT("About Mod Manager"), wxDefaultPosition, wxDefaultSize, 0 );
-	staticBoxSizer11113->Add( aboutButton_, 0, wxEXPAND, 1 );
+	staticBoxSizer11113->Add( aboutButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
 	boxSizer1111->Add( staticBoxSizer11113, 0, wxALL|wxEXPAND, 2 );
@@ -87,7 +87,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
 	manageProfilesButton_->SetToolTip( wxT("Dummy tooltip for manager") );
 
-	sbSizer4->Add( manageProfilesButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
+	sbSizer4->Add( manageProfilesButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
 	boxSizer1111->Add( sbSizer4, 0, wxALL|wxEXPAND, 2 );
@@ -96,7 +96,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("Game") ), wxVERTICAL );
 
 	applyButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_BUTTON, wxT("Apply changes"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( applyButton_, 0, wxALL|wxBOTTOM|wxEXPAND, 1 );
+	sbSizer5->Add( applyButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	applyAndStartGameButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_AND_START_GAME_BUTTON, wxT("Launch game"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer5->Add( applyAndStartGameButton_, 0, wxALL|wxBOTTOM|wxEXPAND|wxTOP, 1 );
@@ -248,7 +248,7 @@ WxfbSelectGameFolderDialog::~WxfbSelectGameFolderDialog()
 
 WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 600,400 ), wxDefaultSize );
 
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
@@ -259,7 +259,7 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
-	profileListBox_ = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	profileListBox_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
 	bSizer11->Add( profileListBox_, 1, wxALL|wxEXPAND, 2 );
 
 
@@ -271,31 +271,37 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
 
 	wxStaticBoxSizer* sbSizer5;
-	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Import") ), wxVERTICAL );
 
-	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Import"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( importProfileButton_, 0, wxALL|wxEXPAND, 5 );
+	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Load file..."), wxDefaultPosition, wxDefaultSize, 0 );
+	importProfileButton_->SetToolTip( wxT("Load previously exported mod configuration from file.") );
 
-	exportProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Export"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer5->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 5 );
+	sbSizer5->Add( importProfileButton_, 0, wxBOTTOM|wxEXPAND, 2 );
+
+	useProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_OK, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
+	useProfileButton_->SetToolTip( wxT("Apply configuration This discards your current mod configuration.") );
+
+	sbSizer5->Add( useProfileButton_, 0, wxEXPAND|wxTOP, 2 );
 
 
-	bSizer12->Add( sbSizer5, 1, wxALL, 5 );
+	bSizer12->Add( sbSizer5, 1, wxALL|wxEXPAND, 2 );
 
 	wxStaticBoxSizer* sbSizer6;
-	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow4, wxID_ANY, wxT("Export") ), wxVERTICAL );
 
-	useProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_OK, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer6->Add( useProfileButton_, 0, wxALIGN_CENTER_VERTICAL|wxEXPAND, 2 );
+	exportProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_ANY, wxT("Save profile..."), wxDefaultPosition, wxDefaultSize, 0 );
+	exportProfileButton_->SetToolTip( wxT("Export your current mod configuration to its own file") );
+
+	sbSizer6->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 2 );
 
 
-	bSizer12->Add( sbSizer6, 1, wxALL, 5 );
+	bSizer12->Add( sbSizer6, 1, wxALL|wxEXPAND, 2 );
 
 
 	m_scrolledWindow4->SetSizer( bSizer12 );
 	m_scrolledWindow4->Layout();
 	bSizer12->Fit( m_scrolledWindow4 );
-	bSizer13->Add( m_scrolledWindow4, 0, wxEXPAND|wxFIXED_MINSIZE, 2 );
+	bSizer13->Add( m_scrolledWindow4, 0, wxEXPAND|wxFIXED_MINSIZE, 0 );
 
 
 	bSizer10->Add( bSizer13, 1, wxALL|wxEXPAND, 2 );

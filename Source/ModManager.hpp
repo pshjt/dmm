@@ -15,10 +15,12 @@ public:
 	ModManager(ApplicationConfig& config);
 	// ~ModManager() {};
 
-	void initialize();
-	void initialize(const std::string& gamePath);
-	void shutDown();
-	void refreshModListAndSaveToFile(bool saveModList);
+	void initialize(bool saveToFile = true);
+	void initialize(const std::string& gamePath, bool saveToFile = true, bool forceRefresh = false);
+	void shutDown(bool saveToFile = true);
+	void refreshModListAndSaveToFile(bool saveToFile = true);
+	bool loadModsConfig(bool saveModList = true, const std::string& modPathOverride = std::string());
+	void loadNewModPath(const std::string& modPath);
 
 	std::string constructMoviePath(bool updateConfig);
 	std::string constructAndUpdateModPath(bool updateConfig);
@@ -36,8 +38,11 @@ public:
 	const std::string& getArchivesFolderPath() const;
 	const std::string getAlternativeExecutable(std::string) const;
 	std::vector<Mod>& getMods();
+	void createModsTable(std::string& modsTable) const;
 	int calculateLastActiveIndex() const;
+	void resetStates();
 
+	const bool hasModWithName(const std::string& modName) const;
 	bool canActivateDeactivate() const;
 	bool canIncreasePriority() const;
 	bool canDecreasePriority() const;
@@ -88,7 +93,6 @@ private:
 	void setIsInitialized(bool isInitialized);
 
 	void loadModsFolders();
-	bool loadModsConfig(bool saveModList);
 	void computeMaxActive();
 	void activate(int index);
 	void deactivate(int index);
@@ -101,7 +105,6 @@ private:
 	void selectByIndex();
 	void countStats();
 	void createLogFile();
-	void createModsTable(std::string& modsTable) const;
 
 	static const std::array<wxString, 16> dataDirectories_;
 	static const std::array<wxString, 8> dataFiles_;
