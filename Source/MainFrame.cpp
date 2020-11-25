@@ -763,6 +763,7 @@ void MainFrame::interfaceUpdate()
 			openModsFolderButton_->Enable();
 			applyButton_->Enable();
 			applyAndStartGameButton_->Enable();
+			manageProfilesButton_->Enable();
 			if (modExtractor_.canExtract())
 				selectModArchivesButton_->Enable();
 		}
@@ -772,6 +773,7 @@ void MainFrame::interfaceUpdate()
 			applyButton_->Disable();
 			applyAndStartGameButton_->Disable();
 			selectModArchivesButton_->Disable();
+			manageProfilesButton_->Disable();
 		}
 	}
 
