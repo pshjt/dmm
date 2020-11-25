@@ -41,9 +41,9 @@
 #define ID_OPEN_MOD_URL_BUTTON 1006
 #define ID_ABOUT_BUTTON 1007
 #define ID_EXTRACT_MOD_BUTTON 1008
-#define ID_OPEN_MODS_FOLDER_BUTTON 1009
-#define ID_SELECT_GAME_FOLDER_BUTTON 1010
-#define ID_MANAGE_PROFILES_BUTTON 1011
+#define ID_MANAGE_PROFILES_BUTTON 1009
+#define ID_OPEN_MODS_FOLDER_BUTTON 1010
+#define ID_SELECT_GAME_FOLDER_BUTTON 1011
 #define ID_APPLY_BUTTON 1012
 #define ID_APPLY_AND_START_GAME_BUTTON 1013
 
@@ -67,9 +67,9 @@ class WxfbMainFrame : public wxFrame
 		wxButton* openModURLButton_;
 		wxButton* aboutButton_;
 		wxButton* selectModArchivesButton_;
+		wxButton* manageProfilesButton_;
 		wxButton* openModsFolderButton_;
 		wxButton* selectGameFolderButton_;
-		wxButton* manageProfilesButton_;
 		wxButton* applyButton_;
 		wxButton* applyAndStartGameButton_;
 
@@ -97,9 +97,9 @@ class WxfbMainFrame : public wxFrame
 		virtual void openModURLButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void aboutButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void selectModArchivesButtonOnButtonClick( wxCommandEvent& event ) = 0;
+		virtual void manageProfilesOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void openModsFolderButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void selectGameFolderButtonOnButtonClick( wxCommandEvent& event ) = 0;
-		virtual void manageProfilesOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void applyAndStartGameButtonOnButtonClick( wxCommandEvent& event ) = 0;
 

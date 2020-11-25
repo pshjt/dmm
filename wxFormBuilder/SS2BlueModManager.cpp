@@ -78,16 +78,16 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	selectModArchivesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_EXTRACT_MOD_BUTTON, wxT("Install mod archive(s)..."), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer4->Add( selectModArchivesButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
+	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
+	manageProfilesButton_->SetToolTip( wxT("Dummy tooltip for manager") );
+
+	sbSizer4->Add( manageProfilesButton_, 0, wxEXPAND|wxTOP, 1 );
+
 	openModsFolderButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_OPEN_MODS_FOLDER_BUTTON, wxT("Open mods folder"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer4->Add( openModsFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	selectGameFolderButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_SELECT_GAME_FOLDER_BUTTON, wxT("Select game folder..."), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer4->Add( selectGameFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
-
-	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
-	manageProfilesButton_->SetToolTip( wxT("Dummy tooltip for manager") );
-
-	sbSizer4->Add( manageProfilesButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
 	boxSizer1111->Add( sbSizer4, 0, wxALL|wxEXPAND, 2 );
@@ -152,12 +152,12 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	aboutButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	selectModArchivesButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::selectModArchivesButtonOnButtonClick ), NULL, this );
 	selectModArchivesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
+	manageProfilesButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::manageProfilesOnButtonClick ), NULL, this );
+	manageProfilesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	openModsFolderButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::openModsFolderButtonOnButtonClick ), NULL, this );
 	openModsFolderButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	selectGameFolderButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::selectGameFolderButtonOnButtonClick ), NULL, this );
 	selectGameFolderButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
-	manageProfilesButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::manageProfilesOnButtonClick ), NULL, this );
-	manageProfilesButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	applyButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyButtonOnButtonClick ), NULL, this );
 	applyButton_->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( WxfbMainFrame::buttonOnEnterWindow ), NULL, this );
 	applyAndStartGameButton_->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( WxfbMainFrame::applyAndStartGameButtonOnButtonClick ), NULL, this );
@@ -276,12 +276,12 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	importProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_ANY, wxT("Load file..."), wxDefaultPosition, wxDefaultSize, 0 );
 	importProfileButton_->SetToolTip( wxT("Load previously exported mod configuration from file.") );
 
-	sbSizer5->Add( importProfileButton_, 0, wxBOTTOM|wxEXPAND, 2 );
+	sbSizer5->Add( importProfileButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	useProfileButton_ = new wxButton( sbSizer5->GetStaticBox(), wxID_OK, wxT("Use"), wxDefaultPosition, wxDefaultSize, 0 );
 	useProfileButton_->SetToolTip( wxT("Apply configuration This discards your current mod configuration.") );
 
-	sbSizer5->Add( useProfileButton_, 0, wxEXPAND|wxTOP, 2 );
+	sbSizer5->Add( useProfileButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
 	bSizer12->Add( sbSizer5, 1, wxALL|wxEXPAND, 2 );
@@ -292,7 +292,7 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	exportProfileButton_ = new wxButton( sbSizer6->GetStaticBox(), wxID_ANY, wxT("Save profile..."), wxDefaultPosition, wxDefaultSize, 0 );
 	exportProfileButton_->SetToolTip( wxT("Export your current mod configuration to its own file") );
 
-	sbSizer6->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 2 );
+	sbSizer6->Add( exportProfileButton_, 0, wxALL|wxEXPAND, 1 );
 
 
 	bSizer12->Add( sbSizer6, 1, wxALL|wxEXPAND, 2 );
