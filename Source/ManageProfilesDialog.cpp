@@ -28,6 +28,8 @@ ManageProfilesDialog::ManageProfilesDialog(wxWindow* parent, ApplicationConfig& 
 	imageList_.Add(wxArtProvider::GetBitmap(wxART_CROSS_MARK, wxART_FRAME_ICON, imageListSize));
 	profileListBox_->SetImageList(&imageList_, wxIMAGE_LIST_SMALL);
 
+	this->SetEscapeId(wxID_CANCEL);
+
 	scheduleRefresh();
 }
 
@@ -38,7 +40,7 @@ const std::string& ManageProfilesDialog::getProfileModPath() const
 
 void ManageProfilesDialog::importProfileButtonOnButtonClick(wxCommandEvent& event)
 {
-	wxFileDialog chooseProfileFileLoadDialog(this, _("Load profile from file..."), config_.application.executableFolderPath, "", "SS2BMM profiles (*.ss2bmm)|*.ss2bmm|All files (*.*)|*.", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	wxFileDialog chooseProfileFileLoadDialog(this, "Load profile from file...", config_.application.executableFolderPath, "", "SS2BMM profiles (*.ss2bmm)|*.ss2bmm|All files (*.*)|*.", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (chooseProfileFileLoadDialog.ShowModal() == wxID_CANCEL)
 		return;
 	std::string chosenPath = chooseProfileFileLoadDialog.GetPath();
@@ -62,7 +64,7 @@ void ManageProfilesDialog::exportProfileButtonOnButtonClick(wxCommandEvent& even
 {
 	auto [modPath, baseModPath] = modManager_.constructModPath();
 
-	wxFileDialog chooseProfileFileSaveDialog(this, _("Save profile to file..."), config_.application.executableFolderPath, "", "SS2BMM profiles (*.ss2bmm)|*.ss2bmm", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	wxFileDialog chooseProfileFileSaveDialog(this, "Save profile to file...", config_.application.executableFolderPath, "", "SS2BMM profiles (*.ss2bmm)|*.ss2bmm", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (chooseProfileFileSaveDialog.ShowModal() == wxID_CANCEL)
 		return;
 	std::string chosenPath = chooseProfileFileSaveDialog.GetPath();

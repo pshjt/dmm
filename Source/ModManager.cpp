@@ -362,15 +362,7 @@ const std::string& ModManager::getArchivesFolderPath() const
 
 const bool ModManager::hasModWithName(const std::string& modName) const
 {
-	for (size_t index = 0; index < mods_.size(); index++)
-	{
-		if (modName.compare(mods_[index].getName()) == 0)
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return std::find_if(mods_.begin(), mods_.end(), PredicateIsModNameEqualNoCase(modName)) != mods_.end();
 }
 
 std::vector<Mod>& ModManager::getMods()
@@ -577,9 +569,7 @@ int ModManager::getActiveGamesysCount() const
 
 bool ModManager::directoryAdd(const std::string& name)
 {
-	auto foundMod = std::find_if(mods_.begin(), mods_.end(), PredicateIsModNameEqualNoCase(name));
-
-	if (foundMod != mods_.end())
+	if (hasModWithName(name))
 		return false;
 
 	Mod mod;
@@ -801,6 +791,14 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 			std::iter_swap(f, mods_.begin() + lastInactive);
 
 			++lastInactive;
+		}
+		else if (!modPathOverride.empty()) {
+			Mod overrideMod;
+			overrideMod.setIsActive(!it->isPaused);
+			overrideMod.setIsPaused(it->isPaused);
+			overrideMod.setName(it->name);
+			overrideMod.setIndex(mods_.size());
+			mods_.push_back(overrideMod);
 		}
 	}
 
