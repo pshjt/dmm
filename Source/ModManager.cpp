@@ -1033,6 +1033,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	if (!allSubDirs.empty())
 	{
 		unsigned int dirNumberIncludingNonUnique = allSubDirs.size();
+		allSubDirs.sort();
 		allSubDirs.unique();
 		if (dirNumberIncludingNonUnique != allSubDirs.size())
 			mod.setHasDuplicateFolders(true);
