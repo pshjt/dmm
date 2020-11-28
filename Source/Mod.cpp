@@ -251,7 +251,7 @@ bool Mod::getIsUnrecognized() const
 
 bool Mod::getHasWarning() const
 {
-	if (getIsUnrecognized() || isNameTooLong_ || isPlusSignInName_ || isMultipleGamesys_ || isMultipleMis_)
+	if (getIsUnrecognized() || isNameTooLong_ || isPlusSignInName_ || hasDuplicateFolders_ || isMultipleGamesys_ || isMultipleMis_)
 		return true;
 
 	return false;
