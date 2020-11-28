@@ -1022,34 +1022,6 @@ void MainFrame::setTooltip(int windowId)
 
 	switch (windowId)
 	{
-	case ID_ACTIVATE_DEACTIVATE_BUTTON:
-		tip = "(De-)Activate mod ";
-		tip += "(Double-click element / Enter)";
-		window = activateDeactivateButton_;
-		break;
-
-	case ID_INCREASE_PRIORITY_BUTTON:
-		tip = "Increase priority (Alt+Up)";
-		window = increasePriorityButton_;
-		break;
-
-	case ID_DECREASE_PRIORITY_BUTTON:
-		tip = "Decrease priority (Alt+Down)";
-		window = decreasePriorityButton_;
-		break;
-
-	case ID_PAUSE_RESUME_BUTTON:
-		tip = "Pause deactivates a mod while maintaining its order on the list ";
-		tip += "(Space)";
-		window = pauseResumeButton_;
-		break;
-
-	case ID_DELETE_BUTTON:
-		tip = "Delete this mod folder from your installation ";
-		tip += "(Del)";
-		window = deleteButton_;
-		break;
-
 	case ID_OPEN_MODS_FOLDER_BUTTON:
 		tip = "Open \"";
 		nbs = config_.game.modsFolder;
@@ -1090,27 +1062,12 @@ void MainFrame::setTooltip(int windowId)
 		window = openReadmeButton_;
 		break;
 
-	case ID_EXTRACT_MOD_BUTTON:
-		tip = "Browse for System Shock 2 mod archives to install";
-		window = selectModArchivesButton_;
-		break;
-
 	case ID_ABOUT_BUTTON:
 		tip = "About ";
 		nbs = ApplicationInfo::name;
 		Utils::stringMakeNonBreakingSpaces(nbs);
 		tip += nbs;
 		window = aboutButton_;
-		break;
-
-	case ID_APPLY_BUTTON:
-		tip = "Apply mod config (Ctrl+s)";
-		window = applyButton_;
-		break;
-
-	case ID_APPLY_AND_START_GAME_BUTTON:
-		tip = "Apply mod config and launch game with current setup";
-		window = applyAndStartGameButton_;
 		break;
 	}
 

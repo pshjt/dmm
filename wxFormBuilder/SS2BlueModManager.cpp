@@ -40,18 +40,28 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	boxSizer11111 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("Edit") ), wxVERTICAL );
 
 	increasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_INCREASE_PRIORITY_BUTTON, wxT("▲ Increase priority"), wxDefaultPosition, wxDefaultSize, 0 );
+	increasePriorityButton_->SetToolTip( wxT("Increase priority (Alt+Up)") );
+
 	boxSizer11111->Add( increasePriorityButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	decreasePriorityButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DECREASE_PRIORITY_BUTTON, wxT("▼ Decrease priority"), wxDefaultPosition, wxDefaultSize, 0 );
+	decreasePriorityButton_->SetToolTip( wxT("Decrease priority (Alt+Down)") );
+
 	boxSizer11111->Add( decreasePriorityButton_, 0, wxEXPAND|wxTOP|wxBOTTOM, 1 );
 
 	activateDeactivateButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_ACTIVATE_DEACTIVATE_BUTTON, wxT("Activate / Deactivate"), wxDefaultPosition, wxDefaultSize, 0 );
+	activateDeactivateButton_->SetToolTip( wxT("(De-)Activate mod (Double-click element / Enter)") );
+
 	boxSizer11111->Add( activateDeactivateButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	pauseResumeButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_PAUSE_RESUME_BUTTON, wxT("Pause / Resume"), wxDefaultPosition, wxDefaultSize, 0 );
+	pauseResumeButton_->SetToolTip( wxT("Pause deactivates a mod while maintaining its order on the list  (Space)") );
+
 	boxSizer11111->Add( pauseResumeButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	deleteButton_ = new wxButton( boxSizer11111->GetStaticBox(), ID_DELETE_BUTTON, wxT("Delete"), wxDefaultPosition, wxDefaultSize, 0 );
+	deleteButton_->SetToolTip( wxT("Delete this mod folder from your installation (Del)") );
+
 	boxSizer11111->Add( deleteButton_, 0, wxEXPAND|wxTOP, 1 );
 
 
@@ -76,6 +86,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("File") ), wxVERTICAL );
 
 	selectModArchivesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_EXTRACT_MOD_BUTTON, wxT("Install mod archive(s)..."), wxDefaultPosition, wxDefaultSize, 0 );
+	selectModArchivesButton_->SetToolTip( wxT("Browse for System Shock 2 mod archives to install") );
+
 	sbSizer4->Add( selectModArchivesButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
@@ -87,6 +99,8 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer4->Add( openModsFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	selectGameFolderButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_SELECT_GAME_FOLDER_BUTTON, wxT("Select game folder..."), wxDefaultPosition, wxDefaultSize, 0 );
+	selectGameFolderButton_->SetToolTip( wxT("Browse for the folder that contains System Shock 2") );
+
 	sbSizer4->Add( selectGameFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 
@@ -96,9 +110,13 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("Game") ), wxVERTICAL );
 
 	applyButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_BUTTON, wxT("Apply changes"), wxDefaultPosition, wxDefaultSize, 0 );
+	applyButton_->SetToolTip( wxT("Apply mod config (Ctrl+s)") );
+
 	sbSizer5->Add( applyButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	applyAndStartGameButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_AND_START_GAME_BUTTON, wxT("Launch game"), wxDefaultPosition, wxDefaultSize, 0 );
+	applyAndStartGameButton_->SetToolTip( wxT("Apply mod config and launch game with current setup") );
+
 	sbSizer5->Add( applyAndStartGameButton_, 0, wxALL|wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 
