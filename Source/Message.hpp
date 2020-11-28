@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #pragma once
 
 #include "ApplicationInfo.hpp"
@@ -27,8 +23,8 @@ namespace Message
 	};
 
 	MessageAnswer showMessage(MessageType messageType, const std::string& message,
-	                          const std::string& extendedMessage = "",
-	                          const std::string& caption = ApplicationInfo::name);
+		const std::string& extendedMessage = "",
+		const std::string& caption = ApplicationInfo::name);
 
 	enum class ErrorMessageType
 	{

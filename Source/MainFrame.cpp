@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #include <Precompiled.hpp>
 
 #include "AboutDialog.hpp"
@@ -689,7 +685,7 @@ void MainFrame::interfaceInitialize()
 		}
 
 		::SendMessage(listCtrlHwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, listCtrlStyle);
-	}
+		}
 
 	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
 	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());
@@ -750,7 +746,7 @@ void MainFrame::interfaceInitialize()
 		wxToolTip::SetReshow(500);
 		wxToolTip::SetMaxWidth(activateDeactivateButton_->GetSize().GetWidth() * 2);
 	}
-}
+	}
 
 void MainFrame::interfaceUpdate()
 {

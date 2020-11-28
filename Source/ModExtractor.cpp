@@ -4,20 +4,18 @@
 #include "ModExtractor.hpp"
 #include "ApplicationConfig.hpp"
 
-
-
 ModExtractor::ModExtractor(class wxWindow* parentWindow, const class ApplicationConfig& config)
 	: parentWindow_(parentWindow),
-	  config_(config)
+	config_(config)
 {
 }
 
 ModExtractor::~ModExtractor()
 {
-	if(libraryLoaded_)
+	if (libraryLoaded_)
 	{
 		lib_7zdll_.Free();
-	}	
+	}
 }
 
 bool ModExtractor::canExtract()
@@ -25,13 +23,11 @@ bool ModExtractor::canExtract()
 	return loadSevenZipLibrary(); // Lazy loading of 7zip.dll
 }
 
-
 bool ModExtractor::loadSevenZipLibrary()
 {
 	if (libraryLoaded_)
 		return true;
 
-	
 	wxString pathDLL = config_.game.folderPath + "\\7z.dll";
 	libraryLoaded_ = lib_7zdll_.Load(pathDLL.ToStdWstring());
 
@@ -45,7 +41,7 @@ bool ModExtractor::loadSevenZipLibrary()
 }
 
 void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArrayString& modArchives)
-{	
+{
 	if (!loadSevenZipLibrary()) // Lazy loading of 7zip.dll
 	{
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't load 7z.dll .\n");
@@ -59,8 +55,7 @@ void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArra
 		wxProgressDialog progressBar_(wxString("Extracting mod archives.."), wxEmptyString, 1000, parentWindow_,
 			wxPD_SMOOTH | wxPD_AUTO_HIDE | wxPD_ELAPSED_TIME);
 		progressBar_.Update(0, wxString::Format("%i/%i: %s", archiveIndex, modArchives.Count(), archiveName));
-		
-		
+
 		wxString pathExtract = pathModFolder + "\\" + wxFileName(archiveName).GetName();
 		SevenZip::SevenZipExtractor modExtractor(lib_7zdll_, archiveName.ToStdWstring());
 
@@ -75,7 +70,7 @@ void ModExtractor::extractModArchives(const wxString pathModFolder, const wxArra
 		{
 			failedMods.Add(archiveName + "\n");
 		}
-		
+
 		archiveIndex++;
 	}
 

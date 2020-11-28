@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #pragma once
 
 #include "Config.hpp"
@@ -72,14 +68,14 @@ public:
 		application.configFile = "ss2bmm.cfg";
 		application.logFile = "ss2bmm.log";
 		application.lookupURL = "https://www.google.com/search?q=site:systemshock.org+";
-		application.modArchiveExtensions.assign({"7z", "zip", "rar", "ss2mod", "crf"});
+		application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod", "crf" });
 
 		game.maxFolderLength = 30;
 		game.maxFullPathLength = 255;
 		game.maxPathCount = 63;
 		game.maxActive = 0; // Computed while loading mods setup.
 		game.executableFile = "Shock2.exe";
-		game.additionalExecutableFiles.assign({"ss2.exe"}); // List of other accepted executables
+		game.additionalExecutableFiles.assign({ "ss2.exe" }); // List of other accepted executables
 		game.productName = "System Shock 2";
 		game.requiredVersion = "2.4";
 		game.modsConfigFile = "cam_mod.ini";

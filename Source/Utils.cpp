@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #include <Precompiled.hpp>
 
 #include "Utils.hpp"
@@ -11,13 +7,13 @@ namespace Utils
 	void stringToLowerCase(std::string& str)
 	{
 		std::transform(str.begin(), str.end(), str.begin(),
-		               [](int c) -> char { return static_cast<char>(tolower(c)); });
+			[](int c) -> char { return static_cast<char>(tolower(c)); });
 	}
 
 	void stringToUpperCase(std::string& str)
 	{
 		std::transform(str.begin(), str.end(), str.begin(),
-		               [](int c) -> char { return static_cast<char>(toupper(c)); });
+			[](int c) -> char { return static_cast<char>(toupper(c)); });
 	}
 
 	bool stringIsEqualNoCase(const std::string& str1, const std::string& str2)
@@ -352,11 +348,11 @@ namespace Utils
 		UINT productVersionLength = 0;
 
 		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductName", &productNameBuffer,
-		                   &productNameLength) == 0)
+			&productNameLength) == 0)
 			return false;
 
 		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductVersion", &productVersionBuffer,
-		                   &productVersionLength) == 0)
+			&productVersionLength) == 0)
 		{
 			return false;
 		}

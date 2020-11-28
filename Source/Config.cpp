@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #include <Precompiled.hpp>
 
 #include "Message.hpp"
@@ -198,7 +194,7 @@ std::string Config::getErrorMessage() const
 }
 
 void Config::configVariable(std::string& variable, const std::string& name, const char* defaultValue,
-                            bool isReadOnly /*= false*/)
+	bool isReadOnly /*= false*/)
 {
 	configVariable(variable, name, std::string(defaultValue), isReadOnly);
 }
@@ -226,7 +222,7 @@ void Config::setVariables()
 
 template <>
 void Config::addVariable(std::string& variable, const std::string& name, const std::string& defaultValue,
-                         bool isReadOnly)
+	bool isReadOnly)
 {
 	variable = defaultValue;
 

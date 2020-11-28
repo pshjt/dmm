@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #include <Precompiled.hpp>
 
 #include "Utils.hpp"
@@ -11,8 +7,8 @@
 namespace Message
 {
 	MessageAnswer showMessage(MessageType messageType, const std::string& message,
-	                          const std::string& extendedMessage /*= ""*/,
-	                          const std::string& caption /*= applicationinfo::name*/)
+		const std::string& extendedMessage /*= ""*/,
+		const std::string& caption /*= applicationinfo::name*/)
 	{
 #ifdef _DEBUG
 		wxLogDebug(wxString() << "Message: " << message);
@@ -61,8 +57,8 @@ namespace Message
 			dialog.SetOKLabel(wxMessageDialog::ButtonLabel(wxString("OK")));
 
 		dialog.SetYesNoCancelLabels(wxMessageDialog::ButtonLabel(wxString("Yes")),
-		                            wxMessageDialog::ButtonLabel(wxString("No")),
-		                            wxMessageDialog::ButtonLabel(wxString("Cancel")));
+			wxMessageDialog::ButtonLabel(wxString("No")),
+			wxMessageDialog::ButtonLabel(wxString("Cancel")));
 
 		int answer = dialog.ShowModal();
 		MessageAnswer messageAnswer;

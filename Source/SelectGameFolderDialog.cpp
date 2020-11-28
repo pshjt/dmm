@@ -1,7 +1,3 @@
-// Copyright 2013-2015 bluemess
-// This file is part of SS2 Blue Mod Manager, licensed under the MIT License.
-// For details, see the License.txt file.
-
 #include <Precompiled.hpp>
 
 #include "CustomEvent.hpp"
@@ -11,8 +7,8 @@
 
 SelectGameFolderDialog::SelectGameFolderDialog(wxWindow* parent, const ApplicationConfig& applicationConfig)
 	: WxfbSelectGameFolderDialog(parent)
-	  , config_(applicationConfig)
-	  , queuedRefreshEvents_(0)
+	, config_(applicationConfig)
+	, queuedRefreshEvents_(0)
 {
 	Connect(wxEVT_MOVE, wxMoveEventHandler(SelectGameFolderDialog::onMove));
 	Connect(REFRESH_EVENT, wxCommandEventHandler(SelectGameFolderDialog::onRefresh));
