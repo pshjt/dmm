@@ -2,3 +2,4 @@ VisualStudio/*
 !VisualStudio/SS2BlueModManager.sln
 !VisualStudio/SS2BlueModManager.vcxproj
 !VisualStudio/SS2BlueModManager.vcxproj.filters
+!VisualStudio/Build.bat

@@ -1,17 +1,9 @@
 @echo off
 
-rd "..\..\External\7zip-cpp\build\" /s /q
-mkdir "..\..\External\7zip-cpp\build\"
+pushd "%~dp0"
 
 set vcCmakeKey="Visual Studio 16 2019"
 
-set startDir=%cd%
-goto start
-
-goto :eof
-
-
-:start
 copy "Config\CMakeLists.txt" "..\..\External\7zip-cpp\CMakeLists.txt" /y
 if not %errorlevel%==0 goto error
 
@@ -34,6 +26,5 @@ set saveErrorLevel=%errorlevel%
 @echo:
 
 :cleanup
-cd %startDir%
-
+popd
 exit /b %saveErrorLevel%

@@ -1,21 +1,21 @@
 @echo off
 
-set vcPath=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\
-set vcVersion=16.0
+pushd "%~dp0"
+
+if "%vsPlatform%"=="" (
+	set vsPlatform=Community
+)
+set vcPath=%programfiles(x86)%\Microsoft Visual Studio\2019\%vsPlatform%\VC\Auxiliary\Build\
 
 set startDir=%cd%
 
 if %build%==Debug (
 	set config=ConfigDebug.vc
-	goto start
 )
 
 if %build%==Release (
 	set config=ConfigRelease.vc
-	goto start
 )
-
-goto :eof
 
 :start
 copy "Config\%config%" "..\..\External\wxWidgets\build\msw\config.vc" /y
@@ -28,7 +28,6 @@ cd "..\..\External\wxWidgets\build\msw"
 if not %errorlevel%==0 goto error
 
 call "%vcPath%vcvarsall.bat" x86
-if not %VisualStudioVersion%==%vcVersion% goto error
 
 if %clean%==true nmake.exe -f makefile.vc clean
 if not %errorlevel%==0 goto error
@@ -52,5 +51,7 @@ set saveErrorLevel=%errorlevel%
 cd %startDir%
 del "..\..\External\wxWidgets\build\msw\config.vc" /f
 del "..\..\External\wxWidgets\include\wx\msw\setup.h" /f
+
+popd
 
 exit /b %saveErrorLevel%

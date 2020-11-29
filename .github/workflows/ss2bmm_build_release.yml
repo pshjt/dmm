@@ -1,0 +1,44 @@
+name: Build Release
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  create_release:
+    name: Create GitHub Release
+    runs-on: windows-2019
+    
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      
+      - name: Build 7zip cmake files
+        shell: cmd
+        run: call Script\7zppMSVCBuild\PreBuild.bat
+      
+      - name: Build 7zip
+        shell: cmd
+        run: call Script\7zppMSVCBuild\BuildRelease.bat
+        env:
+          vsPlatform: Enterprise
+          
+      - name: Build wxWidgets
+        shell: cmd
+        run: call Script\wxWidgetsMSVCBuild\BuildRelease.bat
+        env:
+          vsPlatform: Enterprise
+          
+      - name: Build mod manager
+        shell: cmd
+        run: call VisualStudio\Build.bat
+        env:
+          vsPlatform: Enterprise
+        
+        
+      - name: Artifact upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: SS2BMM
+          path: VisualStudio\Release\ss2bmm.exe
