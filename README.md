@@ -1,5 +1,5 @@
 ## About
-This is the home of the System Shock 2 Blud Mod Manager, originally developed by bluemess in 2012 (SS2BMM).
+This is the home of the System Shock 2 Blue Mod Manager, originally developed by bluemess in 2012 (SS2BMM).
 More info on its intended use and about mod installation for System Shock 2 in general can be obtained from [SystemShock.org](https://www.systemshock.org) and the 
 [official thread](https://www.systemshock.org/index.php?topic=4790.0 "SS2BMM@SystemShock.org").
 
