@@ -19,6 +19,8 @@ Clone the repository with submodules:\
 If you have cloned without this option, use\
 `git submodule update --init --recursive`
 
+The project was built with Visual Studio 2019 Community and requires `cmake >=3.15`.
+
 ### Compile 7zip-cpp
 1) Go to ss2bmm\Script\7zppMSVCBuild
 2) Run `PreBuild.bat`
