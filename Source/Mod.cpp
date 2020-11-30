@@ -243,7 +243,7 @@ void Mod::resetWarning()
 
 bool Mod::getIsUnrecognized() const
 {
-	if (hasCFG_ || hasCutscene_ || hasDML_ || hasGamesys_ || hasSubtitle_ || hasOther_)
+	if (hasCFG_ || hasCutscene_ || hasDML_ || hasGamesys_ || hasMis_ || hasSubtitle_ || hasOther_)
 		return false;
 
 	return true;
