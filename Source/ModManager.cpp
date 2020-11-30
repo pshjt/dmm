@@ -1126,7 +1126,7 @@ void ModManager::countStats()
 			if (!mod.getIsPaused() && mod.getHasGamesys())
 				++activeGamesysCount_;
 
-			if (mod.getHasMis() && mod.getIsActive())
+			if (!mod.getIsPaused() && mod.getHasMis())
 			{
 				collectMisFileToModMapping(mod, misFileToMods);
 			}
