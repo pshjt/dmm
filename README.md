@@ -1,5 +1,5 @@
 ## About
-This is the home of the System Shock 2 Blue Mod Manager, originally developed by bluemess in 2012 (SS2BMM).
+This is the home of the System Shock 2 Blue Mod Manager, originally developed by bluemess in 2013 (SS2BMM).
 More info on its intended use and about mod installation for System Shock 2 in general can be obtained from [SystemShock.org](https://www.systemshock.org) and the 
 [official thread](https://www.systemshock.org/index.php?topic=4790.0 "SS2BMM@SystemShock.org").
 
@@ -28,8 +28,12 @@ The project was built with Visual Studio 2019 Community and requires `cmake >=3.
 
 ### Compile wxWidgets
 1) Go to ss2bmm\Script\wxWidgetsMSVCBuild
-2) `BuildAll.bat`
+2) Run `BuildAll.bat`
 
 ### (Optional) Get wxFormBuilder
 1) Get and install [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder/releases/tag/v3.9.0)
 2) Open `.\wxFormBuilder\SS2BlueModManager.fbp`
+
+## Contribute
+You want to improve the mod manager or otherwise help with development? Great! Contributions are always welcome.
+Create your own branch, use a rebase workflow, and open a pull request once you're good to go.
