@@ -16,3 +16,5 @@ call _Build.bat
 @echo:
 
 popd
+
+pause
