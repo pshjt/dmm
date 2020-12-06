@@ -278,6 +278,8 @@ WxfbManageProfilesDialog::WxfbManageProfilesDialog( wxWindow* parent, wxWindowID
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
 	profileListBox_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxLC_SINGLE_SEL );
+	profileListBox_->Enable( false );
+
 	bSizer11->Add( profileListBox_, 1, wxALL|wxEXPAND, 2 );
 
 

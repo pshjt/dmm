@@ -24,6 +24,9 @@ ManageProfilesDialog::ManageProfilesDialog(wxWindow* parent, ApplicationConfig& 
 	imageList_.Add(wxArtProvider::GetBitmap(wxART_CROSS_MARK, wxART_FRAME_ICON, imageListSize));
 	profileListBox_->SetImageList(&imageList_, wxIMAGE_LIST_SMALL);
 
+	profileListBox_->ClearAll();
+	profileListBox_->InsertColumn(0, "Imported profile will be shown here when loaded.", wxLIST_FORMAT_CENTER);
+
 	this->SetEscapeId(wxID_CANCEL);
 
 	scheduleRefresh();
@@ -131,8 +134,6 @@ void ManageProfilesDialog::onRefresh(wxCommandEvent& WXUNUSED(event))
 	if (queuedRefreshEvents_ > 0)
 		return;
 
-	queuedRefreshEvents_ = 0;
-
 	Refresh();
 	Update();
 	profileListBox_->Update();
@@ -148,7 +149,9 @@ void ManageProfilesDialog::onRefresh(wxCommandEvent& WXUNUSED(event))
 			profileListBox_->SetColumnWidth(columnIndex, wxLIST_AUTOSIZE_USEHEADER);
 	}
 
-	useProfileButton_->Enable(!getProfileModPath().empty());
+	bool profileLoaded = !getProfileModPath().empty();
+	profileListBox_->Enable(profileLoaded);
+	useProfileButton_->Enable(profileLoaded);
 }
 
 void ManageProfilesDialog::scheduleRefresh()
