@@ -18,12 +18,6 @@ ManageProfilesDialog::ManageProfilesDialog(wxWindow* parent, ApplicationConfig& 
 
 	profileConfig_.mod_path = "";
 
-	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
-	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());
-	imageList_.Add(wxArtProvider::GetBitmap(wxART_PLUS, wxART_FRAME_ICON, imageListSize));
-	imageList_.Add(wxArtProvider::GetBitmap(wxART_CROSS_MARK, wxART_FRAME_ICON, imageListSize));
-	profileListBox_->SetImageList(&imageList_, wxIMAGE_LIST_SMALL);
-
 	profileListBox_->ClearAll();
 	profileListBox_->InsertColumn(0, "Imported profile will be shown here when loaded.", wxLIST_FORMAT_CENTER);
 
@@ -88,7 +82,7 @@ void ManageProfilesDialog::addListItems()
 	profileListBox_->InsertColumn(0, "#", wxLIST_FORMAT_RIGHT);
 	profileListBox_->InsertColumn(1, "Name");
 	profileListBox_->InsertColumn(2, "Status");
-	profileListBox_->InsertColumn(3, "Ready");
+	profileListBox_->InsertColumn(3, "Ready", wxLIST_FORMAT_CENTER);
 
 	int itemCount = profileListBox_->GetItemCount() - 1;
 	for (auto& mod : importModManager_.getMods())
@@ -115,12 +109,12 @@ void ManageProfilesDialog::addListItems()
 			if (canBeLoaded)
 			{
 				profileListBox_->SetItem(itemCount, 2, mod.getIsPaused() ? "Paused" : "Active");
-				profileListBox_->SetItem(itemCount, 3, wxEmptyString, 0);
+				profileListBox_->SetItem(itemCount, 3, L"\u2714");
 			}
 			else
 			{
-				profileListBox_->SetItem(itemCount, 2, wxEmptyString);
-				profileListBox_->SetItem(itemCount, 3, "not found", 1);
+				profileListBox_->SetItem(itemCount, 2, "Not found");
+				profileListBox_->SetItem(itemCount, 3, L"\u274C");
 			}
 		}
 	}
