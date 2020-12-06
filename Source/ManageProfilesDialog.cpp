@@ -114,7 +114,7 @@ void ManageProfilesDialog::addListItems()
 
 			if (canBeLoaded)
 			{
-				profileListBox_->SetItem(itemCount, 2, mod.getIsActive() ? "Active" : "Paused");
+				profileListBox_->SetItem(itemCount, 2, mod.getIsPaused() ? "Paused" : "Active");
 				profileListBox_->SetItem(itemCount, 3, wxEmptyString, 0);
 			}
 			else
