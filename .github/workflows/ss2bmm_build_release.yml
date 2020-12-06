@@ -1,4 +1,4 @@
-name: Build release artifact
+name: ss2bmm-build-release
 on:
   push:
     tags:
