@@ -29,7 +29,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	aboutPanelAddStaticText(boxSizer111, ApplicationInfo::copyright);
 	aboutPanelAddStaticText(boxSizer111, "");
 
-	wxStaticText* st = aboutPanelAddStaticText(boxSizer111, "For everything that's System Shock related visit:",
+	wxStaticText* st = aboutPanelAddStaticText(boxSizer111, "For everything System Shock or Thief related visit:",
 		wxALIGN_CENTER_HORIZONTAL);
 
 	wxHyperlinkCtrl* hyperlink1 = new wxHyperlinkCtrl(aboutPanel_, wxID_ANY, "www.systemshock.org",
@@ -41,7 +41,17 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	hyperlink1->SetHoverColour(hyperlink1->GetNormalColour());
 	hyperlink1->SetVisitedColour(hyperlink1->GetNormalColour());
 
-	boxSizer111->Add(hyperlink1, 0, wxALIGN_CENTER_HORIZONTAL);
+	wxHyperlinkCtrl* hyperlink2 = new wxHyperlinkCtrl(aboutPanel_, wxID_ANY, "www.ttlg.com",
+		"www.ttlg.com",
+		wxDefaultPosition, wxSize(-1, st->GetSize().GetHeight()),
+		wxHL_DEFAULT_STYLE);
+
+	hyperlink2->SetFont(st->GetFont());
+	hyperlink2->SetHoverColour(hyperlink2->GetNormalColour());
+	hyperlink2->SetVisitedColour(hyperlink2->GetNormalColour());
+
+	boxSizer111->Add(hyperlink1, 1, wxALIGN_CENTER_HORIZONTAL);
+	boxSizer111->Add(hyperlink2, 1, wxALIGN_CENTER_HORIZONTAL);
 
 	topBoxSizer11->Add(boxSizer111, 1, wxALL | wxEXPAND, 8);
 
@@ -161,7 +171,7 @@ wxStaticBitmap* AboutDialog::computeAboutBitmap()
 {
 	const wxString label(ApplicationInfo::name);
 	const wxColour textColor(0, 0, 0);
-	const wxColour outlineColor(40, 250, 250);
+	const wxColour outlineColor(255, 255, 255);
 
 	const int marginWidth = 7;
 	const int marginHeight = 3;

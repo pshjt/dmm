@@ -93,7 +93,6 @@ private:
 	static const int ID_DUMMY_1_;
 	static const std::vector<int> DEFAULT_ORDER_;
 
-	const ApplicationConfig defaultConfig_;
 	ApplicationConfig config_;
 	ModManager modManager_;
 	ModExtractor modExtractor_;

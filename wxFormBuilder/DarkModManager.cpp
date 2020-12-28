@@ -7,7 +7,7 @@
 
 #include <Precompiled.hpp>
 
-#include "SS2BlueModManager.h"
+#include "DarkModManager.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -86,12 +86,12 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( scrolledWindow_, wxID_ANY, wxT("File") ), wxVERTICAL );
 
 	selectModArchivesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_EXTRACT_MOD_BUTTON, wxT("Install mod archive(s)..."), wxDefaultPosition, wxDefaultSize, 0 );
-	selectModArchivesButton_->SetToolTip( wxT("Browse for System Shock 2 mod archives to install") );
+	selectModArchivesButton_->SetToolTip( wxT("Browse for mod archives to install") );
 
 	sbSizer4->Add( selectModArchivesButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
 	manageProfilesButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_MANAGE_PROFILES_BUTTON, wxT("Manage profiles..."), wxDefaultPosition, wxDefaultSize, 0 );
-	manageProfilesButton_->SetToolTip( wxT("Dummy tooltip for manager") );
+	manageProfilesButton_->SetToolTip( wxT("Open profile manager") );
 
 	sbSizer4->Add( manageProfilesButton_, 0, wxEXPAND|wxTOP, 1 );
 
@@ -99,7 +99,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer4->Add( openModsFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 
 	selectGameFolderButton_ = new wxButton( sbSizer4->GetStaticBox(), ID_SELECT_GAME_FOLDER_BUTTON, wxT("Select game folder..."), wxDefaultPosition, wxDefaultSize, 0 );
-	selectGameFolderButton_->SetToolTip( wxT("Browse for the folder that contains System Shock 2") );
+	selectGameFolderButton_->SetToolTip( wxT("Browse for main game folder") );
 
 	sbSizer4->Add( selectGameFolderButton_, 0, wxBOTTOM|wxEXPAND|wxTOP, 1 );
 

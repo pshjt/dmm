@@ -20,7 +20,7 @@ public:
 
 	std::string constructMoviePath(bool updateConfig);
 	std::string constructAndUpdateModPath(bool updateConfig);
-	std::tuple<std::string, std::string> constructModPath() const;
+	std::tuple<std::string, std::string, std::string> constructModPath() const;
 	std::tuple<std::string, std::string> constructMoviePath() const;
 
 	void setSelected(int selected);
@@ -32,7 +32,7 @@ public:
 	int getSelected() const;
 	const std::string& getModsFolderPath() const;
 	const std::string& getArchivesFolderPath() const;
-	const std::string getAlternativeExecutable(std::string) const;
+	const std::string getAlternativeFile(const std::string&, const std::vector<std::string>&) const;
 	std::vector<Mod>& getMods();
 	void createModsTable(std::string& modsTable) const;
 	int calculateLastActiveIndex() const;

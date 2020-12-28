@@ -63,4 +63,4 @@
 #include <wx/richmsgdlg.h>
 
 /*wxFormBuilder GUI*/
-#include "../../wxFormBuilder/SS2BlueModManager.h"
+#include "../../wxFormBuilder/DarkModManager.h"

@@ -45,10 +45,12 @@ const std::string SelectGameFolderDialog::getAlternativeExecutable(std::string g
 	for (auto& alternativeExe : config_.game.additionalExecutableFiles)
 	{
 		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
-
-		if (wxFileExists(alternativeExePath))
-			return alternativeExe;
+		if (wxFileName::FileExists(alternativeExePath))
+		{
+			return Utils::getFilenameCaseInsensitive(wxFileName(alternativeExePath));
+		}
 	}
+
 	return std::string();
 }
 
@@ -113,36 +115,9 @@ void SelectGameFolderDialog::pathTextCtrlOnText(wxCommandEvent& event)
 
 		if (wxFileExists(exePath))
 		{
-			if (config_.application.checkGameVersion)
-			{
-				std::string name, version;
-
-				if (Utils::getVersionInfo(exePath, name, version) &&
-					Utils::stringIsEqualNoCase(config_.game.productName, name))
-				{
-					bool isVersionOK = Utils::checkVersion(config_.game.requiredVersion, version);
-
-					info = "System Shock 2 v";
-					info += version;
-					info += " found.";
-
-					if (isVersionOK)
-					{
-						isExeFound = true;
-					}
-					else
-					{
-						info += " Version ";
-						info += config_.game.requiredVersion;
-						info += " or later is required.";
-					}
-				}
-			}
-			else
-			{
-				info = "System Shock 2 found.";
-				isExeFound = true;
-			}
+			isExeFound = true;
+			std::string name, version;
+			Utils::getVersionInfo(exePath, name, version);
 		}
 	}
 

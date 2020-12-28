@@ -52,11 +52,6 @@ MainFrame::MainFrame(wxWindow* parent)
 	if (!config_.load())
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't load application settings.", config_.getErrorMessage());
 
-	{
-		if (!Utils::checkVersion("1.11", config_.application.version))
-			config_.game.baseModPath = defaultConfig_.game.baseModPath;
-	}
-
 	initialize();
 	interfaceInitialize();
 	interfaceUpdate();
@@ -90,7 +85,7 @@ void MainFrame::onClose(wxCloseEvent& event)
 	if (shouldStartGame_)
 	{
 		ShellRun shellRun;
-		std::string gameExePath = config_.game.folderPath + '\\' + config_.game.currentExecutableFile;
+		std::string gameExePath = config_.game.folderPath + '\\' + config_.game.executableFile;
 
 		if (!shellRun.open(gameExePath, config_.game.folderPath))
 			showMessage(Message::MessageType::ERROR_OK, "Couldn't run:\n" + gameExePath, shellRun.getErrorMessage());
@@ -294,7 +289,7 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 		wxMessageDialog deleteDialog_(
 			this, wxString(
 				"Do you want do delete this mod? \n" + dirs.Last() +
-				" \n\nThis will remove the mod folder from your SS2 installation."), wxString("Delete mod?"), wxYES_NO);
+				" \n\nThis will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
 
 		if (deleteDialog_.ShowModal() == wxID_YES)
 		{
@@ -327,7 +322,7 @@ void MainFrame::openModsFolderButtonOnButtonClick(wxCommandEvent& event)
 
 	if (!isSuccess)
 	{
-		path = modsFolderPath;
+		path = modsFolderPath + '\\';
 		isSuccess = shellRun.open(path);
 	}
 
@@ -685,7 +680,7 @@ void MainFrame::interfaceInitialize()
 		}
 
 		::SendMessage(listCtrlHwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, listCtrlStyle);
-		}
+	}
 
 	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
 	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());
@@ -746,7 +741,7 @@ void MainFrame::interfaceInitialize()
 		wxToolTip::SetReshow(500);
 		wxToolTip::SetMaxWidth(activateDeactivateButton_->GetSize().GetWidth() * 2);
 	}
-	}
+}
 
 void MainFrame::interfaceUpdate()
 {
@@ -1032,20 +1027,12 @@ void MainFrame::setTooltip(int windowId)
 		window = openModsFolderButton_;
 		break;
 
-	case ID_SELECT_GAME_FOLDER_BUTTON:
-		tip = "Browse for the folder that contains ";
-		nbs = "System Shock 2";
-		Utils::stringMakeNonBreakingSpaces(nbs);
-		tip += nbs;
-		window = selectGameFolderButton_;
-		break;
-
 	case ID_OPEN_MOD_URL_BUTTON:
 		tip = "Lookup ";
 		nbs = modManager_.getMods()[modManager_.getSelected()].getName();
 		Utils::stringMakeNonBreakingSpaces(nbs);
 		tip += nbs;
-		tip += " mod on Systemshock.org";
+		tip += " mod via Google";
 		window = openModURLButton_;
 		break;
 

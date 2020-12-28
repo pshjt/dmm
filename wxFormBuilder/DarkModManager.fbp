@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <wxFormBuilder_Project>
     <FileVersion major="1" minor="15" />
-    <object class="Project" expanded="1">
+    <object class="Project" expanded="0">
         <property name="class_decoration"></property>
         <property name="code_generation">C++</property>
         <property name="disconnect_events">0</property>
@@ -11,12 +11,12 @@
         <property name="embedded_files_path">../Resources</property>
         <property name="encoding">UTF-8</property>
         <property name="event_generation">connect</property>
-        <property name="file">SS2BlueModManager</property>
+        <property name="file">DarkModManager</property>
         <property name="first_id">1000</property>
         <property name="help_provider">none</property>
         <property name="indent_with_spaces"></property>
         <property name="internationalize">0</property>
-        <property name="name">SS2BlueModManager</property>
+        <property name="name">DarkModManager</property>
         <property name="namespace"></property>
         <property name="path">.</property>
         <property name="precompiled_header">#include &lt;Precompiled.hpp&gt;</property>
@@ -45,7 +45,7 @@
             <property name="minimum_size">600,600</property>
             <property name="name">WxfbMainFrame</property>
             <property name="pos"></property>
-            <property name="size">800,800</property>
+            <property name="size">750,875</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title"></property>
@@ -934,7 +934,7 @@
                                                     <property name="style"></property>
                                                     <property name="subclass"></property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip">Browse for System Shock 2 mod archives to install</property>
+                                                    <property name="tooltip">Browse for mod archives to install</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -1008,7 +1008,7 @@
                                                     <property name="style"></property>
                                                     <property name="subclass">; ; forward_declare</property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip">Dummy tooltip for manager</property>
+                                                    <property name="tooltip">Open profile manager</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -1156,7 +1156,7 @@
                                                     <property name="style"></property>
                                                     <property name="subclass"></property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip">Browse for the folder that contains System Shock 2</property>
+                                                    <property name="tooltip">Browse for main game folder</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>

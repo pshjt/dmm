@@ -1,5 +1,6 @@
 VisualStudio/*
-!VisualStudio/SS2BlueModManager.sln
-!VisualStudio/SS2BlueModManager.vcxproj
-!VisualStudio/SS2BlueModManager.vcxproj.filters
+!VisualStudio/*.sln
+!VisualStudio/*.vcxproj
+!VisualStudio/*.vcxproj.filters
 !VisualStudio/Build.bat
+Resource/*.aps

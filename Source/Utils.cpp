@@ -239,6 +239,33 @@ namespace Utils
 		}
 	}
 
+	std::string getFilenameCaseInsensitive(wxFileName file)
+	{
+		if (!file.IsOk())
+		{
+			return std::string();
+		}
+
+		if (!file.FileExists()) {
+			return std::string();
+		}
+
+		wxArrayString files;
+		wxDir::GetAllFiles(file.GetPath(), &files, wxEmptyString, wxDIR_FILES | wxDIR_HIDDEN);
+
+		wxFileName wxCurrentFile;
+		for (auto& currentFile : files)
+		{
+			wxCurrentFile = wxFileName(currentFile);
+			if (wxCurrentFile.GetFullName().MakeLower().CompareTo(file.GetFullName().MakeLower()) == 0)
+			{
+				return wxCurrentFile.GetFullName().ToStdString();
+			}
+		}
+
+		return std::string();
+	}
+
 	void adjustSizeUp(wxWindow* window, int minWidth /*= -1*/, int minHeight /*= -1*/)
 	{
 		const float aspectRatio = 4.0f / 3.0f;
@@ -367,39 +394,6 @@ namespace Utils
 		productVersion.assign(static_cast<char*>(productVersionBuffer), productVersionLength);
 
 		return true;
-	}
-
-	bool checkVersion(const std::string& requiredVersion, std::string& version)
-	{
-		auto dotCount = std::count(version.begin(), version.end(), '.');
-		auto wrongCharacter = version.find_first_not_of("0123456789.");
-
-		if (dotCount > 1 || wrongCharacter != std::string::npos)
-		{
-			version = "unknown";
-
-			return false;
-		}
-
-		auto dot = std::find(requiredVersion.begin(), requiredVersion.end(), '.');
-
-		int requiredMajor = 0;
-		stringTo(std::string(requiredVersion.begin(), dot), requiredMajor);
-
-		std::string requiredMinor(dot, requiredVersion.end());
-
-		dot = std::find(version.begin(), version.end(), '.');
-
-		int major = 0;
-		stringTo(std::string(version.cbegin(), dot), major);
-
-		std::string minor(dot, version.cend());
-
-		if (requiredMajor > major)
-			return false;
-		if (requiredMajor < major)
-			return true;
-		return !std::lexicographical_compare(minor.begin(), minor.end(), requiredMinor.begin(), requiredMinor.end());
 	}
 
 	void getCurrentDateTime(std::string& dateTime)

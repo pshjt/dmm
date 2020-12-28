@@ -1,4 +1,4 @@
-name: ss2bmm-build-release
+name: dmm-build-release
 on:
   push:
     tags:
@@ -34,7 +34,7 @@ jobs:
       
 
   build:
-    name: Build ss2bmm.exe
+    name: Build dmm.exe
     runs-on: windows-2019
     
     steps:
@@ -67,8 +67,8 @@ jobs:
       - name: Artifact upload
         uses: actions/upload-artifact@v2
         with:
-          name: SS2BMM
-          path: VisualStudio\Release\ss2bmm.exe
+          name: DMM
+          path: VisualStudio\Release\dmm.exe
 
 
   release:
@@ -80,7 +80,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: SS2BMM
+          name: DMM
           
       - name: Set tag name to env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -103,7 +103,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ss2bmm.exe
-          asset_name: ss2bmm.exe
+          asset_path: ./dmm.exe
+          asset_name: dmm.exe
           asset_content_type: application/octet-stream
       

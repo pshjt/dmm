@@ -33,6 +33,7 @@ namespace Utils
 	void normalizePath(std::string& path);
 	int getPathLength(const std::string& path);
 	void listDirectoryContent(std::string& directoryContent, const std::string& path, int maxDepth, int indent = 0);
+	std::string getFilenameCaseInsensitive(wxFileName);
 
 	void adjustSizeUp(wxWindow* window, int minWidth = -1, int minHeight = -1);
 	void adjustSizeDown(wxWindow* window, int maxWidth = -1, int maxHeight = -1);
@@ -40,7 +41,6 @@ namespace Utils
 	void pointToString(int x, int y, std::string& str);
 
 	bool getVersionInfo(const std::string& filePath, std::string& productName, std::string& productVersion);
-	bool checkVersion(const std::string& requiredVersion, std::string& version);
 	void getCurrentDateTime(std::string& dateTime);
 
 	class CharPredicateIsEqual;

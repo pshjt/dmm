@@ -15,7 +15,6 @@ public:
 		std::vector<std::string> modArchiveExtensions;
 #pragma warning( push )
 #pragma warning( disable : 26495 )
-		bool checkGameVersion;
 		bool createLogFile;
 		bool showTooltips;
 		bool showExtractTip;
@@ -30,20 +29,21 @@ public:
 		int maxPathCount;
 		int maxActive;
 		std::string executableFile;
-		std::string currentExecutableFile;
 		std::vector<std::string> additionalExecutableFiles;
 		std::string productName;
 		std::string requiredVersion;
 		std::string modsConfigFile;
 		std::string installConfigFile;
+		std::vector<std::string> additionalInstallConfigFiles;
 		std::string pauseIndicator;
-		std::string baseModPath;
+		std::string modPathSuffix;
 		std::string baseMoviePath;
 		std::string cutsceneFolder;
 		std::string subtitleFolder;
 		std::string folderPath;
 		std::string modsFolder;
 		std::string archivesFolder;
+		std::string modPathPrefix;
 	} game;
 
 	struct
@@ -65,21 +65,18 @@ public:
 		application.executableFolderPath = std::string(path);
 		application.executableFile = std::string(name);
 
-		application.configFile = "ss2bmm.cfg";
-		application.logFile = "ss2bmm.log";
-		application.lookupURL = "https://www.google.com/search?q=site:systemshock.org+";
-		application.modArchiveExtensions.assign({ "7z", "zip", "rar", "ss2mod", "crf" });
+		application.configFile = "dmm.cfg";
+		application.logFile = "dmm.log";
+		application.lookupURL = "https://www.google.com/search?q=";
+		application.modArchiveExtensions.assign({ "7z", "zip", "rar", "crf" });
 
 		game.maxFolderLength = 30;
 		game.maxFullPathLength = 255;
 		game.maxPathCount = 63;
 		game.maxActive = 0; // Computed while loading mods setup.
-		game.executableFile = "Shock2.exe";
-		game.additionalExecutableFiles.assign({ "ss2.exe" }); // List of other accepted executables
-		game.productName = "System Shock 2";
-		game.requiredVersion = "2.4";
+		game.additionalExecutableFiles.assign({ "ss2.exe", "thief.exe", "thief2.exe" }); // List of other accepted executables
+		game.additionalInstallConfigFiles.assign({ "darkinst.cfg" }); // List of other accepted install CFG files
 		game.modsConfigFile = "cam_mod.ini";
-		game.installConfigFile = "install.cfg";
 		game.pauseIndicator = "*";
 		game.cutsceneFolder = "cutscenes";
 		game.subtitleFolder = "subtitles";
@@ -90,15 +87,17 @@ public:
 private:
 	void configVariables() override
 	{
-		CVAR(application.checkGameVersion, true);
 		CVAR(application.createLogFile, true);
 		CVAR(application.showTooltips, true);
 		CVAR(application.showExtractTip, true);
 		CVAR(application.version, "");
 
-		CVAR(game.baseModPath, ".\\patch_ext");
+		CVAR(game.modPathSuffix, ".\\patch_ext");
+		CVAR(game.modPathPrefix, "");
 		CVAR(game.baseMoviePath, ".\\cutscenes+.\\Data\\cutscenes");
 		CVAR(game.folderPath, "");
+		CVAR(game.executableFile, "shock2.exe");
+		CVAR(game.installConfigFile, "install.cfg");
 		CVAR(game.modsFolder, "DMM");
 		CVAR(game.archivesFolder, "DMMArchives");
 

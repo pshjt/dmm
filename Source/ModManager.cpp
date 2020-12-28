@@ -41,35 +41,29 @@ void ModManager::initialize(bool saveToFile)
 	}
 
 	std::string exePath = gameFolderPath + '\\' + config_.game.executableFile;
-	config_.game.currentExecutableFile = config_.game.executableFile;
-
 	if (!wxFileExists(exePath))
 	{
-		std::string alternativeExe = getAlternativeExecutable(gameFolderPath);
+		std::string alternativeExe = getAlternativeFile(gameFolderPath, config_.game.additionalExecutableFiles);
 		if (alternativeExe.empty())
 			return;
 
 		exePath = gameFolderPath + '\\' + alternativeExe;
-		config_.game.currentExecutableFile = alternativeExe;
+		config_.game.executableFile = alternativeExe;
+	}
+
+	std::string installConfigFile = gameFolderPath + '\\' + config_.game.installConfigFile;
+	if (!wxFileExists(installConfigFile))
+	{
+		std::string alternativeInstallConfig = getAlternativeFile(gameFolderPath, config_.game.additionalInstallConfigFiles);
+		if (alternativeInstallConfig.empty())
+			return;
+
+		config_.game.installConfigFile = alternativeInstallConfig;
 	}
 
 	gameVersion_ = "unknown";
-
-	if (config_.application.checkGameVersion)
-	{
-		std::string name;
-
-		if (!Utils::getVersionInfo(exePath, name, gameVersion_) ||
-			!Utils::stringIsEqualNoCase(config_.game.productName, name))
-		{
-			return;
-		}
-
-		bool isVersionOK = Utils::checkVersion(config_.game.requiredVersion, gameVersion_);
-
-		if (!isVersionOK)
-			return;
-	}
+	std::string name;
+	Utils::getVersionInfo(exePath, name, gameVersion_);
 
 	modsFolderPath_ = gameFolderPath + '\\' + config_.game.modsFolder;
 	Utils::normalizePath(modsFolderPath_);
@@ -208,12 +202,13 @@ std::string ModManager::constructMoviePath(bool updateConfig)
 
 std::string ModManager::constructAndUpdateModPath(bool updateConfig)
 {
-	auto [modPath, baseModPath] = constructModPath();
+	auto [modPathPrefix, modPath, modPathSuffix] = constructModPath();
 
 	if (updateConfig)
 	{
 		modConfig_.mod_path = modPath;
-		config_.game.baseModPath = baseModPath;
+		config_.game.modPathSuffix = modPathSuffix;
+		config_.game.modPathPrefix = modPathPrefix;
 	}
 
 	return modPath;
@@ -247,11 +242,15 @@ std::tuple<std::string, std::string> ModManager::constructMoviePath() const
 	return std::make_tuple(moviePath, baseMoviePath);
 }
 
-std::tuple<std::string, std::string> ModManager::constructModPath() const
+std::tuple<std::string, std::string, std::string> ModManager::constructModPath() const
 {
 	int lastActive = calculateLastActiveIndex();
-	std::string modPath = "";
 
+	std::string modPathPrefix = config_.game.modPathPrefix;
+	Utils::stringTrim(modPathPrefix);
+	Utils::stringTrim(modPathPrefix, '+');
+
+	std::string modPath = modPathPrefix;
 	for (int i = 0; i <= lastActive; ++i)
 	{
 		modPath += '+';
@@ -264,13 +263,14 @@ std::tuple<std::string, std::string> ModManager::constructModPath() const
 		modPath += '\\';
 		modPath += mods_[i].getName();
 	}
-	std::string baseModPath = std::string(config_.game.baseModPath);
-	Utils::stringTrim(baseModPath);
-	Utils::stringTrim(baseModPath, '+');
-	modPath += '+' + baseModPath;
+
+	std::string modPathSuffix = std::string(config_.game.modPathSuffix);
+	Utils::stringTrim(modPathSuffix);
+	Utils::stringTrim(modPathSuffix, '+');
+	modPath += '+' + modPathSuffix;
 	Utils::stringTrim(modPath, '+');
 
-	return std::make_tuple(modPath, baseModPath);
+	return std::make_tuple(modPathPrefix, modPath, modPathSuffix);
 }
 
 bool ModManager::getHasStateChanged()
@@ -332,17 +332,18 @@ int ModManager::getSelected() const
 	return selected_;
 }
 
-const std::string ModManager::getAlternativeExecutable(std::string gameFolderPath) const
+const std::string ModManager::getAlternativeFile(const std::string& gameFolderPath, const std::vector<std::string>& files) const
 {
-	std::string alternativeExePath;
+	std::string alternativeFile;
 
-	for (auto& alternativeExe : config_.game.additionalExecutableFiles)
+	for (auto& file : files)
 	{
-		alternativeExePath = gameFolderPath + '\\' + alternativeExe;
+		alternativeFile = gameFolderPath + '\\' + file;
 
-		if (wxFileExists(alternativeExePath))
-			return alternativeExe;
+		if (wxFileExists(alternativeFile))
+			return Utils::getFilenameCaseInsensitive(wxFileName(alternativeFile));
 	}
+
 	return std::string();
 }
 
@@ -687,7 +688,7 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 	std::string token, remainder;
 
 	std::vector<std::string> baseModPaths;
-	remainder = config_.game.baseModPath;
+	remainder = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
 
 	while (Utils::tokenize(token, remainder, remainder, '+'))
 	{
@@ -757,16 +758,8 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 	{
 		std::string msg;
 
-		if (foreignPaths.size() > 1)
-		{
-			msg += "Following mod paths will be removed from the search order.";
-			msg += " Mods inside these folders will no longer be loaded:\n";
-		}
-		else
-		{
-			msg += "Following mod path will be removed from the search order.";
-			msg += " Mods inside this folder will no longer be loaded:\n";
-		}
+		msg += "Following mod paths will be removed from the search order.";
+		msg += " Mods inside these folders will no longer be loaded:\n";
 
 		for (auto& foreignPath : foreignPaths)
 			msg += "\n" + foreignPath;
@@ -828,11 +821,11 @@ void ModManager::computeMaxActive()
 	while (Utils::tokenize(token, uberModPath, uberModPath, '+'))
 		++nPath;
 
-	std::string additionalModPath = config_.game.baseModPath;
-	Utils::stringTrim(additionalModPath);
-	Utils::stringTrim(additionalModPath, '+');
+	std::string additionalModPaths = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
+	Utils::stringTrim(additionalModPaths);
+	Utils::stringTrim(additionalModPaths, '+');
 
-	while (Utils::tokenize(token, additionalModPath, additionalModPath, '+'))
+	while (Utils::tokenize(token, additionalModPaths, additionalModPaths, '+'))
 		++nPath;
 
 	config_.game.maxActive = config_.game.maxPathCount - nPath;
@@ -1190,7 +1183,7 @@ void ModManager::createLogFile()
 		return;
 	}
 
-	log << "Mods Setup Log - " << ApplicationInfo::full << std::endl;
+	log << "Mods setup log - " << ApplicationInfo::full << std::endl;
 
 	std::string dateTime;
 	Utils::getCurrentDateTime(dateTime);
@@ -1198,7 +1191,7 @@ void ModManager::createLogFile()
 	log << "Created: " << dateTime << std::endl;
 	log << std::endl;
 
-	log << config_.game.currentExecutableFile << " version: " << gameVersion_ << std::endl;
+	log << config_.game.executableFile << " version: " << gameVersion_ << std::endl;
 	log << "Mods folder path: " << modsFolderPath_ << '\\' << std::endl;
 	log << std::endl;
 

@@ -18,7 +18,7 @@
     <ClCompile Include="..\Source\Precompiled\Precompiled.cpp">
       <Filter>Source\Precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="..\wxFormBuilder\SS2BlueModManager.cpp">
+    <ClCompile Include="..\wxFormBuilder\DarkModManager.cpp">
       <Filter>wxFormBuilder</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\AboutDialog.cpp">
@@ -71,7 +71,7 @@
     <ClInclude Include="..\Source\Precompiled\Precompiled.hpp">
       <Filter>Source\Precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="..\wxFormBuilder\SS2BlueModManager.h">
+    <ClInclude Include="..\wxFormBuilder\DarkModManager.h">
       <Filter>wxFormBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\AboutDialog.hpp">

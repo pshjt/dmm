@@ -4,17 +4,17 @@
 
 namespace ApplicationInfo
 {
-	const std::string name = "SS2 Blue Mod Manager";
+	const std::string name = "Dark Mod Manager";
 	const std::string versionMajor = "1";
-	const std::string versionMinor = "16";
+	const std::string versionMinor = "0";
 	const std::string releaseType = "";
 
-	const std::string copyright = "\x00A9 2013-2015 bluemess, 2016 Marvin";
+	const std::string copyright = "\x00A9 2020 Marvin";
 
 	const std::string license =
-		"SS2 Blue Mod Manager is licensed under the MIT License.\n"
+		"Dark Mod Manager is licensed under the MIT License.\n"
 		"\n"
-		"Copyright 2013-2015 bluemess, 2016 Marvin\n"
+		"Copyright 2020 Marvin\n"
 		"\n"
 		"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated "
 		"documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation "
@@ -165,4 +165,4 @@ namespace ApplicationInfo
 
 		return str;
 	}();
-	} // namespace ApplicationInfo
+} // namespace ApplicationInfo
