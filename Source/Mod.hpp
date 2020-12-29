@@ -13,6 +13,7 @@ public:
 	int getIndex() const;
 	const std::string& getName() const;
 	const std::string& getReadme() const;
+	const std::string& getCutsceneFolder() const;
 	bool getIsActive() const;
 	bool getIsPaused() const;
 	const std::string& getType() const;
@@ -37,12 +38,12 @@ public:
 	void setIndex(int index);
 	void setName(const std::string& name);
 	void setReadme(const std::string& readme);
+	void setCutsceneFolder(const std::string& readme);
 	void setIsActive(bool isActive);
 	void setIsPaused(bool isPaused);
 	void setType(const std::string& type);
 
 	void setHasCFG(bool hasCFG);
-	void setHasCutscene(bool hasCutscene);
 	void setHasDML(bool hasDML);
 	void setHasGamesys(bool hasGamesys);
 	void setHasSubtitle(bool hasSubtitle);
@@ -68,12 +69,12 @@ private:
 	int index_;
 	std::string name_;
 	std::string readme_;
+	std::string cutsceneFolder_;
 	bool isActive_;
 	bool isPaused_;
 	std::string type_;
 
 	bool hasCFG_;
-	bool hasCutscene_;
 	bool hasDML_;
 	bool hasGamesys_;
 	bool hasSubtitle_;

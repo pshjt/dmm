@@ -229,7 +229,7 @@ std::tuple<std::string, std::string> ModManager::constructMoviePath() const
 			moviePath += '\\';
 			moviePath += mods_[i].getName();
 			moviePath += '\\';
-			moviePath += config_.game.cutsceneFolder;
+			moviePath += mods_[i].getCutsceneFolder();
 		}
 	}
 
@@ -995,8 +995,12 @@ void ModManager::checkModDirectory(Mod& mod)
 	if (!dir.Open(wxString(modsFolderPath_ + "\\" + mod.getName())))
 		return;
 
-	mod.setHasCFG(dir.HasFiles("user.cfg"));
-	mod.setHasCutscene(dir.HasSubDirs(config_.game.cutsceneFolder));
+	mod.setHasCFG(dir.HasFiles("*.cfg"));
+	for (auto& cutsceneFolder : config_.game.cutsceneFolders)
+	{
+		if (dir.HasSubDirs(cutsceneFolder))
+			mod.setCutsceneFolder(cutsceneFolder);
+	}
 	mod.setHasSubtitle(dir.HasSubDirs(config_.game.subtitleFolder));
 	mod.setHasDML(dir.HasFiles("*.dml"));
 	mod.setHasMis(dir.HasFiles("*.mis"));

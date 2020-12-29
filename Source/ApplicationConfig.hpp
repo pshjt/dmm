@@ -38,7 +38,7 @@ public:
 		std::string pauseIndicator;
 		std::string modPathSuffix;
 		std::string baseMoviePath;
-		std::string cutsceneFolder;
+		std::vector<std::string> cutsceneFolders;
 		std::string subtitleFolder;
 		std::string folderPath;
 		std::string modsFolder;
@@ -78,7 +78,7 @@ public:
 		game.additionalInstallConfigFiles.assign({ "darkinst.cfg" }); // List of other accepted install CFG files
 		game.modsConfigFile = "cam_mod.ini";
 		game.pauseIndicator = "*";
-		game.cutsceneFolder = "cutscenes";
+		game.cutsceneFolders.assign({ "cutscenes", "movies" });
 		game.subtitleFolder = "subtitles";
 
 		configVariables();

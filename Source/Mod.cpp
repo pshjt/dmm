@@ -12,7 +12,6 @@ Mod::Mod()
 	//, type_("")
 	//, readme("")
 	, hasCFG_(false)
-	, hasCutscene_(false)
 	, hasDML_(false)
 	, hasGamesys_(false)
 	, hasMis_(false)
@@ -49,6 +48,11 @@ const std::string& Mod::getReadme() const
 	return readme_;
 }
 
+const std::string& Mod::getCutsceneFolder() const
+{
+	return cutsceneFolder_;
+}
+
 bool Mod::getIsActive() const
 {
 	return isActive_;
@@ -71,7 +75,7 @@ bool Mod::getHasCFG() const
 
 bool Mod::getHasCutscene() const
 {
-	return hasCutscene_;
+	return !cutsceneFolder_.empty();
 }
 
 bool Mod::getHasDML() const
@@ -149,6 +153,11 @@ void Mod::setReadme(const std::string& readme)
 	set(readme_, readme);
 }
 
+void Mod::setCutsceneFolder(const std::string& cutsceneFolder)
+{
+	set(cutsceneFolder_, cutsceneFolder);
+}
+
 void Mod::setIsActive(bool isActive)
 {
 	setIsPaused(false);
@@ -168,11 +177,6 @@ void Mod::setType(const std::string& type)
 void Mod::setHasCFG(bool hasCFG)
 {
 	set(hasCFG_, hasCFG);
-}
-
-void Mod::setHasCutscene(bool hasCutscene)
-{
-	set(hasCutscene_, hasCutscene);
 }
 
 void Mod::setHasDML(bool hasDML)
@@ -243,7 +247,7 @@ void Mod::resetWarning()
 
 bool Mod::getIsUnrecognized() const
 {
-	if (hasCFG_ || hasCutscene_ || hasDML_ || hasGamesys_ || hasMis_ || hasSubtitle_ || hasOther_)
+	if (hasCFG_ || getHasCutscene() || hasDML_ || hasGamesys_ || hasMis_ || hasSubtitle_ || hasOther_)
 		return false;
 
 	return true;
