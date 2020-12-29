@@ -74,11 +74,11 @@ public:
 		game.maxFullPathLength = 255;
 		game.maxPathCount = 63;
 		game.maxActive = 0; // Computed while loading mods setup.
-		game.additionalExecutableFiles.assign({ "ss2.exe", "thief.exe", "thief2.exe" }); // List of other accepted executables
-		game.additionalInstallConfigFiles.assign({ "darkinst.cfg" }); // List of other accepted install CFG files
+		game.additionalExecutableFiles.assign({ "shock2.exe", "ss2.exe", "thief.exe", "thief2.exe" });
+		game.additionalInstallConfigFiles.assign({ "install.cfg", "darkinst.cfg" }); // install.cfg for SS2/Thief, darkinst.cfg for Thief2
 		game.modsConfigFile = "cam_mod.ini";
 		game.pauseIndicator = "*";
-		game.cutsceneFolders.assign({ "cutscenes", "movies" });
+		game.cutsceneFolders.assign({ "cutscenes", "movies" }); // cutscenes for SS2, movies for Thief games
 		game.subtitleFolder = "subtitles";
 
 		configVariables();
