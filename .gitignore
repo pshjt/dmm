@@ -4,3 +4,5 @@ VisualStudio/*
 !VisualStudio/*.vcxproj.filters
 !VisualStudio/Build.bat
 Resource/*.aps
+Gemfile.lock
+_site/
