@@ -674,9 +674,12 @@ void ModManager::loadModsFolders()
 	{
 		for (auto& modFolder : modsFolders)
 		{
-			Mod mod;
-			setModName(mod, modFolder);
-			mods_.push_back(mod);
+			if (!modFolder.empty())
+			{
+				Mod mod;
+				setModName(mod, modFolder);
+				mods_.push_back(mod);
+			}
 		}
 
 		shouldSortInactives_ = true;
