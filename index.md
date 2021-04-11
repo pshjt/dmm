@@ -1,6 +1,6 @@
 ## About
 
-The Dark mod manager (DMM) lets you install and organize mods for System Shock 2, Thief and Thief II in a straightforward manner.
+The Dark mod manager (DMM) lets you install and organize mods for System Shock 2, Thief, and Thief II in a straightforward manner.
 
 ## Requirements
 
@@ -31,13 +31,13 @@ Press **Install mod archives...** and select the mod archives to install. You ca
 
 ![Select archives to install](assets/images/dmm_archive.webp "Select archives to install")
 
-Activate mods and arrange their priorities as needed via buttons or drag & drop. Mods that are higher on the list override every mod below it.
+Activate mods and arrange their priorities as needed via buttons or drag & drop. Mods that are higher on the list override every mod below them.
 
 ![Finished installation with example mod list](assets/images/dmm_2.webp "Finished installation with example mod list")
 
 When finished, press **Apply changes** and **Launch game** to play.
 
-If you want further information about a mod, you can press **Lookup (WWW)** to open a Google search or **Open a ReadMe** file if present. If you have no further use of a mod, you can **Delete** it, which removes the mod from both DMM, and your hard drive. 
+If you want further information about a mod, you can press **Lookup (WWW)** to open a Google search or **Open a ReadMe** file if present. If you have no further use of a mod, you can **Delete** it, which removes the mod from both DMM and your hard drive. 
 
 #### Mod profiles
 To save your current mod order for later re-use, open the profile manager via **Manage profiles...**.
@@ -61,7 +61,7 @@ Press **Use** to apply the loaded profile, or simply close the window to discard
 | (De-)Activate     | <kbd>&crarr;</kbd>                 |
 | Pause/Resume      | <kbd>Space</kbd>                   |
 | Delete            | <kbd>Del</kbd>                     |
-| Apply changes     | <kbd>Alt</kbd> + <kbd>s</kbd>      |
+| Apply changes     | <kbd>Ctrl</kbd> + <kbd>s</kbd>      |
 
 ## Configuration
 
