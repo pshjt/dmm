@@ -9,12 +9,12 @@ namespace ApplicationInfo
 	const std::string versionMinor = "0";
 	const std::string releaseType = "";
 
-	const std::string copyright = "\x00A9 2020 Marvin";
+	const std::string copyright = "\x00A9 2021 pshjt";
 
 	const std::string license =
 		"Dark Mod Manager is licensed under the MIT License.\n"
 		"\n"
-		"Copyright 2020 Marvin\n"
+		"Copyright 2021 pshjt\n"
 		"\n"
 		"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated "
 		"documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation "

@@ -38,3 +38,7 @@ The project was built with Visual Studio 2019 Community and requires `cmake >=3.
 ## Contribute
 You want to improve the mod manager or otherwise help with development? Great! Contributions are always welcome.
 Create your own branch, use a rebase workflow, and open a pull request once you're good to go.
+
+## License
+Dark Mod Manager is licensed under the MIT License.
+THe project relies on [wxWidgets](https://www.wxwidgets.org/) and [7z-cpp](https://github.com/getnamo/7zip-cpp). Refer to their websites for respective licensing information.
