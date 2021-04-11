@@ -905,7 +905,7 @@ void ModManager::setModType(Mod& mod)
 		}
 		else if (mod.getHasOther())
 		{
-			type = "Replacement";
+			type = "Replacement/Other";
 		}
 		else if (mod.getHasCutscene())
 		{
@@ -1008,7 +1008,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasDML(dir.HasFiles("*.dml"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
-	mod.setHasOther(dir.HasFiles("*.nut"));
+	mod.setHasOther(dir.HasFiles("*.nut") || dir.HasSubDirs("sq_scripts"));
 
 	std::list<std::string> allSubDirs;
 	wxString nextDirName;
