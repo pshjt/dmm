@@ -10,6 +10,10 @@ The Dark mod manager (DMM) lets you install and organize mods for System Shock 2
 | Thief          | v1.19 or later |
 | Thief II       | v1.19 or later |
 
+DMM requires Windows Vista SP2 or later to run.
+
+For Linux support, use [Wine](https://www.winehq.org/).
+
 ## Installation
 
 DMM is part of [SS2Tool](https://www.systemshock.org/index.php?topic=4141.0) and is installed alongside it.
