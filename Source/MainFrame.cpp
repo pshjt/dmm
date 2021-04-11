@@ -80,15 +80,17 @@ void MainFrame::onClose(wxCloseEvent& event)
 	if (!config_.saveOverwriting("; Configuration File - " + ApplicationInfo::full))
 		showMessage(Message::MessageType::ERROR_OK, "Couldn't save application settings.", config_.getErrorMessage());
 
-	modManager_.shutDown();
-
 	if (shouldStartGame_)
 	{
+		modManager_.shutDown();
 		ShellRun shellRun;
 		std::string gameExePath = config_.game.folderPath + '\\' + config_.game.executableFile;
 
 		if (!shellRun.open(gameExePath, config_.game.folderPath))
 			showMessage(Message::MessageType::ERROR_OK, "Couldn't run:\n" + gameExePath, shellRun.getErrorMessage());
+	}
+	else {
+		modManager_.shutDown(false);
 	}
 
 	event.Skip();
@@ -677,10 +679,10 @@ void MainFrame::interfaceInitialize()
 #endif
 
 			listCtrlStyle |= LVS_EX_DOUBLEBUFFER;
-		}
+	}
 
 		::SendMessage(listCtrlHwnd, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, listCtrlStyle);
-	}
+}
 
 	wxSize imageListSize = wxArtProvider::GetSizeHint(wxART_FRAME_ICON);
 	imageList_.Create(imageListSize.GetWidth(), imageListSize.GetHeight());
