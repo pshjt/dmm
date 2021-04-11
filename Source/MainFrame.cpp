@@ -288,8 +288,8 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 	{
 		wxMessageDialog deleteDialog_(
 			this, wxString(
-				"Do you want do delete this mod? \n" + dirs.Last() +
-				" \n\nThis will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
+				"Do you want do delete this mod? \n" + dirs.Last() + "\n\n" +
+				"his will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
 
 		if (deleteDialog_.ShowModal() == wxID_YES)
 		{
@@ -454,8 +454,8 @@ void MainFrame::selectModArchivesButtonOnButtonClick(wxCommandEvent& event)
 				genericFileDialog_.GetPaths(modArchives);
 				break;
 			}
-			showMessage(Message::MessageType::ERROR_OK,
-				"Do not choose archives from the mod folder. They are installed automatically. \n\nChoose different archives from different folder or click abort.");
+			showMessage(Message::MessageType::WARNING_OK,
+				"Archives from the mod folder are installed automatically. \n\nRestart the manager or choose a different archive.");
 		}
 	}
 
