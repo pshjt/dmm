@@ -1008,6 +1008,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasDML(dir.HasFiles("*.dml"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
+	mod.setHasOther(dir.HasFiles("*.nut"));
 
 	std::list<std::string> allSubDirs;
 	wxString nextDirName;
