@@ -68,6 +68,7 @@ void ManageProfilesDialog::exportProfileButtonOnButtonClick(wxCommandEvent& even
 
 	showMessage(Message::MessageType::INFORMATION_OK, "New profile saved to: " + chosenPath);
 
+	profileConfig_.mod_path = "";
 	scheduleRefresh();
 
 	event.Skip();
