@@ -10,7 +10,7 @@ DMM requires Windows Vista SP2 or later to run by default but can be compiled fo
 ### (Optional) 7-Zip
 7-Zip is required to use the archive extraction feature and is bundled with the games in all standard installations (Steam, GOG, SS2Tool).
 To provide a custom 7-Zip version,
-1) Go to [7-zip.de](https://www.7-zip.de/) and download the 32-bit version.
+1) Go to [7-zip.org](https://7-zip.org/) and download the 32-bit version.
 2) Copy `7z.dll` to the same folder as `dmm.exe`
 
 ## Setup
