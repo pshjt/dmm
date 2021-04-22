@@ -27,7 +27,7 @@ Launch DMM. If the game is not yet detected, press **Select game folder...** and
 
 ![Select game folder](assets/images/dmm_1.webp "Select game folder")
 
-Press **Install mod archives...** and select the mod archives to install. You can select multiple files at once using <kbd>Shift</kbd> and <kbd>Ctrl</kbd>. Confirm by clicking **Open**. Mod archives in the main mod folder (`DMM` by default) are installed automatically.
+Press **Install mod archives...** and select the mod archives (see [Mod format](#mod-format)) to install. You can select multiple files at once using <kbd>Shift</kbd> and <kbd>Ctrl</kbd>. Confirm by clicking **Open**. Mod archives in the main mod folder (`DMM` by default) are installed automatically.
 
 ![Select archives to install](assets/images/dmm_archive.webp "Select archives to install")
 
@@ -74,3 +74,11 @@ Configuration values are stored in a file `dmm.cfg` in the same folder as DMM. T
 | game.baseMoviePath  | `.\cutscenes+.\Data\cutscenes` | Path appended to `movie_path` in game installation config      |
 | game.modsFolder     | `DMM`                          | Main mod folder. Installed mods are automatically copied to it |
 | game.archivesFolder | `DMMArchives`                  | Folder that automatically installed mod archives are copied to |
+
+
+## Mod format
+A mod may come in two formats - archived, or as a folder.
+
+In archive form, e.g. as a `.7z` file, all main game files (`mis`, `dml`, `gam`, ... ) and folders (`obj`, `mesh`, ...) should be placed at the root of the archive.
+
+In folder form, those same files should be collected in one single folder placed in the DMM folder.
