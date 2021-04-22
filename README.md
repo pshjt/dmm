@@ -41,4 +41,4 @@ Create your own branch, use a rebase workflow, and open a pull request once you'
 
 ## License
 Dark Mod Manager is licensed under the MIT License.
-THe project relies on [wxWidgets](https://www.wxwidgets.org/) and [7z-cpp](https://github.com/getnamo/7zip-cpp). Refer to their websites for respective licensing information.
+The project relies on [wxWidgets](https://www.wxwidgets.org/) and [7z-cpp](https://github.com/getnamo/7zip-cpp). Refer to their websites for respective licensing information.
