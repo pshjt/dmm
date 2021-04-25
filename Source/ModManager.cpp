@@ -1008,7 +1008,6 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasDML(dir.HasFiles("*.dml"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
-	mod.setHasOther(dir.HasFiles("*.nut") || dir.HasSubDirs("sq_scripts"));
 
 	std::list<std::string> allSubDirs;
 	wxString nextDirName;
@@ -1391,7 +1390,7 @@ void ModManager::resetStates()
 	}
 }
 
-const std::array<wxString, 16> ModManager::dataDirectories_ =
+const std::array<wxString, 18> ModManager::dataDirectories_ =
 {
 	{
 		"bitmap",
@@ -1406,9 +1405,11 @@ const std::array<wxString, 16> ModManager::dataDirectories_ =
 		"obj",
 		"objicon",
 		"pal",
+		"shaders",
 		"snd",
 		"snd2",
 		"song",
+		"sq_scripts",
 		"strings"
 	}
 };
@@ -1422,6 +1423,7 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 		"shkres.res",
 		"skeldata.res",
 		"texture.res",
+		"*.nut"
 		"*.osm"
 	}
 };

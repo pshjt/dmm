@@ -33,7 +33,7 @@ public:
 	void OnProgress(const SevenZip::TString&, unsigned long long bytesCompleted) override
 	{
 		totalBytesCompleted_ += bytesCompleted;
-		progress_.Update(static_cast<double>(totalBytesCompleted_) / static_cast<double>(totalBytes_) * 1000.0);
+		progress_.Update(static_cast<int>(static_cast<double>(totalBytesCompleted_) / static_cast<double>(totalBytes_) * 1000.0));
 	}
 
 	void OnDone(const SevenZip::TString&) override
