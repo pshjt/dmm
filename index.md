@@ -1,6 +1,6 @@
 ## About
 
-The Dark mod manager (DMM) lets you install and organize mods for System Shock 2, Thief, and Thief II in a straightforward manner.
+The Dark engine mod manager (DMM) lets you install and organize mods for System Shock 2, Thief, and Thief II in a straightforward manner.
 
 ## Requirements
 
@@ -79,6 +79,6 @@ Configuration values are stored in a file `dmm.cfg` in the same folder as DMM. T
 ## Mod format
 A mod may come in two formats - archived, or as a folder.
 
-In archive form, e.g. as a `.7z` file, all main game files (`mis`, `dml`, `gam`, ... ) and folders (`obj`, `mesh`, ...) should be placed at the root of the archive.
+In archive form, e.g. as a `7z` or `zip` file, all main game files (`*.mis`, `*.dml`, `*.gam`, ... ) and folders (`\obj`, `\mesh`, ...) should be placed at the root of the archive.
 
-In folder form, those same files should be collected in one single folder placed in the DMM folder.
+In folder form, those same files should be collected in one single folder and placed in the DMM folder.
