@@ -1,9 +1,9 @@
 [![dmm-build-release Actions Status](https://github.com/pshjt/dmm/workflows/dmm-build-release/badge.svg)](https://github.com/pshjt/dmm/actions)
 [![Github all releases](https://img.shields.io/github/downloads/pshjt/dmm/total.svg)](https://GitHub.com/pshjt/dmm/releases/)
 ## About
-This is the home of the Dark mod manager, a fork of [SS2BMM](https://github.com/pshjt/ss2bmm) meant for all Dark engine games, System Shock 2 as well as Thief and Thief II.
-More info on its intended use and about mod installation with respect to System Shock 2 can be obtained from [its homepage](https://pshjt.github.io/dmm/) and the 
-[official thread](https://www.systemshock.org/index.php?topic=4790.0 "DMM@SystemShock.org") .
+This is the home of the Dark engine mod manager (DMM), a fork of [SS2BMM](https://github.com/pshjt/ss2bmm) meant for all Dark engine games, System Shock 2 as well as Thief and Thief II.
+More info on its intended use and about mod installation can be obtained from [its homepage](https://pshjt.github.io/dmm/), and the official threads at
+[SystemShock.org](https://www.systemshock.org/index.php?topic=4790.0 "DMM@SystemShock.org") and [TTLG.com](https://www.ttlg.com/forums/showthread.php?t=151204 "DMM@TTLG.com").
 
 ## Requirements
 DMM requires Windows Vista SP2 or later to run by default but can be compiled for WinXP given appropriate VC++ settings.
