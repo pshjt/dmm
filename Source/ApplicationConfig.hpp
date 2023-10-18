@@ -39,6 +39,7 @@ public:
 		std::string folderPath; // folder path of executable file
 		std::string modsFolder; // name of folder containing all mods folders
 		std::string archivesFolder; // name of folder containing installed mod archives to move to
+		std::string dataOverrideSubfolder; // if not empty, manager will recognize this subfolder as an override for each individual mod so that a mod may ship for multiple games. Example: dataOverrideSubfolder "Thief1" -> mod_A gets added with "...\mod_A\Thief1 + ...\mod_A\"
 	} game;
 
 	struct
@@ -95,6 +96,7 @@ private:
 		CVAR(game.installConfigFile, "install.cfg");
 		CVAR(game.modsFolder, "DMM");
 		CVAR(game.archivesFolder, "DMMArchives");
+		CVAR(game.dataOverrideSubfolder, "")
 
 		CVAR(window.isMaximized, false);
 		CVAR(window.listColumnOrder, "");

@@ -217,18 +217,26 @@ std::tuple<std::string, std::string> ModManager::constructMoviePath() const
 {
 	int lastActive = calculateLastActiveIndex();
 	std::string moviePath = "";
-
+	std::string individualMoviePath;
 	for (int i = 0; i <= lastActive; ++i)
 	{
 		if (!mods_[i].getIsPaused() && mods_[i].getHasCutscene())
 		{
-			moviePath += '+';
-			moviePath += ".\\";
-			moviePath += config_.game.modsFolder;
-			moviePath += '\\';
-			moviePath += mods_[i].getName();
-			moviePath += '\\';
-			moviePath += mods_[i].getCutsceneFolder();
+			individualMoviePath = "";
+			individualMoviePath += ".\\";
+			individualMoviePath += config_.game.modsFolder;
+			individualMoviePath += '\\';
+			individualMoviePath += mods_[i].getName();
+			individualMoviePath += '\\';
+			individualMoviePath += mods_[i].getCutsceneFolder();
+
+			if (!config_.game.dataOverrideSubfolder.empty())
+			{
+				// if the override subfolder is set, duplicate each mod with and without that folder, giving priority to the override.
+				individualMoviePath = individualMoviePath + '\\' + config_.game.dataOverrideSubfolder + '+' + individualMoviePath;
+			}
+
+			moviePath += '+' + individualMoviePath;
 		}
 	}
 
@@ -250,17 +258,25 @@ std::tuple<std::string, std::string, std::string> ModManager::constructModPath()
 	Utils::stringTrim(modsPathPrefix, '+');
 
 	std::string modPath = modsPathPrefix;
+	std::string individualModPath;
 	for (int i = 0; i <= lastActive; ++i)
 	{
-		modPath += '+';
-
+		individualModPath = "";
 		if (mods_[i].getIsPaused())
-			modPath += config_.game.pauseIndicator;
+			individualModPath += config_.game.pauseIndicator;
 
-		modPath += ".\\";
-		modPath += config_.game.modsFolder;
-		modPath += '\\';
-		modPath += mods_[i].getName();
+		individualModPath += ".\\";
+		individualModPath += config_.game.modsFolder;
+		individualModPath += '\\';
+		individualModPath += mods_[i].getName();
+
+		if (!config_.game.dataOverrideSubfolder.empty()) 
+		{
+			// if the override subfolder is set, duplicate each mod with and without that folder, giving priority to the override.
+			individualModPath = individualModPath + '\\' + config_.game.dataOverrideSubfolder + '+' + individualModPath;
+		}
+
+		modPath += '+' + individualModPath;
 	}
 
 	std::string modsPathSuffix = std::string(config_.game.modsPathSuffix);
@@ -727,6 +743,13 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 
 	while (Utils::tokenize(token, remainder, remainder, '+'))
 	{
+		if (!config_.game.dataOverrideSubfolder.empty() && token.find(config_.game.dataOverrideSubfolder) != std::string::npos)
+		{
+			// If the mod name contains dataOverrideSubfolder, then we expect the same mod to be represented both by this token and the original token without the folder, so skip it and fetch the original token next.
+			// This also prevents the manager from warning the user about removed mods.
+			continue;
+		}
+			
 		ActiveMod activeMod;
 
 		if (Utils::stringIsEqualNoCase(token.substr(0, config_.game.pauseIndicator.length()),
@@ -831,6 +854,9 @@ void ModManager::computeMaxActive()
 		++nPath;
 
 	config_.game.maxActive = config_.game.maxPathCount - nPath;
+	// in case of a valid override subfolder, each mods path is basically duplicated, halving the amount of mods that can be activated
+	if (!config_.game.dataOverrideSubfolder.empty())
+		config_.game.maxActive = config_.game.maxActive / 2;
 }
 
 void ModManager::activate(int index)
