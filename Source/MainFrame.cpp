@@ -290,8 +290,8 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 	{
 		wxMessageDialog deleteDialog_(
 			this, wxString(
-				"Do you want do delete this mod? \n" + dirs.Last() + "\n\n" +
-				"his will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
+				"Do you want to delete this mod? \n" + dirs.Last() + "\n\n" +
+				"This will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
 
 		if (deleteDialog_.ShowModal() == wxID_YES)
 		{
