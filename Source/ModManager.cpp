@@ -932,6 +932,14 @@ void ModManager::setModType(Mod& mod)
 			type += "DML";
 		}
 
+		if (mod.getHasScript())
+		{
+			if (!type.empty())
+				type += ", ";
+
+			type += "Script";
+		}
+
 		if (mod.getHasMis())
 		{
 			if (!type.empty())
@@ -1005,7 +1013,8 @@ void ModManager::checkModDirectory(Mod& mod)
 			mod.setCutsceneFolder(cutsceneFolder);
 	}
 	mod.setHasSubtitle(dir.HasSubDirs(config_.game.subtitleFolder));
-	mod.setHasDML(dir.HasFiles("*.dml"));
+	mod.setHasDML(dir.HasFiles("*.dml") || dir.HasSubDirs("dbmods"));
+	mod.setHasScript(dir.HasSubDirs("scriptdata"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 
