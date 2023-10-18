@@ -116,8 +116,8 @@ void SelectGameFolderDialog::pathTextCtrlOnText(wxCommandEvent& event)
 		if (wxFileExists(exePath))
 		{
 			isExeFound = true;
-			std::string name, version;
-			Utils::getVersionInfo(exePath, name, version);
+			std::string version;
+			Utils::getVersionInfo(exePath, version);
 		}
 	}
 

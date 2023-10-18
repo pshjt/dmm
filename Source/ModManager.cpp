@@ -62,8 +62,7 @@ void ModManager::initialize(bool saveToFile)
 	}
 
 	gameVersion_ = "unknown";
-	std::string name;
-	Utils::getVersionInfo(exePath, name, gameVersion_);
+	Utils::getVersionInfo(exePath, gameVersion_);
 
 	modsFolderPath_ = gameFolderPath + '\\' + config_.game.modsFolder;
 	Utils::normalizePath(modsFolderPath_);
@@ -202,13 +201,13 @@ std::string ModManager::constructMoviePath(bool updateConfig)
 
 std::string ModManager::constructAndUpdateModPath(bool updateConfig)
 {
-	auto [modPathPrefix, modPath, modPathSuffix] = constructModPath();
+	auto [modsPathPrefix, modPath, modsPathSuffix] = constructModPath();
 
 	if (updateConfig)
 	{
 		modConfig_.mod_path = modPath;
-		config_.game.modPathSuffix = modPathSuffix;
-		config_.game.modPathPrefix = modPathPrefix;
+		config_.game.modsPathSuffix = modsPathSuffix;
+		config_.game.modsPathPrefix = modsPathPrefix;
 	}
 
 	return modPath;
@@ -246,11 +245,11 @@ std::tuple<std::string, std::string, std::string> ModManager::constructModPath()
 {
 	int lastActive = calculateLastActiveIndex();
 
-	std::string modPathPrefix = config_.game.modPathPrefix;
-	Utils::stringTrim(modPathPrefix);
-	Utils::stringTrim(modPathPrefix, '+');
+	std::string modsPathPrefix = config_.game.modsPathPrefix;
+	Utils::stringTrim(modsPathPrefix);
+	Utils::stringTrim(modsPathPrefix, '+');
 
-	std::string modPath = modPathPrefix;
+	std::string modPath = modsPathPrefix;
 	for (int i = 0; i <= lastActive; ++i)
 	{
 		modPath += '+';
@@ -264,13 +263,13 @@ std::tuple<std::string, std::string, std::string> ModManager::constructModPath()
 		modPath += mods_[i].getName();
 	}
 
-	std::string modPathSuffix = std::string(config_.game.modPathSuffix);
-	Utils::stringTrim(modPathSuffix);
-	Utils::stringTrim(modPathSuffix, '+');
-	modPath += '+' + modPathSuffix;
+	std::string modsPathSuffix = std::string(config_.game.modsPathSuffix);
+	Utils::stringTrim(modsPathSuffix);
+	Utils::stringTrim(modsPathSuffix, '+');
+	modPath += '+' + modsPathSuffix;
 	Utils::stringTrim(modPath, '+');
 
-	return std::make_tuple(modPathPrefix, modPath, modPathSuffix);
+	return std::make_tuple(modsPathPrefix, modPath, modsPathSuffix);
 }
 
 bool ModManager::getHasStateChanged()
@@ -691,7 +690,7 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 	std::string token, remainder;
 
 	std::vector<std::string> baseModPaths;
-	remainder = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
+	remainder = config_.game.modsPathPrefix + '+' + config_.game.modsPathSuffix;
 
 	while (Utils::tokenize(token, remainder, remainder, '+'))
 	{
@@ -824,7 +823,7 @@ void ModManager::computeMaxActive()
 	while (Utils::tokenize(token, uberModPath, uberModPath, '+'))
 		++nPath;
 
-	std::string additionalModPaths = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
+	std::string additionalModPaths = config_.game.modsPathPrefix + '+' + config_.game.modsPathSuffix;
 	Utils::stringTrim(additionalModPaths);
 	Utils::stringTrim(additionalModPaths, '+');
 

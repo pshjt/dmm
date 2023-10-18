@@ -357,7 +357,7 @@ namespace Utils
 		str += toString(y);
 	}
 
-	bool getVersionInfo(const std::string& filePath, std::string& productName, std::string& productVersion)
+	bool getVersionInfo(const std::string& filePath, std::string& productVersion)
 	{
 		DWORD fileVersionInfoSize = GetFileVersionInfoSizeA(filePath.c_str(), nullptr);
 
@@ -369,14 +369,8 @@ namespace Utils
 		if (GetFileVersionInfoA(filePath.c_str(), 0, fileVersionInfoSize, &data[0]) == 0)
 			return false;
 
-		LPVOID productNameBuffer = nullptr;
-		UINT productNameLength = 0;
 		LPVOID productVersionBuffer = nullptr;
 		UINT productVersionLength = 0;
-
-		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductName", &productNameBuffer,
-			&productNameLength) == 0)
-			return false;
 
 		if (VerQueryValueA(&data[0], "\\StringFileInfo\\040904B0\\ProductVersion", &productVersionBuffer,
 			&productVersionLength) == 0)
@@ -384,13 +378,11 @@ namespace Utils
 			return false;
 		}
 
-		if (productNameLength < 1 || productVersionLength < 1)
+		if (productVersionLength < 1)
 			return false;
 
-		--productNameLength;
 		--productVersionLength;
 
-		productName.assign(static_cast<char*>(productNameBuffer), productNameLength);
 		productVersion.assign(static_cast<char*>(productVersionBuffer), productVersionLength);
 
 		return true;
