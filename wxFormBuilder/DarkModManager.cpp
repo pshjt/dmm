@@ -25,7 +25,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 	wxBoxSizer* boxSizer111;
 	boxSizer111 = new wxBoxSizer( wxVERTICAL );
 
-	listCtrl_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_SORT_HEADER|wxLC_REPORT|wxLC_SINGLE_SEL );
+	listCtrl_ = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT );
 	boxSizer111->Add( listCtrl_, 1, wxEXPAND|wxALL, 2 );
 
 

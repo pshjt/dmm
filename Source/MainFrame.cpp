@@ -147,6 +147,9 @@ void MainFrame::listCtrlOnKillFocus(wxFocusEvent& WXUNUSED(event))
 void MainFrame::listCtrlOnItemBeginDrag(wxListEvent& event)
 {
 	const long eventIndex = event.GetIndex();
+	// drag-and-drop is undefined for N > 1 selected items, de-select all items except the last immediately during drag
+	modManager_.removeAllSelected();
+	modManager_.addSelected(eventIndex);
 
 	if (modManager_.getMods()[eventIndex].getIsActive())
 	{
@@ -220,17 +223,18 @@ void MainFrame::listCtrlOnListItemActivated(wxListEvent& event)
 
 void MainFrame::listCtrlOnListItemDeselected(wxListEvent& event)
 {
-	modManager_.setSelected(-1);
+	wxLogDebug(wxString() << "Deselecting element: " << event.GetIndex());
+	if (modManager_.removeSelected(event.GetIndex()))
+		scheduleInterfaceUpdate();
 
-	scheduleInterfaceUpdate();
 	event.Skip();
 }
 
 void MainFrame::listCtrlOnListItemSelected(wxListEvent& event)
 {
-	modManager_.setSelected(event.GetIndex());
-
-	scheduleInterfaceUpdate();
+	wxLogDebug(wxString() << "Selecting element: " << event.GetIndex());
+	if (modManager_.addSelected(event.GetIndex()))
+		scheduleInterfaceUpdate();
 	event.Skip();
 }
 
@@ -254,7 +258,7 @@ void MainFrame::increasePriorityButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	modManager_.increasePriority();
+	modManager_.increasePriorities();
 
 	buttonClickFinish(event);
 }
@@ -263,7 +267,7 @@ void MainFrame::decreasePriorityButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	modManager_.decreasePriority();
+	modManager_.decreasePriorities();
 
 	buttonClickFinish(event);
 }
@@ -281,20 +285,34 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	wxFileName path(
-		modManager_.getModsFolderPath() + '\\' + modManager_.getMods()[modManager_.getSelected()].getName() + "\\");
-	path.MakeAbsolute();
-	wxArrayString dirs = path.GetDirs();
-	if (path.IsDir() && path.IsDirWritable() && !(Utils::stringIsEqualNoCase(
-		dirs.Last().ToStdString(), config_.game.modsFolder)))
-	{
-		wxMessageDialog deleteDialog_(
-			this, wxString(
-				"Do you want to delete this mod? \n" + dirs.Last() + "\n\n" +
-				"This will remove the mod folder from your installation."), wxString("Delete mod?"), wxYES_NO);
+	std::vector<Mod>& allMods = modManager_.getMods();
+	std::vector<wxFileName> filePaths;
 
-		if (deleteDialog_.ShowModal() == wxID_YES)
+	for (int modIndex : modManager_.getAllSelected())
+	{
+		wxFileName path(modManager_.getModsFolderPath() + '\\' + allMods[modIndex].getName() + "\\");
+		path.MakeAbsolute();
+		if (path.IsDir() && path.IsDirWritable() && !(Utils::stringIsEqualNoCase(path.GetDirs().Last().ToStdString(), config_.game.modsFolder)))
 		{
+			filePaths.push_back(path);
+		}
+	}
+
+	int dirNumber = filePaths.size();
+	if (dirNumber == 0)
+	{
+		return;
+	}
+
+	wxString dialogue = wxString::Format("Do you want to delete the following %s?\n\nThis will remove the respective folders from your installation.",
+		(dirNumber==1) ? wxString::Format("mod %s", filePaths.back().GetDirs().Last()) 
+					   : wxString::Format("%d mods", dirNumber));
+
+	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s) ? "), wxYES_NO);
+
+	if (deleteDialog_.ShowModal() == wxID_YES)
+	{
+		for (auto path : filePaths) {
 			bool isSuccess = path.Rmdir(wxPATH_RMDIR_RECURSIVE);
 			if (!isSuccess)
 				showMessage(Message::MessageType::ERROR_OK, "Could not delete protected folder.");
@@ -308,7 +326,7 @@ void MainFrame::openModsFolderButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	int selected = modManager_.getSelected();
+	int selected = modManager_.getSingleSelected();
 	std::string modsFolderPath = modManager_.getModsFolderPath();
 	std::string path;
 	ShellRun shellRun;
@@ -367,7 +385,7 @@ void MainFrame::openModURLButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	int selected = modManager_.getSelected();
+	int selected = modManager_.getSingleSelected();
 	std::string modName = modManager_.getMods()[selected].getName();
 	Utils::stringReplaceCharWithChar(modName, '-', '+');
 	wxString lookupURL = config_.application.lookupURL;
@@ -390,7 +408,7 @@ void MainFrame::openReadmeButtonOnButtonClick(wxCommandEvent& event)
 {
 	buttonClickStart(event);
 
-	int selected = modManager_.getSelected();
+	int selected = modManager_.getSingleSelected();
 	std::string modsFolderPath = modManager_.getModsFolderPath();
 	std::string path;
 	ShellRun shellRun;
@@ -1031,7 +1049,7 @@ void MainFrame::setTooltip(int windowId)
 
 	case ID_OPEN_MOD_URL_BUTTON:
 		tip = "Lookup ";
-		nbs = modManager_.getMods()[modManager_.getSelected()].getName();
+		nbs = modManager_.getMods()[modManager_.getAllSelected().back()].getName();
 		Utils::stringMakeNonBreakingSpaces(nbs);
 		tip += nbs;
 		tip += " mod via Google";
@@ -1040,7 +1058,7 @@ void MainFrame::setTooltip(int windowId)
 
 	case ID_OPEN_README_BUTTON:
 		tip = "Open readme file for ";
-		nbs = modManager_.getMods()[modManager_.getSelected()].getName();
+		nbs = modManager_.getMods()[modManager_.getAllSelected().back()].getName();
 		Utils::stringMakeNonBreakingSpaces(nbs);
 		tip += nbs;
 		tip += " mod";
@@ -1087,42 +1105,42 @@ void MainFrame::listUpdateSelected()
 {
 	assert(listCtrl_->IsFrozen());
 
-	const int selectedFlag = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-
-	int selected = modManager_.getSelected();
+	const int selectedFlag = wxLIST_STATE_SELECTED;
 
 	if (listCtrl_->GetItemCount() == 0)
 		return;
 
-	if (selected > listCtrl_->GetItemCount() - 1)
-		return;
+	std::vector<int> selectedItems = modManager_.getAllSelected();
 
-	if (selected < 0)
+
+	for (int idx = 0; idx < listCtrl_->GetItemCount(); ++idx)
 	{
-		for (int i = 0; i < listCtrl_->GetItemCount(); ++i)
+		int itemStateSelected = listCtrl_->GetItemState(idx, selectedFlag);
+		if (itemStateSelected == selectedFlag &&
+			std::find(selectedItems.begin(), selectedItems.end(), idx) == selectedItems.end())
 		{
-			if (listCtrl_->GetItemState(i, selectedFlag) != 0)
-				listCtrl_->SetItemState(i, 0, selectedFlag);
+			// it item is selected but is not in list of selected mods, clear (state = 0) the item if its current state contains any of the selectedFlag bitmask
+			listCtrl_->SetItemState(idx, 0, selectedFlag);
 		}
 
-		return;
+		if (itemStateSelected != selectedFlag &&
+			std::find(selectedItems.begin(), selectedItems.end(), idx) != selectedItems.end())
+		{
+			// if item is not selected, do so and focus it (the last handled item "wins" the focus)
+			listCtrl_->SetItemState(idx, selectedFlag, selectedFlag | wxLIST_STATE_FOCUSED);
+			listCtrl_->EnsureVisible(idx);
+		}	
 	}
-
-	if (listCtrl_->GetItemState(selected, selectedFlag) == selectedFlag)
-		return;
-
-	listCtrl_->SetItemState(selected, selectedFlag, selectedFlag);
-	listCtrl_->EnsureVisible(selected);
 }
 
 void MainFrame::editButtonsUpdate()
 {
 	activateDeactivateButton_->Enable(modManager_.canActivateDeactivate());
-	increasePriorityButton_->Enable(modManager_.canIncreasePriority());
-	decreasePriorityButton_->Enable(modManager_.canDecreasePriority());
+	increasePriorityButton_->Enable(modManager_.canIncreasePriorities());
+	decreasePriorityButton_->Enable(modManager_.canDecreasePriorities());
 	pauseResumeButton_->Enable(modManager_.canPauseResume());
 	deleteButton_->Enable(modManager_.canActivateDeactivate());
-	openModURLButton_->Enable(modManager_.canActivateDeactivate());
+	openModURLButton_->Enable(modManager_.getAllSelected().size() == 1 && modManager_.canActivateDeactivate());
 	openReadmeButton_->Enable(modManager_.canOpenReadme());
 	applyButton_->Enable(modManager_.needsToApply());
 }
@@ -1145,9 +1163,9 @@ void MainFrame::statusBarUpdate()
 
 		return;
 	}
-	if (modManager_.getSelected() > -1)
+	if (!modManager_.getAllSelected().empty())
 	{
-		Mod& mod = modManager_.getMods()[modManager_.getSelected()];
+		Mod& mod = modManager_.getMods()[modManager_.getAllSelected().back()];
 
 		if (mod.getIsUnrecognized())
 		{
@@ -1230,14 +1248,10 @@ void MainFrame::listSetItemCount(int itemCount)
 	}
 	else if (listCtrl_->GetItemCount() > itemCount)
 	{
-		int tempSelected = modManager_.getSelected();
-
 		int lastItem = listCtrl_->GetItemCount() - 1;
 
 		while (listCtrl_->GetItemCount() > itemCount)
 			listCtrl_->DeleteItem(lastItem--);
-
-		modManager_.setSelected(tempSelected);
 	}
 
 	shouldSetColumnsWidth_ = true;
