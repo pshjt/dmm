@@ -114,7 +114,7 @@ WxfbMainFrame::WxfbMainFrame( wxWindow* parent, wxWindowID id, const wxString& t
 
 	sbSizer5->Add( applyButton_, 0, wxBOTTOM|wxEXPAND, 1 );
 
-	applyAndStartGameButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_AND_START_GAME_BUTTON, wxT("Launch game"), wxDefaultPosition, wxDefaultSize, 0 );
+	applyAndStartGameButton_ = new wxButton( sbSizer5->GetStaticBox(), ID_APPLY_AND_START_GAME_BUTTON, wxT("Launch game && exit"), wxDefaultPosition, wxDefaultSize, 0 );
 	applyAndStartGameButton_->SetToolTip( wxT("Apply mod config and launch game with current setup") );
 
 	sbSizer5->Add( applyAndStartGameButton_, 0, wxALL|wxBOTTOM|wxEXPAND|wxTOP, 1 );
