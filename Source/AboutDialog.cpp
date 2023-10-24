@@ -82,13 +82,19 @@ AboutDialog::AboutDialog(wxWindow* parent)
 
 	wxBoxSizer* boxSizer131 = new wxBoxSizer(wxVERTICAL);
 
-	licenseHyperlink_ = new wxHyperlinkCtrl(this, wxID_ANY, "temp", "temp", wxDefaultPosition, wxDefaultSize,
+	licenseHyperlink_ = new wxHyperlinkCtrl(this, wxID_ANY, "temp", "temp", 
+		wxDefaultPosition, wxDefaultSize,
 		wxBORDER_NONE | wxHL_ALIGN_LEFT);
-
 	licenseHyperlink_->SetHoverColour(licenseHyperlink_->GetNormalColour());
 	licenseHyperlink_->SetVisitedColour(licenseHyperlink_->GetNormalColour());
+	boxSizer131->Add(licenseHyperlink_, 0, wxALL | wxEXPAND, 2);
 
-	boxSizer131->Add(licenseHyperlink_, 0, wxALL | wxEXPAND, 4);
+	wxHyperlinkCtrl* hyperlinkReadme = new wxHyperlinkCtrl(this, wxID_ANY, "ReadMe", "https://pshjt.github.io/dmm/",
+		wxDefaultPosition, wxDefaultSize,
+		wxBORDER_NONE | wxHL_ALIGN_LEFT);
+	hyperlinkReadme->SetHoverColour(hyperlinkReadme->GetNormalColour());
+	hyperlinkReadme->SetVisitedColour(hyperlinkReadme->GetNormalColour());
+	boxSizer131->Add(hyperlinkReadme, 0, wxALL | wxEXPAND, 2);
 
 	boxSizer13->Add(boxSizer131, 1, wxEXPAND);
 
@@ -96,7 +102,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	boxSizer132 = new wxBoxSizer(wxVERTICAL);
 
 	okButton_ = new wxButton(this, wxID_OK, "OK");
-	boxSizer132->Add(okButton_, 0, wxALL, 4);
+	boxSizer132->Add(okButton_, 0, wxALL, 8);
 
 	boxSizer13->Add(boxSizer132, 0, wxEXPAND);
 
