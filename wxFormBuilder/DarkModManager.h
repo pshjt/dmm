@@ -1,5 +1,5 @@
 ﻿///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 26 2018)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -17,10 +17,10 @@
 #include <wx/string.h>
 #include <wx/listctrl.h>
 #include <wx/sizer.h>
+#include <wx/button.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/button.h>
 #include <wx/statbox.h>
 #include <wx/scrolwin.h>
 #include <wx/frame.h>
@@ -73,7 +73,7 @@ class WxfbMainFrame : public wxFrame
 		wxButton* applyButton_;
 		wxButton* applyAndStartGameButton_;
 
-		// Virtual event handlers, overide them in your derived class
+		// Virtual event handlers, override them in your derived class
 		virtual void onClose( wxCloseEvent& event ) = 0;
 		virtual void onSize( wxSizeEvent& event ) = 0;
 		virtual void statusBarOnSize( wxSizeEvent& event ) = 0;
@@ -128,7 +128,7 @@ class WxfbSelectGameFolderDialog : public wxDialog
 		wxButton* okButton_;
 		wxButton* cancelButton_;
 
-		// Virtual event handlers, overide them in your derived class
+		// Virtual event handlers, override them in your derived class
 		virtual void onSize( wxSizeEvent& event ) = 0;
 		virtual void pathTextCtrlOnText( wxCommandEvent& event ) = 0;
 		virtual void genericDirCtrlOnTreeSelChanged( wxTreeEvent& event ) = 0;
@@ -137,6 +137,7 @@ class WxfbSelectGameFolderDialog : public wxDialog
 	public:
 
 		WxfbSelectGameFolderDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Select game folder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
+
 		~WxfbSelectGameFolderDialog();
 
 };
@@ -155,7 +156,7 @@ class WxfbManageProfilesDialog : public wxDialog
 		wxButton* useProfileButton_;
 		wxButton* exportProfileButton_;
 
-		// Virtual event handlers, overide them in your derived class
+		// Virtual event handlers, override them in your derived class
 		virtual void importProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
 		virtual void exportProfileButtonOnButtonClick( wxCommandEvent& event ) = 0;
 
@@ -163,6 +164,7 @@ class WxfbManageProfilesDialog : public wxDialog
 	public:
 
 		WxfbManageProfilesDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,450 ), long style = wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxRESIZE_BORDER );
+
 		~WxfbManageProfilesDialog();
 
 };
