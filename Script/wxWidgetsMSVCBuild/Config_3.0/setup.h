@@ -35,6 +35,16 @@
 // compatibility settings
 // ----------------------------------------------------------------------------
 
+// This setting determines the compatibility with 2.6 API: set it to 0 to
+// flag all cases of using deprecated functions.
+//
+// Default is 1 but please try building your code with 0 as the default will
+// change to 0 in the next version and the deprecated functions will disappear
+// in the version after it completely.
+//
+// Recommended setting: 0 (please update your code)
+#define WXWIN_COMPATIBILITY_2_6 0
+
 // This setting determines the compatibility with 2.8 API: set it to 0 to
 // flag all cases of using deprecated functions.
 //
@@ -43,17 +53,7 @@
 // in the version after it completely.
 //
 // Recommended setting: 0 (please update your code)
-#define WXWIN_COMPATIBILITY_2_8 0
-
-// This setting determines the compatibility with 3.0 API: set it to 0 to
-// flag all cases of using deprecated functions.
-//
-// Default is 1 but please try building your code with 0 as the default will
-// change to 0 in the next version and the deprecated functions will disappear
-// in the version after it completely.
-//
-// Recommended setting: 0 (please update your code)
-#define WXWIN_COMPATIBILITY_3_0 0
+#define WXWIN_COMPATIBILITY_2_8 ALL_0
 
 // MSW-only: Set to 0 for accurate dialog units, else 1 for old behaviour when
 // default system font is used for wxWindow::GetCharWidth/Height() instead of
@@ -62,7 +62,7 @@
 // Default is 0
 //
 // Recommended setting: 0
-#define wxDIALOG_UNIT_COMPATIBILITY   0
+#define wxDIALOG_UNIT_COMPATIBILITY 0
 
 // ----------------------------------------------------------------------------
 // debugging settings
@@ -324,16 +324,6 @@
     #define wxUSE_STD_DEFAULT  1
 #endif
 
-// This provides better interoperability with the standard library, e.g. with
-// this option on it's possible to insert std::vector<> into many wxWidgets
-// containers directly.
-//
-// Default is 1.
-//
-// Recommended setting is 1 unless you want to avoid all dependencies on the
-// standard library.
-#define wxUSE_STD_CONTAINERS_COMPATIBLY wxUSE_STD_DEFAULT
-
 // Use standard C++ containers to implement wxVector<>, wxStack<>, wxDList<>
 // and wxHashXXX<> classes. If disabled, wxWidgets own (mostly compatible but
 // usually more limited) implementations are used which allows to avoid the
@@ -490,7 +480,14 @@
 #define wxUSE_XLOCALE       RELEASE_0
 
 // Set wxUSE_DATETIME to 1 to compile the wxDateTime and related classes which
-// allow to manipulate dates, times and time intervals.
+// allow to manipulate dates, times and time intervals. wxDateTime replaces the
+// old wxTime and wxDate classes which are still provided for backwards
+// compatibility (and implemented in terms of wxDateTime).
+//
+// Note that this class is relatively new and is still officially in alpha
+// stage because some features are not yet (fully) implemented. It is already
+// quite useful though and should only be disabled if you are aiming at
+// absolutely minimal version of the library.
 //
 // Requires: wxUSE_LONGLONG
 //
@@ -757,10 +754,21 @@
 // Default is 1 on GTK and OSX
 //
 // Recommended setting: 1
-#if defined(__WXGTK__) || defined(__WXOSX__)
+#if (defined(__WXGTK__) && !defined(__WXGTK3__)) || defined(__WXOSX__)
 #define wxUSE_WEBVIEW_WEBKIT 1
 #else
 #define wxUSE_WEBVIEW_WEBKIT 0
+#endif
+
+// Use the WebKit2 wxWebView backend
+//
+// Default is 1 on GTK3
+//
+// Recommended setting: 1
+#if defined(__WXGTK3__)
+#define wxUSE_WEBVIEW_WEBKIT2 1
+#else
+#define wxUSE_WEBVIEW_WEBKIT2 0
 #endif
 
 // Enable the new wxGraphicsPath and wxGraphicsContext classes for an advanced
@@ -859,11 +867,10 @@
 // Default is 1
 //
 // Recommended setting: 1
-#define wxUSE_ACTIVITYINDICATOR RELEASE_0 // wxActivityIndicator
 #define wxUSE_ANIMATIONCTRL RELEASE_0   // wxAnimationCtrl
 #define wxUSE_BANNERWINDOW  RELEASE_0   // wxBannerWindow
 #define wxUSE_BUTTON        1   // wxButton
-#define wxUSE_BMPBUTTON     1   // wxBitmapButton
+#define wxUSE_BMPBUTTON     RELEASE_0   // wxBitmapButton
 #define wxUSE_CALENDARCTRL  RELEASE_0   // wxCalendarCtrl
 #define wxUSE_CHECKBOX      1   // wxCheckBox
 #define wxUSE_CHECKLISTBOX  RELEASE_0   // wxCheckListBox (requires wxUSE_OWNER_DRAWN)
@@ -882,7 +889,7 @@
 #define wxUSE_GAUGE         1   // wxGauge
 #define wxUSE_HEADERCTRL    1   // wxHeaderCtrl
 #define wxUSE_HYPERLINKCTRL 1   // wxHyperlinkCtrl
-#define wxUSE_LISTBOX       RELEASE_0   // wxListBox
+#define wxUSE_LISTBOX       1   // wxListBox
 #define wxUSE_LISTCTRL      1   // wxListCtrl
 #define wxUSE_RADIOBOX      RELEASE_0   // wxRadioBox
 #define wxUSE_RADIOBTN      RELEASE_0   // wxRadioButton
@@ -1029,16 +1036,6 @@
 // wxHeaderCtrl)
 #define wxUSE_REARRANGECTRL RELEASE_0
 
-// wxAddRemoveCtrl is a composite control containing a control showing some
-// items (e.g. wxListBox, wxListCtrl, wxTreeCtrl, wxDataViewCtrl, ...) and "+"/
-// "-" buttons allowing to add and remove items to/from the control.
-//
-// Default is 1.
-//
-// Recommended setting: 1 but can be safely set to 0 if you don't need it (not
-// used by the library itself).
-#define wxUSE_ADDREMOVECTRL RELEASE_0
-
 // ----------------------------------------------------------------------------
 // Miscellaneous GUI stuff
 // ----------------------------------------------------------------------------
@@ -1125,7 +1122,7 @@
 // Default is 1.
 //
 // Recommended setting: 1
-#define wxUSE_NOTIFICATION_MESSAGE 1
+#define wxUSE_NOTIFICATION_MESSAGE RELEASE_0
 
 // wxPreferencesEditor provides a common API for different ways of presenting
 // the standard "Preferences" or "Properties" dialog under different platforms
@@ -1249,10 +1246,6 @@
 
 // progress dialog class for lengthy operations
 #define wxUSE_PROGRESSDLG	1
-
-// Set to 0 to disable the use of the native progress dialog (currently only
-// available under MSW and suffering from some bugs there, hence this option).
-#define wxUSE_NATIVE_PROGRESSDLG 1
 
 // support for startup tips (wxShowTip &c)
 #define wxUSE_STARTUP_TIPS RELEASE_0
@@ -1532,34 +1525,6 @@
 
 /* --- start MSW options --- */
 // ----------------------------------------------------------------------------
-// Graphics backends choices for Windows
-// ----------------------------------------------------------------------------
-
-// The options here are only taken into account if wxUSE_GRAPHICS_CONTEXT is 1.
-
-// Enable support for GDI+-based implementation of wxGraphicsContext.
-//
-// Default is 1.
-//
-// Recommended setting: 1 if you need to support XP, as Direct2D is not
-// available there.
-#define wxUSE_GRAPHICS_GDIPLUS wxUSE_GRAPHICS_CONTEXT
-
-// Enable support for Direct2D-based implementation of wxGraphicsContext.
-//
-// Default is 1 for compilers which support it, i.e. VC10+ currently. If you
-// use an earlier MSVC version or another compiler and installed the necessary
-// SDK components manually, you need to change this setting.
-//
-// Recommended setting: 1 for faster and better quality graphics under Windows
-// 7 and later systems (if wxUSE_GRAPHICS_GDIPLUS is also enabled, earlier
-// systems will fall back on using GDI+).
-#if defined(_MSC_VER) && _MSC_VER >= 1600
-    #define wxUSE_GRAPHICS_DIRECT2D wxUSE_GRAPHICS_CONTEXT
-#else
-    #define wxUSE_GRAPHICS_DIRECT2D 0
-#endif
-
 // Windows-only settings
 // ----------------------------------------------------------------------------
 
@@ -1613,19 +1578,6 @@
 //
 // Recommended setting: 1, required by wxMediaCtrl
 #define wxUSE_ACTIVEX RELEASE_0
-
-// Enable WinRT support
-//
-// Default is 1 for compilers which support it, i.e. VS2012+ currently. If you
-// use an earlier MSVC version or another compiler and installed the necessary
-// SDK components manually, you need to change this setting.
-//
-// Recommended setting: 1
-#if defined(_MSC_VER) && _MSC_VER >= 1700
-    #define wxUSE_WINRT 0
-#else
-    #define wxUSE_WINRT 0
-#endif
 
 // wxDC caching implementation
 #define wxUSE_DC_CACHEING 1
@@ -1682,15 +1634,6 @@
 //
 // Recommended setting: 1, set to 0 for a tiny library size reduction
 #define wxUSE_TASKBARICON_BALLOONS RELEASE_0
-
-// Set this to 1 to enable following functionality added in Windows 7: thumbnail
-// representations, thumbnail toolbars, notification and status overlays,
-// progress indicators and jump lists.
-//
-// Default is 1.
-//
-// Recommended setting: 1, set to 0 for a tiny library size reduction
-#define wxUSE_TASKBARBUTTON RELEASE_0
 
 // Set to 1 to compile MS Windows XP theme engine support
 #define wxUSE_UXTHEME           1
