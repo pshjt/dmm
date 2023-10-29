@@ -36,21 +36,19 @@
 #define wxNO_ZLIB_LIB
 #endif
 
+
 #ifndef WX_PRECOMP
 #define WX_PRECOMP
 #endif
 
 #ifdef _MSC_VER
   #pragma warning(push)
-  #pragma warning(disable: 4996)
-#endif
-//
-#include <wx/wxprec.h>
-//
-#ifdef _MSC_VER
-  #pragma warning(pop)
+  #pragma warning(disable: 4996 26812)
 #endif
 
+#include <wx/wxprec.h>
+
+/*wxFormBuilder GUI*/
 #include <wx/display.h>
 #include <wx/fswatcher.h>
 #include <wx/hyperlink.h>
@@ -61,3 +59,8 @@
 
 /*wxFormBuilder GUI*/
 #include "../../wxFormBuilder/DarkModManager.h"
+
+#ifdef _MSC_VER
+  #pragma warning(pop)
+#endif
+
