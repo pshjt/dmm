@@ -257,7 +257,7 @@ namespace Utils
 		for (auto& currentFile : files)
 		{
 			wxCurrentFile = wxFileName(currentFile);
-			if (wxCurrentFile.GetFullName().MakeLower().CompareTo(file.GetFullName().MakeLower()) == 0)
+			if (wxCurrentFile.GetFullName().MakeLower().Cmp(file.GetFullName().MakeLower()) == 0)
 			{
 				return wxCurrentFile.GetFullName().ToStdString();
 			}
