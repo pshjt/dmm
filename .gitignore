@@ -3,5 +3,6 @@ VisualStudio/*
 !VisualStudio/*.vcxproj
 !VisualStudio/*.vcxproj.filters
 !VisualStudio/Build.bat
+[Bb]uild/
 Resource/*.aps
 docs/_site/
