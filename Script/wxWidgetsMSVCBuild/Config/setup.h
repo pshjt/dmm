@@ -275,7 +275,7 @@
 // Default is 1
 //
 // Recommended setting: 1 as setting it to 0 disables many other things
-#define wxUSE_STREAMS       1 // TODO: build errors in wxWidgets 3.1.7 if set to 0, try again in 3.2+
+#define wxUSE_STREAMS       1
 
 // Support for positional parameters (e.g. %1$d, %2$s ...) in wxVsnprintf.
 // Note that if the system's implementation does not support positional
@@ -354,7 +354,7 @@
 //
 // Recommended setting: 1 unless compatibility with the official wxWidgets
 // build and/or the existing code is a concern.
-#define wxUSE_STD_CONTAINERS 1 // TODO: Check if this should b 0 for other users
+#define wxUSE_STD_CONTAINERS 1
 
 // Use standard C++ streams if 1 instead of wx streams in some places. If
 // disabled, wx streams are used everywhere and wxWidgets doesn't depend on the
@@ -438,8 +438,8 @@
 //
 // Recommended setting: 1 (wxFile is highly recommended as it is required by
 // i18n code, wxFileConfig and others)
-#define wxUSE_FILE          1 // TODO: build error in 3.1.7 if set to 0
-#define wxUSE_FFILE         1 // TODO: build error in 3.1.7 if set to 0
+#define wxUSE_FILE          1
+#define wxUSE_FFILE         1
 
 // Use wxFSVolume class providing access to the configured/active mount points
 //
@@ -479,7 +479,7 @@
 #define wxUSE_TEXTFILE      RELEASE_0
 
 // i18n support: _() macro, wxLocale class.
-#define wxUSE_INTL          1 // TODO: Required by datetime, check this.
+#define wxUSE_INTL          1
 
 // Provide wxFoo_l() functions similar to standard foo() functions but taking
 // an extra locale parameter.
@@ -940,7 +940,7 @@
 #define wxUSE_GAUGE         1   // wxGauge
 #define wxUSE_HEADERCTRL    1   // wxHeaderCtrl
 #define wxUSE_HYPERLINKCTRL 1   // wxHyperlinkCtrl
-#define wxUSE_LISTBOX       1   // wxListBox
+#define wxUSE_LISTBOX       RELEASE_0   // wxListBox
 #define wxUSE_LISTCTRL      1   // wxListCtrl
 #define wxUSE_RADIOBOX      RELEASE_0   // wxRadioBox
 #define wxUSE_RADIOBTN      1   // wxRadioButton
@@ -1383,8 +1383,8 @@
 // Default is 1 for wxUSE_ENH_METAFILE and 0 for wxUSE_WIN_METAFILES_ALWAYS.
 //
 // Recommended setting: default or 0 for everything for portable programs.
-#define wxUSE_METAFILE              1 // TODO: build error in wxWidgets 3.1.7 if disabled, try again in 3.2+
-#define wxUSE_ENH_METAFILE          1
+#define wxUSE_METAFILE              RELEASE_0
+#define wxUSE_ENH_METAFILE          RELEASE_0
 #define wxUSE_WIN_METAFILES_ALWAYS  0
 
 // ----------------------------------------------------------------------------
@@ -1729,7 +1729,7 @@
 // Default is 1
 //
 // Recommended setting: 1, this is used internally by wx in a few places
-#define wxUSE_REGKEY 1 // TODO: Build error in v3.1.7 if set to 0, try again in 3.2+
+#define wxUSE_REGKEY 1 // requierd by datetime
 
 // Set this to 1 to use RICHEDIT controls for wxTextCtrl with style wxTE_RICH
 // which allows to put more than ~32Kb of text in it even under Win9x (NT
@@ -1775,7 +1775,7 @@
 #define wxUSE_TASKBARBUTTON 1
 
 // Set to 1 to compile MS Windows XP theme engine support
-#define wxUSE_UXTHEME           1 // TODO: Build error in wxWidgets 3.1, should be fixed in 3.2 -> set to 0 there again
+#define wxUSE_UXTHEME           RELEASE_0 // TODO: Build error in wxWidgets 3.1, should be fixed in 3.2 -> set to 0 there again
 
 // Set to 1 to use InkEdit control (Tablet PC), if available
 #define wxUSE_INKEDIT  0
