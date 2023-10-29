@@ -3,6 +3,7 @@ VisualStudio/*
 !VisualStudio/*.vcxproj
 !VisualStudio/*.vcxproj.filters
 !VisualStudio/Build.bat
+[Bb]uild/
 Resource/*.aps
 Gemfile.lock
 _site/
