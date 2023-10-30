@@ -14,27 +14,26 @@ To provide a custom 7-Zip version,
 1) Go to [7-zip.org](https://7-zip.org/) and download the 32-bit version.
 2) Copy `7z.dll` to the same folder as `dmm.exe`.
 
-## Setup
+## Build
 Clone the repository with submodules:\
 `git clone https://github.com/pshjt/dmm.git --recursive`
 
 If you have cloned without this option, use\
 `git submodule update --init --recursive`
 
-The project was built with Visual Studio 2019 Community and requires `cmake >=3.15`.
+The project requires `cmake >=3.16` and is meant to be build with the Windows 10 SDK.
 
-### Compile 7zip-cpp
-1) Go to `dmm\Script\7zppMSVCBuild`.
-2) Run `PreBuild.bat`.
-3) Run `BuildAll.bat`.
-
-### Compile wxWidgets
-1) Go to `dmm\Script\wxWidgetsMSVCBuild`.
-2) Run `BuildAll.bat`.
+The following steps build DMM as a 32-bit application using Visual Studio 2019
+1) While in the root folder, execute\
+   `cmake -G "Visual Studio 16 2019" -B "Build" -A Win32`\
+   to generate the solution file in the folder `Build`.
+2) To build immediately from command line, execute\
+   `cmake --build Build --config Release --target "dmm"`.\
+   Alternatively open the generated solution and build the `dmm` project from the IDE.
 
 ### (Optional) Get wxFormBuilder
 1) Get and install [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder/releases/tag/v3.10.1).
-2) Open `.\wxFormBuilder\DarkModManager.fbp`, do your changes, and use `Generate Code`.
+2) Open `wxFormBuilder\DarkModManager.fbp`, do your changes, and use `Generate Code`.
 
 ## Contribute
 You want to improve the mod manager or otherwise help with development? Great! Contributions are always welcome.
