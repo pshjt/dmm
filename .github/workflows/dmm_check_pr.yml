@@ -19,26 +19,12 @@ jobs:
         run: |
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      
-      - name: Build 7zip cmake files
-        shell: cmd
-        run: call Script\7zppMSVCBuild\PreBuild.bat
-      
-      - name: Build 7zip
-        shell: cmd
-        run: call Script\7zppMSVCBuild\BuildRelease.bat
-        env:
-          vsPlatform: Enterprise
-          
-      - name: Build wxWidgets
-        shell: cmd
-        run: call Script\wxWidgetsMSVCBuild\BuildRelease.bat
-        env:
-          vsPlatform: Enterprise
           
       - name: Build mod manager
         shell: cmd
-        run: call VisualStudio\Build.bat
+        run: |
+          cmake -G "Visual Studio 16 2019" -B "Build" -A Win32
+          cmake --build Build --config Release --target "dmm"
         env:
           vsPlatform: Enterprise
         
@@ -46,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: DMM ${{ steps.vars.outputs.sha_short }}         
-          path: VisualStudio\Release\dmm.exe
+          path: Build\Release\dmm.exe
