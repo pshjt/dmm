@@ -38,26 +38,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      
-      - name: Build 7zip cmake files
-        shell: cmd
-        run: call Script\7zppMSVCBuild\PreBuild.bat
-      
-      - name: Build 7zip
-        shell: cmd
-        run: call Script\7zppMSVCBuild\BuildRelease.bat
-        env:
-          vsPlatform: Enterprise
-          
-      - name: Build wxWidgets
-        shell: cmd
-        run: call Script\wxWidgetsMSVCBuild\BuildRelease.bat
-        env:
-          vsPlatform: Enterprise
           
       - name: Build mod manager
         shell: cmd
-        run: call VisualStudio\Build.bat
+        run: |
+         cmake -G "Visual Studio 16 2019" -B "Build" -A Win32
+         cmake --build Build --config Release --target "dmm"
         env:
           vsPlatform: Enterprise
         
@@ -65,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: DMM
-          path: VisualStudio\Release\dmm.exe
+          path: Build\Release\dmm.exe
 
 
   release:
