@@ -55,7 +55,7 @@ void ManageProfilesDialog::importProfileButtonOnButtonClick(wxCommandEvent& even
 
 void ManageProfilesDialog::exportProfileButtonOnButtonClick(wxCommandEvent& event)
 {
-	auto [modPathPrefix, modPath, modPathSuffix] = modManager_.constructModPath();
+	auto [modsPathPrefix, modPath, modsPathSuffix] = modManager_.constructModPath();
 
 	wxFileDialog chooseProfileFileSaveDialog(this, "Save profile to file...", config_.application.executableFolderPath, "", "DMM profiles (*.dmm)|*.dmm", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (chooseProfileFileSaveDialog.ShowModal() == wxID_CANCEL)

@@ -8,7 +8,6 @@
 
 ModManager::ModManager(ApplicationConfig& config)
 	: config_(config)
-	, selected_(-1)
 	, shouldReloadModsFolders_(false)
 	, shouldSortInactives_(false)
 	, warningCount_(0)
@@ -28,6 +27,7 @@ void ModManager::initialize(bool saveToFile)
 		wxRemoveFile(logFilePath_);
 
 	std::vector<Mod>().swap(mods_);
+	std::vector<int>().swap(allSelected_);
 
 	std::string gameFolderPath = config_.game.folderPath;
 	Utils::normalizePath(gameFolderPath);
@@ -62,8 +62,7 @@ void ModManager::initialize(bool saveToFile)
 	}
 
 	gameVersion_ = "unknown";
-	std::string name;
-	Utils::getVersionInfo(exePath, name, gameVersion_);
+	Utils::getVersionInfo(exePath, gameVersion_);
 
 	modsFolderPath_ = gameFolderPath + '\\' + config_.game.modsFolder;
 	Utils::normalizePath(modsFolderPath_);
@@ -115,7 +114,6 @@ void ModManager::initialize(bool saveToFile)
 	loadModsConfig(saveToFile);
 	computeMaxActive();
 
-	selected_ = -1;
 	shouldSortInactives_ = true;
 }
 
@@ -184,7 +182,7 @@ void ModManager::refreshModListAndSaveToFile(bool saveToFile)
 			showMessage(Message::MessageType::ERROR_OK, "Couldn't save mods setup.", errorMessage);
 	}
 
-	selected_ = -1;
+	removeAllSelected();
 }
 
 std::string ModManager::constructMoviePath(bool updateConfig)
@@ -202,13 +200,13 @@ std::string ModManager::constructMoviePath(bool updateConfig)
 
 std::string ModManager::constructAndUpdateModPath(bool updateConfig)
 {
-	auto [modPathPrefix, modPath, modPathSuffix] = constructModPath();
+	auto [modsPathPrefix, modPath, modsPathSuffix] = constructModPath();
 
 	if (updateConfig)
 	{
 		modConfig_.mod_path = modPath;
-		config_.game.modPathSuffix = modPathSuffix;
-		config_.game.modPathPrefix = modPathPrefix;
+		config_.game.modsPathSuffix = modsPathSuffix;
+		config_.game.modsPathPrefix = modsPathPrefix;
 	}
 
 	return modPath;
@@ -218,18 +216,26 @@ std::tuple<std::string, std::string> ModManager::constructMoviePath() const
 {
 	int lastActive = calculateLastActiveIndex();
 	std::string moviePath = "";
-
+	std::string individualMoviePath;
 	for (int i = 0; i <= lastActive; ++i)
 	{
 		if (!mods_[i].getIsPaused() && mods_[i].getHasCutscene())
 		{
-			moviePath += '+';
-			moviePath += ".\\";
-			moviePath += config_.game.modsFolder;
-			moviePath += '\\';
-			moviePath += mods_[i].getName();
-			moviePath += '\\';
-			moviePath += mods_[i].getCutsceneFolder();
+			individualMoviePath = "";
+			individualMoviePath += ".\\";
+			individualMoviePath += config_.game.modsFolder;
+			individualMoviePath += '\\';
+			individualMoviePath += mods_[i].getName();
+			individualMoviePath += '\\';
+			individualMoviePath += mods_[i].getCutsceneFolder();
+
+			if (!config_.game.dataOverrideSubfolder.empty())
+			{
+				// if the override subfolder is set, duplicate each mod with and without that folder, giving priority to the override.
+				individualMoviePath = individualMoviePath + '\\' + config_.game.dataOverrideSubfolder + '+' + individualMoviePath;
+			}
+
+			moviePath += '+' + individualMoviePath;
 		}
 	}
 
@@ -246,31 +252,39 @@ std::tuple<std::string, std::string, std::string> ModManager::constructModPath()
 {
 	int lastActive = calculateLastActiveIndex();
 
-	std::string modPathPrefix = config_.game.modPathPrefix;
-	Utils::stringTrim(modPathPrefix);
-	Utils::stringTrim(modPathPrefix, '+');
+	std::string modsPathPrefix = config_.game.modsPathPrefix;
+	Utils::stringTrim(modsPathPrefix);
+	Utils::stringTrim(modsPathPrefix, '+');
 
-	std::string modPath = modPathPrefix;
+	std::string modPath = modsPathPrefix;
+	std::string individualModPath;
 	for (int i = 0; i <= lastActive; ++i)
 	{
-		modPath += '+';
-
+		individualModPath = "";
 		if (mods_[i].getIsPaused())
-			modPath += config_.game.pauseIndicator;
+			individualModPath += config_.game.pauseIndicator;
 
-		modPath += ".\\";
-		modPath += config_.game.modsFolder;
-		modPath += '\\';
-		modPath += mods_[i].getName();
+		individualModPath += ".\\";
+		individualModPath += config_.game.modsFolder;
+		individualModPath += '\\';
+		individualModPath += mods_[i].getName();
+
+		if (!config_.game.dataOverrideSubfolder.empty()) 
+		{
+			// if the override subfolder is set, duplicate each mod with and without that folder, giving priority to the override.
+			individualModPath = individualModPath + '\\' + config_.game.dataOverrideSubfolder + '+' + individualModPath;
+		}
+
+		modPath += '+' + individualModPath;
 	}
 
-	std::string modPathSuffix = std::string(config_.game.modPathSuffix);
-	Utils::stringTrim(modPathSuffix);
-	Utils::stringTrim(modPathSuffix, '+');
-	modPath += '+' + modPathSuffix;
+	std::string modsPathSuffix = std::string(config_.game.modsPathSuffix);
+	Utils::stringTrim(modsPathSuffix);
+	Utils::stringTrim(modsPathSuffix, '+');
+	modPath += '+' + modsPathSuffix;
 	Utils::stringTrim(modPath, '+');
 
-	return std::make_tuple(modPathPrefix, modPath, modPathSuffix);
+	return std::make_tuple(modsPathPrefix, modPath, modsPathSuffix);
 }
 
 bool ModManager::getHasStateChanged()
@@ -322,14 +336,42 @@ void ModManager::update()
 	countStats();
 }
 
-void ModManager::setSelected(int selected)
+bool ModManager::addSelected(int selected)
 {
-	selected_ = selected;
+	assert(selected >= 0);
+	if (selected < 0)
+		return false;
+
+	size_t originalSize = allSelected_.size();
+	removeSelected(selected);
+	allSelected_.push_back(selected);
+	return allSelected_.size() > originalSize;
 }
 
-int ModManager::getSelected() const
+const std::vector<int>& ModManager::getAllSelected() const
 {
-	return selected_;
+	return allSelected_;
+}
+
+const int ModManager::getSingleSelected() const
+{
+	assert(allSelected_.size() == 1);
+	if (allSelected_.size() == 1)
+		return allSelected_.back();
+	else
+		return -1;
+}
+
+bool ModManager::removeSelected(int selected)
+{
+	size_t originalSize = allSelected_.size();
+	allSelected_.erase(std::remove(allSelected_.begin(), allSelected_.end(), selected), allSelected_.end());
+	return allSelected_.size() < originalSize;
+}
+
+void ModManager::removeAllSelected()
+{
+	allSelected_.clear();
 }
 
 const std::string ModManager::getAlternativeFile(const std::string& gameFolderPath, const std::vector<std::string>& files) const
@@ -369,38 +411,45 @@ std::vector<Mod>& ModManager::getMods()
 
 bool ModManager::canActivateDeactivate() const
 {
-	if (selected_ < 0)
+	return !allSelected_.empty();
+}
+
+bool ModManager::canIncreasePriorities()
+{
+	// can increase priority unless a) nothing is selected, b) nothing is active, c) only top mods are selected
+	if (allSelected_.empty())
+		return false;
+
+	if (std::all_of(allSelected_.begin(), allSelected_.end(), [this](int selected) {return !mods_[selected].getIsActive();}))
+		return false;
+
+	// top check: if active selection contains just sequential indices (or one index) and starts with 0, then increasing priority does nothing
+	std::sort(allSelected_.begin(), allSelected_.end());
+	std::vector<int> allActiveSorted;
+	std::copy_if(allSelected_.begin(), allSelected_.end(), std::back_inserter(allActiveSorted), [this](int selected) {return mods_[selected].getIsActive(); });
+	int numElements = static_cast<int>(allActiveSorted.size());
+	if (allActiveSorted[0] == 0 && (allActiveSorted[numElements - 1] - allActiveSorted[0]) == (numElements - 1))
 		return false;
 
 	return true;
 }
 
-bool ModManager::canIncreasePriority() const
+bool ModManager::canDecreasePriorities()
 {
-	if (selected_ < 0)
+	// can increase priority unless a) nothing is selected, b) nothing is active, c) mod is last mod d) mod is last active mod
+	if (allSelected_.empty())
 		return false;
 
-	if (!mods_[selected_].getIsActive())
+	if (std::all_of(allSelected_.begin(), allSelected_.end(), [this](int selected) {return !mods_[selected].getIsActive(); }))
 		return false;
 
-	if (selected_ < 1)
-		return false;
 
-	return true;
-}
-
-bool ModManager::canDecreasePriority() const
-{
-	if (selected_ < 0)
-		return false;
-
-	if (!mods_[selected_].getIsActive())
-		return false;
-
-	if (selected_ > static_cast<int>(mods_.size() - 2))
-		return false;
-
-	if (!mods_[selected_ + 1].getIsActive())
+	// bottom check: if active selection contains just sequential indices (or just one index) and last element is last active element, decreasing priority does nothing
+	std::sort(allSelected_.begin(), allSelected_.end());
+	std::vector<int> allActiveSorted;
+	std::copy_if(allSelected_.begin(), allSelected_.end(), std::back_inserter(allActiveSorted), [this](int selected) {return mods_[selected].getIsActive(); });
+	int numElements = static_cast<int>(allActiveSorted.size());
+	if ((allActiveSorted[numElements - 1] == calculateLastActiveIndex()) && (allActiveSorted[numElements - 1] - allActiveSorted[0]) == (numElements - 1))
 		return false;
 
 	return true;
@@ -408,10 +457,11 @@ bool ModManager::canDecreasePriority() const
 
 bool ModManager::canPauseResume() const
 {
-	if (selected_ < 0)
+	// can pause/unpause unless a) nothing is selected, b) nothing is active
+	if (allSelected_.empty())
 		return false;
 
-	if (!mods_[selected_].getIsActive())
+	if (std::all_of(allSelected_.begin(), allSelected_.end(), [this](int selected) {return !mods_[selected].getIsActive(); }))
 		return false;
 
 	return true;
@@ -419,10 +469,13 @@ bool ModManager::canPauseResume() const
 
 bool ModManager::canOpenReadme() const
 {
-	if (selected_ < 0)
+	if (allSelected_.empty())
 		return false;
 
-	if (!mods_[selected_].getHasReadme())
+	if (allSelected_.size() > 1)
+		return false;
+
+	if (!mods_[getSingleSelected()].getHasReadme())
 		return false;
 
 	return true;
@@ -445,45 +498,91 @@ void ModManager::activateDeactivate()
 	if (!canActivateDeactivate())
 		return;
 
-	if (mods_[selected_].getIsPaused())
+
+	for (int selectedIndex : allSelected_)
 	{
-		mods_[selected_].setIsPaused(false);
+		size_t modIndex = std::distance(mods_.begin(), std::find_if(mods_.begin(), mods_.end(), [&](Mod const& mod) {return mod.getIndex() == selectedIndex; }));
 
-		return;
+		if (modIndex >= mods_.size())
+			continue;
+
+		if (mods_[modIndex].getIsPaused())
+		{
+			mods_[modIndex].setIsPaused(false);
+			continue;
+		}
+
+		if (mods_[modIndex].getIsActive())
+			deactivate(modIndex);
+		else
+			activate(modIndex);
 	}
-
-	if (mods_[selected_].getIsActive())
-		deactivate(selected_);
-	else
-		activate(selected_);
 
 	shouldSortInactives_ = true;
 }
 
-void ModManager::increasePriority()
+void ModManager::increasePriorities()
 {
-	if (!canIncreasePriority())
+	if (!canIncreasePriorities())
 		return;
 
-	std::swap(mods_[selected_], mods_[selected_ - 1]);
+	// as we modify the mods and the content of allSelected_, iterate through a sorted copy
+	std::vector<int> allSelectedSorted(allSelected_.size());
+	std::partial_sort_copy(std::begin(allSelected_), std::end(allSelected_), std::begin(allSelectedSorted), std::end(allSelectedSorted));
 
-	mods_[selected_].setIndex(selected_);
-	mods_[selected_ - 1].setIndex(selected_ - 1);
+	int topIndex = 0;
+	for (int indexModToShift : allSelectedSorted)
+	{
+		if (!mods_[indexModToShift].getIsActive())
+			continue;
+		if (indexModToShift == topIndex)
+		{
+			// if the mod is already at the top of the list, shifting up is not possible
+			// repeat this behaviour until the first mods has been found which can actually be shifted up
+			++topIndex;
+			continue;
+		}
 
-	--selected_;
+		std::swap(mods_[indexModToShift], mods_[indexModToShift - 1]);
+		mods_[indexModToShift].setIndex(indexModToShift);
+		mods_[indexModToShift - 1].setIndex(indexModToShift - 1);
+
+		removeSelected(indexModToShift);
+		addSelected(indexModToShift - 1);
+	}
 }
 
-void ModManager::decreasePriority()
+void ModManager::decreasePriorities()
 {
-	if (!canDecreasePriority())
+	if (!canDecreasePriorities())
 		return;
 
-	std::swap(mods_[selected_], mods_[selected_ + 1]);
+	// as we modify the mods and the content of allSelected_, iterate through a sorted copy
+	std::vector<int> allSelectedSorted(allSelected_.size());
+	std::partial_sort_copy(std::begin(allSelected_), std::end(allSelected_), std::begin(allSelectedSorted), std::end(allSelectedSorted));
 
-	mods_[selected_ + 1].setIndex(selected_ + 1);
-	mods_[selected_].setIndex(selected_);
+	int bottomIndex = calculateLastActiveIndex();
+	for (int idx = allSelectedSorted.size() - 1; idx >= 0; --idx)
+	{
+		int indexModToShift = allSelectedSorted[idx];
 
-	++selected_;
+		if (!mods_[indexModToShift].getIsActive())
+			continue;
+		if (indexModToShift == bottomIndex)
+		{
+			// if the mod is already at the bottom of the list (= is the last active one), shifting down is not possible
+			// repeat this behaviour until the first mods has been found which can actually be shifted down
+			--bottomIndex;
+			continue;
+		}
+
+		std::swap(mods_[indexModToShift], mods_[indexModToShift + 1]);
+		mods_[indexModToShift + 1].setIndex(indexModToShift + 1);
+		mods_[indexModToShift].setIndex(indexModToShift);
+
+		removeSelected(indexModToShift);
+		addSelected(indexModToShift + 1);
+	}
 }
 
 int ModManager::movePriority(int sourceIndex, int targetIndex)
@@ -507,41 +606,18 @@ int ModManager::movePriority(int sourceIndex, int targetIndex)
 	return targetIndex;
 }
 
-void ModManager::swapPriorities(int idx1, int idx2)
-{
-	if (idx1 < 0 || idx2 < 0 ||
-		idx1 >= signed(mods_.size()) || idx2 >= signed(mods_.size()) ||
-		(!mods_[idx1].getIsActive() && !mods_[idx2].getIsActive())) // return if both mods are inactive (one must be active to swap)
-		return;
-
-	const auto minmax = std::minmax(idx1, idx2);
-	const int min = minmax.first;
-	int max = minmax.second;
-
-	// If max is inactive, replace it with the last index
-	// Note: the minimum index mod must be active as otherwise both have to be inactive (which we already tested in the beginning)
-	if (!mods_[max].getIsActive())
-	{
-		max = calculateLastActiveIndex();
-	}
-
-	std::swap(mods_[min], mods_[max]);
-}
-
 void ModManager::pauseResume()
 {
 	if (!canPauseResume())
 		return;
 
-	int index = selected_;
+	for (int selected : allSelected_)
+	{
+		if (!mods_[selected].getIsActive())
+			continue;
 
-	if (!mods_[index].getIsActive())
-		return;
-
-	if (mods_[index].getIsPaused())
-		mods_[index].setIsPaused(false);
-	else
-		mods_[index].setIsPaused(true);
+		mods_[selected].setIsPaused(!mods_[selected].getIsPaused());
+	}
 }
 
 int ModManager::getModCount() const
@@ -691,7 +767,7 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 	std::string token, remainder;
 
 	std::vector<std::string> baseModPaths;
-	remainder = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
+	remainder = config_.game.modsPathPrefix + '+' + config_.game.modsPathSuffix;
 
 	while (Utils::tokenize(token, remainder, remainder, '+'))
 	{
@@ -728,6 +804,13 @@ bool ModManager::loadModsConfig(bool saveModList, const std::string& modPathOver
 
 	while (Utils::tokenize(token, remainder, remainder, '+'))
 	{
+		if (!config_.game.dataOverrideSubfolder.empty() && token.find(config_.game.dataOverrideSubfolder) != std::string::npos)
+		{
+			// If the mod name contains dataOverrideSubfolder, then we expect the same mod to be represented both by this token and the original token without the folder, so skip it and fetch the original token next.
+			// This also prevents the manager from warning the user about removed mods.
+			continue;
+		}
+			
 		ActiveMod activeMod;
 
 		if (Utils::stringIsEqualNoCase(token.substr(0, config_.game.pauseIndicator.length()),
@@ -824,14 +907,16 @@ void ModManager::computeMaxActive()
 	while (Utils::tokenize(token, uberModPath, uberModPath, '+'))
 		++nPath;
 
-	std::string additionalModPaths = config_.game.modPathPrefix + '+' + config_.game.modPathSuffix;
+	std::string additionalModPaths = config_.game.modsPathPrefix + '+' + config_.game.modsPathSuffix;
 	Utils::stringTrim(additionalModPaths);
 	Utils::stringTrim(additionalModPaths, '+');
 
 	while (Utils::tokenize(token, additionalModPaths, additionalModPaths, '+'))
 		++nPath;
-
 	config_.game.maxActive = config_.game.maxPathCount - nPath;
+	// in case of a valid override subfolder, each mods path is basically duplicated, halving the amount of mods that can be activated
+	if (!config_.game.dataOverrideSubfolder.empty())
+		config_.game.maxActive = config_.game.maxActive / 2;
 }
 
 void ModManager::activate(int index)
@@ -932,6 +1017,14 @@ void ModManager::setModType(Mod& mod)
 			type += "DML";
 		}
 
+		if (mod.getHasScript())
+		{
+			if (!type.empty())
+				type += ", ";
+
+			type += "Script";
+		}
+
 		if (mod.getHasMis())
 		{
 			if (!type.empty())
@@ -1005,7 +1098,8 @@ void ModManager::checkModDirectory(Mod& mod)
 			mod.setCutsceneFolder(cutsceneFolder);
 	}
 	mod.setHasSubtitle(dir.HasSubDirs(config_.game.subtitleFolder));
-	mod.setHasDML(dir.HasFiles("*.dml"));
+	mod.setHasDML(dir.HasFiles("*.dml") || dir.HasSubDirs("dbmods"));
+	mod.setHasScript(dir.HasSubDirs("scriptdata"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 
@@ -1080,32 +1174,20 @@ void ModManager::sortInactives()
 
 void ModManager::selectByIndex()
 {
-	if (selected_ < 0)
-	{
+	if (allSelected_.empty())
 		return;
-	}
-	if (selected_ >= getModCount())
+
+	std::vector<int> allSelectedTemp(allSelected_);
+	removeAllSelected();
+
+	// after order of mods_ has been changed and each mod index updated, reset allSelected_ to only contain the updated indices, minus any impossible indices (e.g. index >= modCount)
+	for (int modIndex = 0; modIndex < getModCount(); ++modIndex)
 	{
-		selected_ = -1;
-
-		return;
-	}
-	if (selected_ == mods_[selected_].getIndex())
-	{
-		return;
+		int currentIndex = mods_[modIndex].getIndex();
+		if (std::find(allSelectedTemp.begin(), allSelectedTemp.end(), currentIndex) != allSelectedTemp.end())
+			addSelected(modIndex);
 	}
 
-	for (int i = 0; i < getModCount(); ++i)
-	{
-		if (mods_[i].getIndex() == selected_)
-		{
-			selected_ = i;
-
-			return;
-		}
-	}
-
-	selected_ = -1;
 }
 
 void ModManager::countStats()
@@ -1376,7 +1458,7 @@ void ModManager::createModsTable(std::string& modsTable) const
 int ModManager::calculateLastActiveIndex() const
 {
 	int lastActiveIndex = -1;
-	for (size_t i = 0; i < mods_.size() && mods_[i].getIsActive(); ++i)
+	for (int i = 0; i < getModCount() && mods_[i].getIsActive(); ++i)
 		lastActiveIndex = i;
 
 	return lastActiveIndex;

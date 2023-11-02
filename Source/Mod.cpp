@@ -6,11 +6,8 @@
 
 Mod::Mod()
 	: index_(-1)
-	//, name_("")
 	, isActive_(false)
 	, isPaused_(false)
-	//, type_("")
-	//, readme("")
 	, hasCFG_(false)
 	, hasDML_(false)
 	, hasGamesys_(false)
@@ -18,6 +15,7 @@ Mod::Mod()
 	, hasSubtitle_(false)
 	, hasOther_(false)
 	, hasReadme_(false)
+	, hasScript_(false)
 	, isNameTooLong_(false)
 	, isPlusSignInName_(false)
 	, isMultipleGamesys_(false)
@@ -106,6 +104,11 @@ bool Mod::getHasOther() const
 bool Mod::getHasReadme() const
 {
 	return hasReadme_;
+}
+
+bool Mod::getHasScript() const
+{
+	return hasScript_;
 }
 
 bool Mod::getIsNameTooLong() const
@@ -209,6 +212,11 @@ void Mod::setHasReadme(bool hasReadme)
 	set(hasReadme_, hasReadme);
 }
 
+void Mod::setHasScript(bool hasScript)
+{
+	set(hasScript_, hasScript);
+}
+
 void Mod::setIsNameTooLong(bool isNameTooLong)
 {
 	set(isNameTooLong_, isNameTooLong);
@@ -247,7 +255,7 @@ void Mod::resetWarning()
 
 bool Mod::getIsUnrecognized() const
 {
-	if (hasCFG_ || getHasCutscene() || hasDML_ || hasGamesys_ || hasMis_ || hasSubtitle_ || hasOther_)
+	if (hasCFG_ || getHasCutscene() || hasDML_ || hasGamesys_ || hasMis_ || hasSubtitle_ || hasOther_ || hasScript_)
 		return false;
 
 	return true;

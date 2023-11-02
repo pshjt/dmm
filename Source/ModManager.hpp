@@ -23,13 +23,17 @@ public:
 	std::tuple<std::string, std::string, std::string> constructModPath() const;
 	std::tuple<std::string, std::string> constructMoviePath() const;
 
-	void setSelected(int selected);
+	bool addSelected(int selected);
+	const std::vector<int>& getAllSelected() const;
+	const int getSingleSelected() const;
+	bool removeSelected(int selected);
+	void removeAllSelected();
 
 	bool getHasStateChanged();
 	bool getIsInitialized() const;
 	void scheduleModsFoldersReload();
 	void update();
-	int getSelected() const;
+	
 	const std::string& getModsFolderPath() const;
 	const std::string& getArchivesFolderPath() const;
 	const std::string getAlternativeFile(const std::string&, const std::vector<std::string>&) const;
@@ -40,19 +44,18 @@ public:
 
 	const bool hasModWithName(const std::string& modName) const;
 	bool canActivateDeactivate() const;
-	bool canIncreasePriority() const;
-	bool canDecreasePriority() const;
+	bool canIncreasePriorities();
+	bool canDecreasePriorities();
 	bool canPauseResume() const;
 	bool canOpenReadme() const;
 	bool needsToApply();
 
 	void activateDeactivate();
-	void increasePriority();
-	void decreasePriority();
+	void increasePriorities();
+	void decreasePriorities();
 	// Moves the mod at sourceIndex to targetIndex. If the mod at targetIndex is inactive, moves to the position of the last active mod.
 	// Returns: index the source was moved to
 	int movePriority(int sourceIndex, int targetIndex);
-	void swapPriorities(int idx1, int idx2);
 	void pauseResume();
 
 	int getModCount() const;
@@ -115,7 +118,9 @@ private:
 	bool hasStateChanged_;
 
 	std::string gameVersion_;
-	int selected_;
+
+	std::vector<int> allSelected_;
+
 	bool shouldReloadModsFolders_;
 	bool shouldSortInactives_;
 

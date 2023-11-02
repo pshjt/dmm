@@ -13,12 +13,9 @@ public:
 		std::string logFile;
 		std::string lookupURL;
 		std::vector<std::string> modArchiveExtensions;
-#pragma warning( push )
-#pragma warning( disable : 26495 )
 		bool createLogFile;
 		bool showTooltips;
 		bool showExtractTip;
-#pragma warning( pop )
 		std::string version;
 	} application;
 
@@ -28,22 +25,21 @@ public:
 		int maxFullPathLength;
 		int maxPathCount;
 		int maxActive;
-		std::string executableFile;
+		std::string executableFile; // *.exe filename, e.g. ss2.exe
 		std::vector<std::string> additionalExecutableFiles;
-		std::string productName;
-		std::string requiredVersion;
-		std::string modsConfigFile;
-		std::string installConfigFile;
+		std::string modsConfigFile; // main file to write full mod path to
+		std::string installConfigFile; // file to write base path info to
 		std::vector<std::string> additionalInstallConfigFiles;
-		std::string pauseIndicator;
-		std::string modPathSuffix;
-		std::string baseMoviePath;
-		std::vector<std::string> cutsceneFolders;
-		std::string subtitleFolder;
-		std::string folderPath;
-		std::string modsFolder;
-		std::string archivesFolder;
-		std::string modPathPrefix;
+		std::string pauseIndicator; // char indicating paused mod present in path to be skipped during evaluation
+		std::string modsPathPrefix; // prefix for full mod path
+		std::string modsPathSuffix; // suffix for full mod path
+		std::string baseMoviePath; // path to original movie folders
+		std::vector<std::string> cutsceneFolders; // allowed folder names for (mod) cutscene folders
+		std::string subtitleFolder; // allowed folder name for mod subtitle folder
+		std::string folderPath; // folder path of executable file
+		std::string modsFolder; // name of folder containing all mods folders
+		std::string archivesFolder; // name of folder containing installed mod archives to move to
+		std::string dataOverrideSubfolder; // if not empty, manager will recognize this subfolder as an override for each individual mod so that a mod may ship for multiple games. Example: dataOverrideSubfolder "Thief1" -> mod_A gets added with "...\mod_A\Thief1 + ...\mod_A\"
 	} game;
 
 	struct
@@ -92,14 +88,15 @@ private:
 		CVAR(application.showExtractTip, true);
 		CVAR(application.version, "");
 
-		CVAR(game.modPathSuffix, ".\\patch_ext");
-		CVAR(game.modPathPrefix, "");
+		CVAR(game.modsPathSuffix, ".\\patch_ext");
+		CVAR(game.modsPathPrefix, "");
 		CVAR(game.baseMoviePath, ".\\cutscenes+.\\Data\\cutscenes");
 		CVAR(game.folderPath, "");
 		CVAR(game.executableFile, "shock2.exe");
 		CVAR(game.installConfigFile, "install.cfg");
 		CVAR(game.modsFolder, "DMM");
 		CVAR(game.archivesFolder, "DMMArchives");
+		CVAR(game.dataOverrideSubfolder, "")
 
 		CVAR(window.isMaximized, false);
 		CVAR(window.listColumnOrder, "");

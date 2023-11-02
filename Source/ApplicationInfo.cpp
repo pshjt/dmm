@@ -4,17 +4,17 @@
 
 namespace ApplicationInfo
 {
-	const std::string name = "Dark engine mod manager";
+	const std::string name = "Dark engine Mod Manager";
 	const std::string versionMajor = "1";
-	const std::string versionMinor = "0";
+	const std::string versionMinor = "1";
 	const std::string releaseType = "";
 
-	const std::string copyright = "\x00A9 2021 pshjt";
+	const std::string copyright = "\x00A9 2023 pshjt";
 
 	const std::string license =
-		"Dark engine mod manager is licensed under the MIT License.\n"
+		"Dark engine Mod Manager is licensed under the MIT License.\n"
 		"\n"
-		"Copyright 2021 pshjt\n"
+		"Copyright 2023 pshjt\n"
 		"\n"
 		"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated "
 		"documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation "

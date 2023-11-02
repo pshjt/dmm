@@ -40,7 +40,7 @@ namespace Utils
 	bool stringToPoint(int& x, int& y, const std::string& str);
 	void pointToString(int x, int y, std::string& str);
 
-	bool getVersionInfo(const std::string& filePath, std::string& productName, std::string& productVersion);
+	bool getVersionInfo(const std::string& filePath, std::string& productVersion);
 	void getCurrentDateTime(std::string& dateTime);
 
 	class CharPredicateIsEqual;
