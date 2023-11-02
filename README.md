@@ -1,4 +1,4 @@
-[![dmm-build-release Actions Status](https://github.com/pshjt/dmm/workflows/dmm-build-release/badge.svg)](https://github.com/pshjt/dmm/actions)
+[![dmm-build Actions Status](https://github.com/pshjt/dmm/workflows/dmm-build/badge.svg)](https://github.com/pshjt/dmm/actions)
 [![Github all releases](https://img.shields.io/github/downloads/pshjt/dmm/total.svg)](https://GitHub.com/pshjt/dmm/releases/)
 ## About
 This is the home of the Dark engine Mod Manager (DMM), a fork of [SS2BMM](https://github.com/pshjt/ss2bmm) meant for all Dark engine games, System Shock 2 as well as Thief and Thief II.

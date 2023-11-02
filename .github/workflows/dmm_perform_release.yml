@@ -1,0 +1,64 @@
+name: dmm-perform-release
+on:
+  push:
+    tags:
+      - 'v*'
+
+
+# Check that pushed tag points to latest master commit, then build release and create GitHub release alongside.
+jobs:
+  check-tag-latest:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_hash: ${{ github.sha }}
+      master_hash: ${{ steps.master-commit-hash.outputs.master_hash }}
+    permissions:
+      contents: read
+  
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: master
+        sparse-checkout: .
+        
+    - name: Get latest master commit hash
+      id: master-commit-hash
+      run: |
+        hash=$(git log -n1 --format=format:"%H")
+        echo "master_hash=$hash" >> "$GITHUB_OUTPUT"
+  
+  
+  build-release:
+    name: Build dmm.exe for release
+    needs: [check-tag-latest]
+    if: ${{ needs.check-tag-latest.outputs.master_hash == needs.check-tag-latest.outputs.tag_hash }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/dmm_build.yml
+    with:
+      artifact-name: 'DMM'
+
+
+  gh-release:
+    needs: [check-tag-latest,build-release]
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: DMM
+          
+      - name: Set tag name to env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dmm.exe"
+          generateReleaseNotes: true
+          replacesArtifacts: false
+          skipIfReleaseExists: true
+          tag: ${{ env.RELEASE_VERSION }}      

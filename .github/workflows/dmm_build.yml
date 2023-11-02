@@ -1,0 +1,55 @@
+name: dmm-build
+on:
+  push:
+    paths-ignore: ["docs/**",".gitignore","LICENSE.md","README.md"]
+    branches: [ "master" ]
+    
+  pull_request:
+    paths-ignore: ["docs/**",".gitignore","LICENSE.md","README.md"]
+    branches: [ "master" ]
+    
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: false
+        type: string
+        default: 'NONE'
+        
+      
+jobs:
+  build:
+    name: Build dmm.exe
+    
+    runs-on: windows-2019
+    env:
+      CMAKE_GENERATOR: Visual Studio 16 2019
+    
+    permissions:
+      contents: read
+      
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - name: Get short git-ref SHA
+        id: vars
+        shell: bash
+        run: |
+          sha_short=$(echo ${{github.sha}} | cut -c 1-7)
+          echo "sha_short=$sha_short" >> $GITHUB_OUTPUT
+          
+      - name: Build mod manager
+        shell: cmd
+        run: |
+          cmake -G "${{env.CMAKE_GENERATOR}}" -B "Build" -A Win32
+          cmake --build Build --config Release --target "dmm"
+        env:
+          vsPlatform: Enterprise
+        
+      - name: Artifact upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name != 'NONE' && inputs.artifact-name || steps.vars.outputs.sha_short }}
+          path: Build\Release\dmm.exe
+          if-no-files-found: error
