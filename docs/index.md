@@ -5,7 +5,7 @@ The Dark engine mod manager (DMM) lets you install and organize mods for System 
 ## Requirements
 
 | Game           | Version        |
-|:---------------|:---------------|
+| :------------- | :------------- |
 | System Shock 2 | v2.4 or later  |
 | Thief          | v1.19 or later |
 | Thief II       | v1.19 or later |
@@ -31,11 +31,11 @@ Press **Install mod archives...** and select the mod archives (see [Mod format](
 
 ![Select archives to install](assets/images/dmm_archive.webp "Select archives to install")
 
-Activate mods and arrange their priorities as needed via buttons or drag & drop. Mods that are higher on the list override every mod below them.
+Activate mods and arrange their priorities as needed via buttons or drag & drop. You can select multiple mods via <kbd>Shift</kbd> / <kbd>Ctrl</kbd> + left-click. Mods that are higher on the list override every mod below them.
 
 ![Finished installation with example mod list](assets/images/dmm_2.webp "Finished installation with example mod list")
 
-When finished, press **Apply changes** and **Launch game** to play.
+When finished, press **Apply changes** and **Launch game & exit** to play.
 
 If you want further information about a mod, you can press **Lookup (WWW)** to open a Google search or **Open a ReadMe** file if present. If you have no further use of a mod, you can **Delete** it, which removes the mod from both DMM and your hard drive. 
 
@@ -55,25 +55,26 @@ Press **Use** to apply the loaded profile, or simply close the window to discard
 #### Shortcuts
 
 | Function          | Key                                |
-|:------------------|:-----------------------------------|
+| :---------------- | :--------------------------------- |
 | Increase priority | <kbd>Alt</kbd> + <kbd>&uarr;</kbd> |
 | Decrease priority | <kbd>Alt</kbd> + <kbd>&darr;</kbd> |
 | (De-)Activate     | <kbd>&crarr;</kbd>                 |
 | Pause/Resume      | <kbd>Space</kbd>                   |
 | Delete            | <kbd>Del</kbd>                     |
-| Apply changes     | <kbd>Ctrl</kbd> + <kbd>s</kbd>      |
+| Apply changes     | <kbd>Ctrl</kbd> + <kbd>s</kbd>     |
 
 ## Configuration
 
 Configuration values are stored in a file `dmm.cfg` in the same folder as DMM. The most important values are detailed here.
 
-| Key                 | Value (default)                | Function                                                       |
-|:--------------------|:-------------------------------|:---------------------------------------------------------------|
-| game.modPathSuffix  | `.\patch_ext`                  | Path appended to `mod_path` in `cam_mod.ini`                   |
-| game.modPathPrefix  |                                | Path prepended to `mod_path` in `cam_mod.ini`                  |
-| game.baseMoviePath  | `.\cutscenes+.\Data\cutscenes` | Path appended to `movie_path` in game installation config      |
-| game.modsFolder     | `DMM`                          | Main mod folder. Installed mods are automatically copied to it |
-| game.archivesFolder | `DMMArchives`                  | Folder that automatically installed mod archives are copied to |
+| Key                        | Value (default)                | Function                                                                         |
+| :------------------------- | :----------------------------- | :------------------------------------------------------------------------------- |
+| game.modPathSuffix         | `.\patch_ext`                  | Path appended to `mod_path` in `cam_mod.ini`                                     |
+| game.modPathPrefix         |                                | Path prepended to `mod_path` in `cam_mod.ini`                                    |
+| game.baseMoviePath         | `.\cutscenes+.\Data\cutscenes` | Path appended to `movie_path` in game installation config                        |
+| game.modsFolder            | `DMM`                          | Main mod folder. Installed mods are automatically copied to it                   |
+| game.archivesFolder        | `DMMArchives`                  | Folder that automatically installed mod archives are copied to                   |
+| game.dataOverrideSubfolder |                                | Files contained in this subfolder will override files from the parent mod folder |
 
 
 ## Mod format
