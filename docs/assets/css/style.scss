@@ -1,0 +1,55 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+kbd {
+    padding: 2px 4px;
+    white-space: nowrap;
+    color: #000;
+    background-color: #fafafa;
+    border-width: 1px 3px 3px 1px;
+    border-style: solid;
+    border-color: #ccc #aaa #888 #bbb;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+$icon-height: 30px;
+
+.download-icon-simple {
+    height: $icon-height;
+    width: $icon-height;
+    background: url("../images/icon_download.png");
+}
+
+#downloads {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: auto;
+    width: auto;
+    bottom: -1 * $icon-height;
+    background: none;
+
+    right: 10px; // header width
+
+    > a {
+        display: flex;
+        align-items: center;
+        float: unset;
+        margin: 0;
+    }
+}
+
+#main_content {
+    padding-top: 20px; // same as padding-bottom
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+    }
+}
