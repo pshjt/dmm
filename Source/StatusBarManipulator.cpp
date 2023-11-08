@@ -93,8 +93,8 @@ void StatusBarManipulator::setStatus(StatusBarStatus status)
 		isWarning = true;
 		break;
 
-	case StatusBarStatus::PLUS_SIGN_IN_FOLDER_NAME:
-		statusText = "Plus sign is reserved as a path separator. Remove \"+\" from mod's folder name.";
+	case StatusBarStatus::INVALID_CHAR_IN_FOLDER_NAME:
+		statusText = "Invalid character in mod name. Remove \"+\" or non-US-ASCII from mod's folder name.";
 		isWarning = true;
 		break;
 

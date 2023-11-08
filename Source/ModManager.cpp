@@ -967,10 +967,11 @@ void ModManager::setModName(Mod& mod, const std::string& name) const
 	else
 		mod.setIsNameTooLong(false);
 
-	if (name.find('+') != std::string::npos)
-		mod.setIsPlusSignInName(true);
+	// Name must not contain mod path separator '+' or non US-ASCII characters, the latter of which lead to the mod being silently ignored by the game.
+	if (name.find('+') != std::string::npos || !std::all_of(name.begin(), name.end(), [](char c) { return static_cast<unsigned char>(c) <= 127; }))
+		mod.setIsInvalidCharInName(true);
 	else
-		mod.setIsPlusSignInName(false);
+		mod.setIsInvalidCharInName(false);
 }
 
 void ModManager::setModType(Mod& mod)
@@ -1377,9 +1378,9 @@ void ModManager::createModsTable(std::string& modsTable) const
 			me.warning += " Folder name is too long.";
 		}
 
-		if (mod.getIsPlusSignInName())
+		if (mod.getIsInvalidCharInName())
 		{
-			me.warning += " Plus sign in folder name.";
+			me.warning += " Name has plus or non-US-ASCII characters.";
 		}
 
 		if (mod.getIsMultipleGamesys())

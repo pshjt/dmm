@@ -29,7 +29,7 @@ public:
 	bool getHasScript() const;
 
 	bool getIsNameTooLong() const;
-	bool getIsPlusSignInName() const;
+	bool getIsInvalidCharInName() const;
 	bool getIsMultipleGamesys() const;
 	bool getIsMultipleMis() const;
 	bool getHasDuplicateFolders() const;
@@ -54,7 +54,7 @@ public:
 	void setHasScript(bool hasScript);
 
 	void setIsNameTooLong(bool isNameTooLong);
-	void setIsPlusSignInName(bool isPlusSignInName);
+	void setIsInvalidCharInName(bool isInvalidCharInName);
 	void setIsMultipleGamesys(bool isMultipleGamesys);
 	void setIsMultipleMis(bool isMultipleMis);
 	void setHasDuplicateFolders(bool hasDuplicateFolders);
@@ -86,7 +86,7 @@ private:
 	bool hasScript_;
 
 	bool isNameTooLong_;
-	bool isPlusSignInName_;
+	bool isInvalidCharInName_;
 	bool isMultipleGamesys_;
 	bool isMultipleMis_;
 	bool hasDuplicateFolders_;

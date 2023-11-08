@@ -1179,9 +1179,9 @@ void MainFrame::statusBarUpdate()
 
 			return;
 		}
-		if (mod.getIsPlusSignInName())
+		if (mod.getIsInvalidCharInName())
 		{
-			statusBarManipulator_.setStatus(StatusBarStatus::PLUS_SIGN_IN_FOLDER_NAME);
+			statusBarManipulator_.setStatus(StatusBarStatus::INVALID_CHAR_IN_FOLDER_NAME);
 
 			return;
 		}
