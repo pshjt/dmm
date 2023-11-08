@@ -42,7 +42,7 @@ jobs:
       - name: Build mod manager
         shell: cmd
         run: |
-          cmake -G "${{env.CMAKE_GENERATOR}}" -B "Build" -A Win32
+          cmake -G "${{env.CMAKE_GENERATOR}}" -T v141  -B "Build" -A Win32
           cmake --build Build --config Release --target "dmm"
         env:
           vsPlatform: Enterprise
