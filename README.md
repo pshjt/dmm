@@ -2,7 +2,7 @@
 [![Github all releases](https://img.shields.io/github/downloads/pshjt/dmm/total.svg)](https://GitHub.com/pshjt/dmm/releases/)
 ## About
 This is the home of the Dark engine Mod Manager (DMM), a fork of [SS2BMM](https://github.com/pshjt/ss2bmm) meant for all Dark engine games, System Shock 2 as well as Thief and Thief II.
-More info on its intended use and about mod installation can be obtained from [its homepage](https://pshjt.github.io/dmm/), and the official threads at
+More info on its intended use and about mod installation can be obtained from [its ReadMe](https://pshjt.github.io/dmm/), and the official threads at
 [SystemShock.org](https://www.systemshock.org/index.php?topic=4790.0 "DMM@SystemShock.org") and [TTLG.com](https://www.ttlg.com/forums/showthread.php?t=151204 "DMM@TTLG.com").
 
 ## Requirements
@@ -23,13 +23,13 @@ If you have cloned without this option, use\
 
 The project requires `cmake >=3.19` and is meant to be built with the Windows 10 SDK.
 
-The following steps build DMM as a 32-bit application using Visual Studio 2019
+The following steps build DMM as a 32-bit application using Visual Studio 2019:
 1) While in the root folder, execute\
    `cmake -G "Visual Studio 16 2019" -B "Build" -A Win32`\
    to generate the solution file in the folder `Build`.
 2) To build immediately from command line, execute\
    `cmake --build Build --config Release --target "dmm"`.\
-   Alternatively open the generated solution and build the `dmm` project from the IDE.
+   Alternatively, open the generated solution and build the `dmm` project from the IDE.
 
 ### (Optional) Get wxFormBuilder
 1) Get and install [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder/releases/tag/v3.10.1).
