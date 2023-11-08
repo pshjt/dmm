@@ -17,7 +17,7 @@ Mod::Mod()
 	, hasReadme_(false)
 	, hasScript_(false)
 	, isNameTooLong_(false)
-	, isPlusSignInName_(false)
+	, isInvalidCharInName_(false)
 	, isMultipleGamesys_(false)
 	, isMultipleMis_(false)
 	, hasDuplicateFolders_(false)
@@ -116,9 +116,9 @@ bool Mod::getIsNameTooLong() const
 	return isNameTooLong_;
 }
 
-bool Mod::getIsPlusSignInName() const
+bool Mod::getIsInvalidCharInName() const
 {
-	return isPlusSignInName_;
+	return isInvalidCharInName_;
 }
 
 bool Mod::getIsMultipleGamesys() const
@@ -222,9 +222,9 @@ void Mod::setIsNameTooLong(bool isNameTooLong)
 	set(isNameTooLong_, isNameTooLong);
 }
 
-void Mod::setIsPlusSignInName(bool isPlusSignInName)
+void Mod::setIsInvalidCharInName(bool isInvalidCharInName)
 {
-	set(isPlusSignInName_, isPlusSignInName);
+	set(isInvalidCharInName_, isInvalidCharInName);
 }
 
 void Mod::setIsMultipleGamesys(bool isMultipleGamesys)
@@ -263,7 +263,7 @@ bool Mod::getIsUnrecognized() const
 
 bool Mod::getHasWarning() const
 {
-	if (getIsUnrecognized() || isNameTooLong_ || isPlusSignInName_ || hasDuplicateFolders_ || isMultipleGamesys_ || isMultipleMis_)
+	if (getIsUnrecognized() || isNameTooLong_ || isInvalidCharInName_ || hasDuplicateFolders_ || isMultipleGamesys_ || isMultipleMis_)
 		return true;
 
 	return false;
