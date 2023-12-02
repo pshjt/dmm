@@ -315,7 +315,7 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 		(dirNumber==1) ? wxString::Format("mod %s", filePaths.back().GetDirs().Last()) 
 					   : wxString::Format("%d mods", dirNumber));
 
-	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s) ? "), wxYES_NO);
+	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s)?"), wxYES_NO);
 
 	if (deleteDialog_.ShowModal() == wxID_YES)
 	{
