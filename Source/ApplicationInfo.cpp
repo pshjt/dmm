@@ -6,7 +6,7 @@ namespace ApplicationInfo
 {
 	const std::string name = "Dark engine Mod Manager";
 	const std::string versionMajor = "1";
-	const std::string versionMinor = "1";
+	const std::string versionMinor = "1.0";
 	const std::string releaseType = "";
 
 	const std::string copyright = "\x00A9 2023 pshjt";
