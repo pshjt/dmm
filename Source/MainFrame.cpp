@@ -90,7 +90,14 @@ void MainFrame::onClose(wxCloseEvent& event)
 			showMessage(Message::MessageType::ERROR_OK, "Couldn't run:\n" + gameExePath, shellRun.getErrorMessage());
 	}
 	else {
-		modManager_.shutDown(false);
+		bool saveOnShutdown = false;
+		if (modManager_.needsToApply())
+		{
+			wxMessageDialog saveOnExit(this, wxString("Would you like to save the changes to the mod configuration"), wxString("Save changes?"), wxYES_NO);
+			saveOnShutdown = saveOnExit.ShowModal() == wxID_YES;
+		}
+
+		modManager_.shutDown(saveOnShutdown);
 	}
 
 	event.Skip();
@@ -308,7 +315,7 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 		(dirNumber==1) ? wxString::Format("mod %s", filePaths.back().GetDirs().Last()) 
 					   : wxString::Format("%d mods", dirNumber));
 
-	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s) ? "), wxYES_NO);
+	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s)?"), wxYES_NO);
 
 	if (deleteDialog_.ShowModal() == wxID_YES)
 	{
