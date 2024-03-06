@@ -1103,6 +1103,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	mod.setHasScript(dir.HasSubDirs("scriptdata"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
+	mod.setHasOther(dir.HasFiles("*.crf"));
 
 	std::list<std::string> allSubDirs;
 	wxString nextDirName;
