@@ -32,7 +32,7 @@ The following steps build DMM as a 32-bit application using Visual Studio 2019:
    Alternatively, open the generated solution and build the `dmm` project from the IDE.
 
 ### (Optional) Get wxFormBuilder
-1) Get and install [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder/releases/tag/v4.0.0).
+1) Get and install [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder/releases/tag/v4.1.0).
 2) Open `wxFormBuilder\DarkModManager.fbp`, do your changes, and use `Generate Code`.
 
 ## Contribute
