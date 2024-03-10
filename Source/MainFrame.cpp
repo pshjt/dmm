@@ -93,7 +93,7 @@ void MainFrame::onClose(wxCloseEvent& event)
 		bool saveOnShutdown = false;
 		if (modManager_.needsToApply())
 		{
-			wxMessageDialog saveOnExit(this, wxString("Would you like to save the changes to the mod configuration"), wxString("Save changes?"), wxYES_NO);
+			wxMessageDialog saveOnExit(this, wxString("Save changes to mod configuration?"), wxString(ApplicationInfo::name), wxYES_NO);
 			saveOnShutdown = saveOnExit.ShowModal() == wxID_YES;
 		}
 
@@ -315,7 +315,7 @@ void MainFrame::deleteButtonOnButtonClick(wxCommandEvent& event)
 		(dirNumber==1) ? wxString::Format("mod %s", filePaths.back().GetDirs().Last()) 
 					   : wxString::Format("%d mods", dirNumber));
 
-	wxMessageDialog deleteDialog_(this, dialogue, wxString("Delete mod(s)?"), wxYES_NO);
+	wxMessageDialog deleteDialog_(this, dialogue, wxString(ApplicationInfo::name), wxYES_NO);
 
 	if (deleteDialog_.ShowModal() == wxID_YES)
 	{
@@ -1001,7 +1001,7 @@ bool MainFrame::fileSystemWatcherProcessEvent(wxFileSystemWatcherEvent& event)
 							" folder are extracted/installed and then moved to the " + config_.game.archivesFolder +
 							" folder. \nThe contents of " + config_.game.archivesFolder +
 							" are not needed anymore and can be safely deleted. \n\nShow this message again?"),
-						wxEmptyString, wxYES_NO);
+						ApplicationInfo::name, wxYES_NO);
 
 					if (messageDialogCheckWine.ShowModal() == wxID_NO)
 						config_.application.showExtractTip = false;
@@ -1013,7 +1013,7 @@ bool MainFrame::fileSystemWatcherProcessEvent(wxFileSystemWatcherEvent& event)
 							"All archives added to the " + config_.game.modsFolder +
 							" folder are extracted/installed and then moved to the " + config_.game.archivesFolder +
 							" folder. \nThe contents of " + config_.game.archivesFolder +
-							" are not needed anymore and can be safely deleted."), wxEmptyString, wxOK);
+							" are not needed anymore and can be safely deleted."), wxString(ApplicationInfo::name), wxOK);
 					messageDialogCheck_.ShowCheckBox(wxString("Don't show this message again."));
 					messageDialogCheck_.ShowModal();
 					config_.application.showExtractTip = !messageDialogCheck_.IsCheckBoxChecked();
@@ -1551,7 +1551,7 @@ void MainFrame::loadInitialModArchives()
 				config_.game.archivesFolder + " folder. \nThe contents of " +
 				config_.game.archivesFolder +
 				" are not needed anymore and can be safely deleted. \n\nShow this message again?"),
-				wxEmptyString, wxYES_NO);
+				ApplicationInfo::name, wxYES_NO);
 
 			if (messageDialogCheckWine.ShowModal() == wxID_NO)
 				config_.application.showExtractTip = false;
