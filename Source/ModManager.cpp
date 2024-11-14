@@ -1510,7 +1510,7 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 		"shkres.res",
 		"skeldata.res",
 		"texture.res",
-		"*.nut"
+		"*.nut",
 		"*.osm"
 	}
 };
