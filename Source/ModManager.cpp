@@ -1474,11 +1474,14 @@ void ModManager::resetStates()
 	}
 }
 
-const std::array<wxString, 18> ModManager::dataDirectories_ =
+const std::array<wxString, 21> ModManager::dataDirectories_ =
 {
 	{
 		"bitmap",
 		"book",
+		"books",
+		"camera",
+		"default",
 		"editor",
 		"fam",
 		"fonts",
@@ -1507,7 +1510,7 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 		"shkres.res",
 		"skeldata.res",
 		"texture.res",
-		"*.nut"
+		"*.nut",
 		"*.osm"
 	}
 };
