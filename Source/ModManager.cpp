@@ -1100,7 +1100,7 @@ void ModManager::checkModDirectory(Mod& mod)
 	}
 	mod.setHasSubtitle(dir.HasSubDirs(config_.game.subtitleFolder));
 	mod.setHasDML(dir.HasFiles("*.dml") || dir.HasSubDirs("dbmods"));
-	mod.setHasScript(dir.HasSubDirs("scriptdata"));
+	mod.setHasScript(dir.HasFiles("*.osm") || dir.HasSubDirs("sq_scripts") || dir.HasSubDirs("scriptdata"));
 	mod.setHasMis(dir.HasFiles("*.mis"));
 	mod.setHasGamesys(dir.HasFiles("*.gam"));
 	mod.setHasOther(dir.HasFiles("*.crf"));
@@ -1474,7 +1474,7 @@ void ModManager::resetStates()
 	}
 }
 
-const std::array<wxString, 21> ModManager::dataDirectories_ =
+const std::array<wxString, 20> ModManager::dataDirectories_ =
 {
 	{
 		"bitmap",
@@ -1496,12 +1496,11 @@ const std::array<wxString, 21> ModManager::dataDirectories_ =
 		"snd",
 		"snd2",
 		"song",
-		"sq_scripts",
 		"strings"
 	}
 };
 
-const std::array<wxString, 8> ModManager::dataFiles_ =
+const std::array<wxString, 6> ModManager::dataFiles_ =
 {
 	{
 		"motiondb.bin",
@@ -1509,8 +1508,6 @@ const std::array<wxString, 8> ModManager::dataFiles_ =
 		"metaui_r.res",
 		"shkres.res",
 		"skeldata.res",
-		"texture.res",
-		"*.nut",
-		"*.osm"
+		"texture.res"
 	}
 };
