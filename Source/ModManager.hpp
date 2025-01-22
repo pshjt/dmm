@@ -106,8 +106,8 @@ private:
 	void collectMisFileToModMapping(Mod& mod, std::unordered_map<std::string, std::vector<Mod*>>& misFileToMods);
 	void createLogFile();
 
-	static const std::array<wxString, 21> dataDirectories_;
-	static const std::array<wxString, 8> dataFiles_;
+	static const std::array<wxString, 20> dataDirectories_;
+	static const std::array<wxString, 6> dataFiles_;
 
 	ApplicationConfig& config_;
 	ModConfig modConfig_;
